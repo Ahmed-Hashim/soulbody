@@ -1,0 +1,167 @@
+
+{% load static %}
+
+
+<!-- Theme Custom CSS -->
+<link rel="stylesheet" href="{% static 'invoice/assets/css/style.css'%}">
+
+<body dir="rtl">
+    <!--[if lte IE 9]>
+    	<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+
+    <!--********************************
+   		Code Start From Here 
+	******************************** -->
+
+                <!--==============================
+Invoice Area
+==============================-->
+                <div class="as-invoice invoice_style20">
+                    <div class="download-inner" id="download_section">
+                        <!--==============================
+	Header Area
+==============================-->
+                        <header class="as-header header-layout12">
+                            <div class="row align-items-center justify-content-between">
+                                <div class="col-auto">
+                                    <div class="header-logo">
+                                        <img src="{% static 'images/almazadi/newlogo2.png'%}" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-auto text-align">
+                                    <h1 class="big-title">فاتورة خدمات </h1>
+                                    <span><b>Facture de Prestation</b></span>
+                                    <span> <b>رقم الفاتورة</b></span>
+                                 <span>{{invoice.uniqueId}}</span>
+                                </div>
+                            </div>
+                        </header>
+                        <hr class="style1">
+                        <div class="row justify-content-between my-4">
+                            <div class="col-auto">
+                                <div class="invoice-left">
+                                    <b>Dsc Devolpp</b>
+                                    <address>
+                                         شارع الثورة رقم 9<br>
+                                        44000 عين دفلى<br>
+                                        +213(0)27501751<br>
+                                        RCN44/00-3862577A20
+                                    </address>
+                                   
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="invoice-right">
+                                    <b>{{invoice.customerid.company}}</b>
+                                    <address>
+                                        {% if invoice.customerid.address %}
+                                        {{invoice.customerid.address}}
+                                        {% else %}
+                                         ------
+                                        {% endif %}
+                                        <br>
+                                        {% if invoice.customerid.street %}
+                                        {{invoice.customerid.street}}
+                                        {% else %}
+                                         ------
+                                        {% endif %}
+                                        <br>
+                                        {% if invoice.customerid.email %}
+                                        {{invoice.customerid.email}}
+                                        {% else %}
+                                         ------
+                                        {% endif %}
+                                        <br>
+                                        {% if invoice.customerid.land_phone_number %}
+                                        {{invoice.customerid.land_phone_number}}
+                                        {% else %}
+                                         ------
+                                        {% endif %}
+                                    </address>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="invoice-table table-style9 text-right">
+                            <thead>
+                                <tr>
+                                    <th width="20%">السعر</th>
+                                    <th width="80%">الخدمة</th>
+                                   
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <td class="invoice-table table-style9 text-right">{{product.price}}  DZD</td>
+                                    <td >{{product.name}}</td>
+
+                                    
+                                </tr>
+                                {% endfor %}
+                                <tr class="table-secondary">
+                                    <td>{{total}} DZD</td>
+                                    <td ><b>المبلغ الإجمالي</b></td>
+                                    
+                                </tr>
+                            
+                            </tbody>
+
+                        </table>
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+                                <table class="total-table2">
+                                    <tr>
+                                        <td>19%</td>
+                                        <th> TVA الضرائب</th>
+                                        
+                                    </tr> 
+                                    <tr>
+                                        <td>-{{discount}} DZD | {{invoice.discount_presentage}} %</td>
+                                        <th>الخصم</th>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td>{{after_discount}} DZD</td>
+                                        <th>المبلغ المستحق</th>
+                                    </tr>
+                                </table>
+                                
+                            </div>
+                            <div class="col-auto text-right">
+
+                            </div>
+                        </div>
+
+                        <p class="company-address style2">
+                            <b>DSC DEVLOPP</b> <br>
+                            شارع الثورة رقم 9 عين دفلى
+                            44000 | 027501751| RCN44/00-3862577A20
+                            <br>
+                            RIB 0010026803002027/63 | BNA البنك الوطني الجزائري  
+                        </p>        
+                        <img style="width:100px " src="{% static 'images/almazadi/almazadi.png' %}" alt="">
+                        </div>            
+                </div>
+
+    <!-- Invoice Conainter End -->
+
+    <!--==============================
+    All Js File
+============================== -->
+    <!-- Jquery -->
+    <script src="{% static 'invoice/assets/js/vendor/jquery-3.6.0.min.js'%}"></script>
+    <!-- Bootstrap -->
+    <script src="{% static 'invoice/assets/js/bootstrap.min.js'%}"></script>
+    <!-- PDF Generator -->
+    <script src="{% static 'invoice/assets/js/jspdf.min.js'%}"></script>
+    <script src="{% static 'invoice/assets/js/html2canvas.min.js'%}"></script>
+    <!-- Main Js File -->
+    <script src="{% static 'invoice/assets/js/main.js'%}"></script>
+
+</body>

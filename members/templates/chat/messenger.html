@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+<div class="bg-white border-radius-4 box-shadow mb-30">
+    <div class="row no-gutters">
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <div class="chat-list bg-light-gray">
+                <div class="chat-search">
+                    <span class="ti-search"></span>
+                    <input type="text" placeholder="Search Contact" />
+                </div>
+                <div class="notification-list chat-notification-list customscroll">
+                    <ul class="users">
+                        {% for profile in profiles %}
+                        
+                        {% if forloop.counter < 2 %}
+                        <li class="active" >
+                         {% else %}
+                         <li class="" >
+                        {% endif %}
+                         
+                            <a hx-get="{% url 'mainchat' profile.user.id %}"   style="cursor: pointer;" hx-target="#mainchatwindow">
+                                <img src="{{profile.profile_pic.url }}" alt="" class="mCS_img_loaded" />
+                                <h3 class="clearfix">{{profile.user.username|title}}</h3>
+                                <p >
+                                    {% if profile.online_status %}
+                                    <i class="fa fa-circle" style="color: green;" id="{{profile.user.username}}_status1"></i>
+                                    <small id="{{profile.user.username}}_small1"> Online </small>
+                                    {% else %}
+                                    <i class="fa fa-circle" style="color: gray;" id="{{profile.user.username}}_status1"></i>
+                                    <small id="{{profile.user.username}}_small1">Offline</small>
+                                    {% endif %}
+                                </p>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-8 col-sm-12">
+            <div hx-get="{% url 'mainchat' profiles.0.user.id %}" hx-target="this" hx-trigger="load" id="mainchatwindow"></div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+{% block js %}
+<script src="{% static 'scripts/Jquery-3.5.1.min.js' %}"></script>
+
+<script>
+    $(function () {
+
+    $('.users li a').click(function (e) {
+        $(this).closest('li').addClass('active').siblings().removeClass('active');
+    });
+
+    });
+    htmx.onLoad(function(target) {
+        var chatBox = $("#messages"); // Assuming #messages is the chat box element
+            chatBox.mCustomScrollbar({
+                theme: "dark-3", // Replace with your desired theme
+                scrollInertia: 0 // Set to 0 for immediate scrolling
+            });
+
+            // Scroll to the bottom
+            chatBox.mCustomScrollbar("scrollTo", "bottom", {
+                scrollEasing: "easeOut"
+            });
+});
+
+</script>
+
+{% endblock js %}

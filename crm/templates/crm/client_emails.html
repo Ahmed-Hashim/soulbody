@@ -1,0 +1,54 @@
+<div class="pd-20 profile-task-wrap">
+  <div class="container pd-0">
+    <!-- Open Task start -->
+    <div class="task-title row align-items-center">
+      <div class="col-md-8 col-sm-12">
+        <h5>Sent Emails ({{emails.count}})</h5>
+      </div>
+      <div class="col-md-4 col-sm-12 text-right">
+        <button
+        class="btn btn-dark btn-sm"
+        hx-get="{% url 'emails' customer.id %}" 
+        hx-target="#dialog">
+        <i class="fa-solid fa-notes-medical"></i>
+        </button>
+    </div>
+    </div>
+    <div class="profile-task-list pb-30">
+      <ul>
+        {% for email in emails %} 
+        <div class="card m-1">
+         <div class="card-header p-1">
+          <div><i class="fa-solid fa-share"></i>&nbsp;&nbsp;Subject: {{email.subject}}</div>
+        </div>
+        <div class="card-body">
+          <div class="limited-text-table" style="font-size: 11px;" maxlength="15">
+            <i class="fa-regular fa-envelope"></i> &nbsp;&nbsp; Message:
+            {{email.message}}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">Sent by <i class="fa-solid fa-user-tie"></i>&nbsp;&nbsp;{{email.sender}}</div> 
+            <div class="col"><i class="fa-regular fa-calendar-days"></i>&nbsp;&nbsp;<span>{{email.date|date:"d M Y H:i"}}</span></div>
+        <div class="col">
+          <button
+            class="btn btn-dark btn-sm text-center"
+            hx-get="{% url 'show_email' email.id %}" 
+            hx-target="#dialog">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </div>
+        </div>
+        </div>
+          <div class="card-footer p-1 bg-dark"></div>
+        </div>
+        {% endfor %}
+      </ul>
+    </div>
+    <!-- Open Task End -->
+   
+  
+  </div>
+</div>
+
+

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+  <h6>Get Last 24 Hours <i class="fa-solid fa-clock"></i> Products
+    <button id="refresh" class="btn btn-primary btn-sm" hx-get="{% url 'get_products' %}" hx-target="#products">
+      Refresh <i class='fa fa-refresh'></i>
+    </button>
+    <button class="btn btn-danger btn-sm" hx-get="{% url 'scha' %}"> Delete all <i class='fa-solid fa-delete-left' ></i>
+    </button>
+    
+  </h6>
+
+
+  <div id="products" hx-get="{% url 'almazaziproducts' %}" hx-trigger="load,changeAds from:body" class="mt-2 products">
+    <div id="spinner" class="htmx-indicator indicator-style">
+      <div class="spinner-grow text-secondary " role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+{% endblock body %}

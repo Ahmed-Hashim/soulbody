@@ -1,0 +1,62 @@
+
+<div id="link_get">
+  {% load crispy_forms_tags %}
+  {% load i18n %}
+  <form hx-post="{% url 'Whatsapp_Temp' %}" name="upload" enctype="multipart/form-data">
+    <div class="form-group">
+
+      {{forma.title|as_crispy_field }}
+      {{forma.message|as_crispy_field }}
+      {{forma.type|as_crispy_field }}
+      {{forma.language|as_crispy_field }}
+      {{forma.template_by|as_crispy_field }}
+      {{forma.file_upload|as_crispy_field }}
+      <script>
+        var sender = "{{ user.id }}";
+        document.getElementById("template-by").value = sender;
+
+      </script>
+    </div>
+    <button class="btn btn-info btn-sm" type="submit">Add</button>
+  </form>
+  <div>
+
+    <hr>
+    <select class="form-control">
+      {% for template in templates %}
+      <option>{{template.title}}</option>
+      {% endfor %}
+
+
+    </select>
+  </div>
+  <script>
+    document.body.addEventListener("htmx:configRequest", (event) => {
+      event.detail.headers["X-CSRFToken"] = "{{ csrf_token }}";
+    });
+  </script>
+  {% get_current_language as LANGUAGE_CODE %}
+  {% if LANGUAGE_CODE == 'ar' %}
+  
+  <script>
+    var uploadField = document.getElementById("file-temp");
+    uploadField.onchange = function () {
+      if (this.files[0].size > 25 * 1048576) {
+        swal('!إنتبه', "لا يمكن ان يزيد حجم الملف عن 25 ميجا", "error");
+        this.value = "";
+      }
+    }
+  </script>
+  {% else %}
+  <script>
+    var uploadField = document.getElementById("file-temp");
+    uploadField.onchange = function () {
+      if (this.files[0].size > 25 * 1048576) {
+        swal('Attention !', "Maximum allowed size is 25 mb", "error");
+        this.value = "";
+      }
+    }
+  </script>
+  
+  {% endif %}
+</div>

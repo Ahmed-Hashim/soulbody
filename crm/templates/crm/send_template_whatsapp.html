@@ -1,0 +1,48 @@
+
+
+  
+<h6>Templates</h6>
+<form>
+  <small > Select Template to View </small>
+<select class="form-control"
+name="template"
+id="template"
+ hx-trigger="change"
+ hx-get="{% url 'send_show_temp_whatsapp' %}"
+ hx-target="#show_temp">
+ <option value="-">-------</option>
+  {% for template in templates %}
+  <option value="{{template.id}}">{{template.title}}</option>
+  {% endfor %}
+</select>
+
+  {% csrf_token %}
+  
+  <input type="text" class="form-control m-1" id="phone_number" name="phone_number" hidden>
+  <input type="text" class="form-control m-1" id="template_id" name="template_id" hidden>
+  <button hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'send_to_customer' %}"
+      class="btn btn-success m-1">Send &nbsp;&nbsp;<i class='bx bxl-whatsapp '></i></button>
+</form>
+
+<div class="mt-5" id="show_temp" >
+ 
+</div>
+
+
+<script>
+  htmx.on("htmx:afterSwap", (e) => {
+      var id = document.getElementById("template").value;
+      document.getElementById("phone_number").value = document.getElementById("hidden-num").value
+      document.getElementById("template_id").value = id
+
+  })
+
+
+</script>
+<div class="modal-footer">
+  <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+    Close
+  </button>
+  
+</div>
+

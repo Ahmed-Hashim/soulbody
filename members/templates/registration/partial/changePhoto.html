@@ -1,0 +1,28 @@
+{% load crispy_forms_tags %} {% load static %}
+<div class="modal-content">
+
+    <div class="modal-header table-info">
+        <h4 class="modal-title "><i class="fa fa-user-o"></i> Change Photo</h4>
+    </div>
+    <div class="modal-body">
+
+        <form action="/en/members/changeProfileImage" method="post" id="imageForm">
+            <div id="imageBox" class="col text-center">
+                <img src="{{user.profile.profile_pic.url}}" alt="{{user.profile.profile_pic.name}}" width="100%" />
+            </div>
+            {%csrf_token%}
+            {{forma|crispy}}
+
+            <button id="confirmBtn" class="btn btn-danger btn-sm visible" name="imageForm">
+                Update
+              </button>
+          </form>
+          
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+            Close
+        </button>
+    </div>
+</div>
+<script src="{% static 'scripts/cropper/cropping.js' %}" defer></script>

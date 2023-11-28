@@ -1,0 +1,34 @@
+<div class="row clearfix mb-15">
+  <!-- card start -->
+  {% if products %}
+  
+  {% include 'post/almazadi_products.html' %}
+</div>
+
+
+  <!-- card end -->
+  {% else %}
+  <div id="spinner" class="htmx-indicator indicator-style">
+    <div class="spinner-grow text-secondary " role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+<h6>no Posts Refresh Posts to get the new one</h6>
+  {% endif %}
+</div>
+<script>
+  document.body.addEventListener('htmx:beforeRequest',function(evt){
+    const table= document.getElementById('products')
+    const button=document.getElementById('refresh')
+    button.disabled = true;
+    table.style.opacity = 0.25
+  });
+  document.body.addEventListener('htmx:afterRequest',function(evt){
+    const table= document.getElementById('products')
+    const button=document.getElementById('refresh')
+    button.removeAttribute('disabled');
+    table.style.opacity = 1.00
+  });
+  
+</script> 

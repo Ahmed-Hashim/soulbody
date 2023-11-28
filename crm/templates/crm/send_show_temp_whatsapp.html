@@ -1,0 +1,19 @@
+<div class="text-center">
+    {% if "IMAGE" in template.type %}
+    <img src="{{template.file_upload.url}}" width="350px" height="350px" style="border-radius: 15%;" alt="">
+    {% elif "VIDEO" in template.type %}
+    <video class="video-js" controls preload="auto" width="640" height="264" data-setup="{}">
+        <source src="{{template.file_upload.url}}" type="video/mp4">
+    </video>
+    {% elif "PDF" in template.type %}
+    <iframe src="{{template.file_upload.url}}" width="500" height="375" type="application/pdf">
+        <p>This browser does not support PDF!</p>
+    </iframe>
+    {% endif %}
+</div>
+<div class="card-body text-right" style="box-shadow: 2px 2px 1px lightblue;">
+    <p>{{template.message|linebreaks}}</p>
+</div>
+
+
+<script src="https://vjs.zencdn.net/8.0.4/video.min.js"></script>

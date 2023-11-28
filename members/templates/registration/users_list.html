@@ -1,0 +1,40 @@
+{% load static %}
+<div class="right-sidebar-body customscroll mCustomScrollbar _mCS_2 mCS_no_scrollbar container">
+    <div id="mCSB_2" class="mCustomScrollBox mCS-dark-2 mCSB_vertical mCSB_inside" style="max-height: none"
+        tabindex="0">
+        <div class="notification-list chat-notification-list customscroll mCustomScrollbar _mCS_4">
+            <div id="mCSB_4" class="mCustomScrollBox mCS-dark-2 mCSB_vertical mCSB_inside" tabindex="0"
+                style="max-height: none">
+                <div id="mCSB_4_container" class="mCSB_container" style="position: relative; top: 0; left: 0" dir="ltr">
+                    <ul>
+                        {% for profile in profiles %}
+                            <li>
+                                <a href="#">
+                                    <img src="{{profile.profile_pic.url }}" alt="" class="mCS_img_loaded" />
+                                    <h3 class="clearfix">{{profile.user.username|title}}</h3>
+                                    <p>
+                                    {% if profile.online_status %}
+                                        <i class="fa fa-circle" style="color: green;" id="{{profile.user.username}}_status"></i>
+                                        <small id="{{profile.user.username}}_small"> Online </small>
+                                    {% else %}
+                                        <i class="fa fa-circle" style="color: gray;" id="{{profile.user.username}}_status"></i>
+                                        <small id="{{profile.user.username}}_small">Offline</small>
+                                    {% endif %}
+                                    </p>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <a class="btn btn-secondary btn-sm" href="{% url 'chat' %}">Messages</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-3">
+    <div class="snippet" data-title="dot-falling">
+      <div class="stage">
+        <div class="dot-falling"></div>
+      </div>
+    </div>
+</div>

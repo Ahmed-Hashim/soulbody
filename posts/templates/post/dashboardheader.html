@@ -1,0 +1,60 @@
+{% load static %}
+{% load i18n %}
+<div class="row align-items-center">
+    <div id="myCarousel" class="col-md-4 carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% if user.profile.gender == 'Female' %}
+                <div class="carousel-item active">
+                    <img src="{% static 'images/dashboard/banner-female-img1.png' %}" alt="Los Angeles" class="d-block w-100">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="{% static 'images/dashboard/banner-female-img2.png' %}" alt="Chicago" class="d-block w-100">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="{% static 'images/dashboard/banner-female-img3.png' %}" alt="Chicago" class="d-block w-100">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="{% static 'images/dashboard/banner-female-img4.png' %}" alt="New York" class="d-block w-100">
+                </div>
+            {% else %}
+                <div class="carousel-item active">
+                    <img src="{% static 'images/dashboard/banner-male-img1.png' %}" alt="Los Angeles" class="d-block w-100">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="{% static 'images/dashboard/banner-male-img2.png' %}" alt="Chicago" class="d-block w-100">
+                </div>
+
+                <div class="carousel-item">
+                    <img src="{% static 'images/dashboard/banner-male-img3.png' %}" alt="New York" class="d-block w-100">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <h4 class="font-20 weight-500 mb-10 text-capitalize">
+            {% trans "Welcome" %}
+            <div class="weight-600 font-30 text-blue">{{ user.profile.fullname }}!</div>
+        </h4>
+
+        <p class="font-18 max-width-600">
+            {% if random_q.quote %}
+                {{ random_q.quote }}
+            {% else %}
+                {{ random_q }}
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<script>
+    var myCarousel = document.querySelector('#myCarousel');
+    var carousel = new bootstrap.Carousel(myCarousel, {
+        interval: 5000,
+        wrap: true
+    });
+</script>

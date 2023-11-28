@@ -1,0 +1,16 @@
+<div class="modal-content">
+
+    <div class="modal-header table-info">
+        <h4 class="modal-title "><i class="fa-brands fa-whatsapp"></i> New Whatsapp Template</h4>
+    </div>
+    <div class="modal-body">
+        <div hx-get="{% url 'Whatsapp_Temp' %}" hx-target="this" hx-trigger="load,uploadChange from:body">
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+            Close
+        </button>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block body %}
+
+            <div class="pd-20 bg-white border-radius-4 box-shadow mb-30">
+
+                
+                    {% if submitted %}
+                        Your post has been created successfully!!
+                    {% else %}
+                        <form action="" method=POST>
+                            <div class="form-group">
+                            {% csrf_token %}
+                            {{ form.as_p}}
+                            <input type="submit" value="Submit" class="btn btn-success">
+                        </div>
+                        </form>
+                    {% endif %}
+                    
+                
+            </div>
+
+{% endblock body %}

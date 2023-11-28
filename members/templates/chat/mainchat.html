@@ -1,0 +1,176 @@
+{% load static %}
+<div class="chat-detail" >
+    <div class="chat-profile-header clearfix">
+        <div class="left">
+            <div class="clearfix">
+                <div class="chat-profile-photo">
+                    <img src="{{ user2.profile_pic.url }}" alt="" />
+                </div>
+                <div class="chat-profile-name">
+                        <h3 style="margin-right: 10px;"> {{ user2.user.username|title }} </h3>
+                    <span>{{ user2.country }}</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="chat-box" id="messages">
+        <div class="chat-desc customscroll">
+
+            <ul id="messages_ul">
+
+        {% if messages %}
+            {% for message in messages %}
+                {% if user2.user.id == message.sender.id %}
+                <li class="clearfix user2_chat">
+                    <span class="chat-img">
+                        <img src="{{ user2.profile_pic.url }}" alt="" />
+                    </span>
+                    <div class="chat-body clearfix">
+                        <p>
+                            {{message.content}}
+                        </p>
+                        <div class="chat_time">{{message.timestamp}}</div>
+                    </div>
+                </li>
+                {% else %}
+                <li class="clearfix admin_chat">
+                    <span class="chat-img">
+                        <img src="{{ user_admin.profile_pic.url }}" alt="" class="mCS_img_loaded">
+                    </span>
+                    <div class="chat-body clearfix">
+                        <p>
+                            {{message.content}}
+                        </p>
+                        <div class="chat_time">{{message.timestamp}}</div>
+                    </div>
+                </li>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+            </ul>
+        </div>
+    </div>
+    <div class="chat-footer">
+        <div class="file-upload">
+            <a href="#"><i class="fa fa-paperclip"></i></a>
+        </div>
+        
+            <div class="chat_text_area">
+                <textarea name="content"  placeholder="Type your message..." id="id_content" rows="1"></textarea>
+                
+            </div>
+            <div class="chat_send">
+                <button class="btn btn-link"  id="send_message">
+                    <i class="icon-copy ion-paper-airplane"></i>
+                </button>
+            </div>
+        
+    </div>
+</div>
+
+{{user2.id|json_script:"json-username"}}
+{{user2.username|json_script:"json-username-receiver"}}
+{{request.user.username|json_script:"json-message-username"}}
+
+<script src="{% static 'scripts/chat.js' %}"></script>
+
+<script>
+
+    var product_detail_url = "{%static 'notification.mp3'%}";
+    var admin_pic = "{{user_admin.profile_pic.url}}";
+    var user2_pic = "{{user2.profile_pic.url}}";
+    $(document).ready(function () {
+        // Ensure the page is loaded before initializing mCustomScrollbar
+        $(window).on('load', function () {
+            // Select the chat box element and initialize mCustomScrollbar
+            var chatBox = $("#messages"); // Assuming #messages is the chat box element
+            chatBox.mCustomScrollbar({
+                theme: "dark-3", // Replace with your desired theme
+                scrollInertia: 0 // Set to 0 for immediate scrolling
+            });
+
+            // Scroll to the bottom
+            chatBox.mCustomScrollbar("scrollTo", "bottom", {
+                scrollEasing: "easeOut"
+            });
+        });
+
+        
+        
+    });
+    $("#id_content").keydown(function(event) {
+        const textareaValue = $("#id_content").val().trim();
+        // Check if Enter key is pressed (keyCode 13)
+        if (event.keyCode === 13) {
+            if (event.shiftKey) {
+                // Allow a new line (Shift+Enter), do not prevent default
+            } else {
+                // Prevent the default Enter key behavior (line break)
+                event.preventDefault();
+                // Check if the textarea is not empty
+                if (textareaValue !== "") {
+                    // Trigger the HTMX POST request on the button click
+                   //$("#send_message").click(); // Replace "submitBtn" with the button's ID or class
+                    
+                }
+            }
+        }
+    });
+
+
+
+
+</script>
+
+
+                <!--
+
+                    hx-post="{% url 'mainchat' user2.id %}"
+                clearfix admin_chat <----- for user1
+                clearfix upload-file admin_chat
+
+            <li class="clearfix">
+                <span class="chat-img">
+                    <img src="{{ user.profile_pic.url }}" alt="" />
+                </span>
+                <div class="chat-body clearfix">
+                    <p>
+                        We are just writing up the user stories now so will have
+                        requirements for you next week. We are just writing up the
+                        user stories now so will have requirements for you next
+                        week.
+                    </p>
+                    <div class="chat_time">09:40PM</div>
+                </div>
+            </li>
+
+
+                clearfix  user2_chat   <----- for user2
+                clearfix upload-file
+
+            <li  class="clearfix upload-file">
+                <span class="chat-img">
+                    <img src="{{ user.profile_pic.url }}" alt="" />
+                </span>
+                <div class="chat-body clearfix">
+                    <div class="upload-file-box clearfix">
+                        <div class="left">
+                            <img src="{{ request.user.profile.profile_pic.url }}" alt="" />
+                            <div class="overlay">
+                                <a href="#">
+                                    <span><i class="fa fa-angle-down"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <h3>Big room.jpg</h3>
+                            <a href="#">Download</a>
+                        </div>
+                    </div>
+                    <div class="chat_time">09:40PM</div>
+                </div>
+            </li>
+
+            -->

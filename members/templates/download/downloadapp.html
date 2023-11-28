@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almazadi App Download</title>
+    <!-- Site favicon -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Cairo"
+      rel="stylesheet"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="{% static 'images/almazadi/logo2.png'%}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'images/almazadi/logo2.png'%}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'images/almazadi/logo2.png'%}"
+    />
+</head>
+<body>
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    
+    <script>
+    const getMobileOS = () => {
+        const deviceType= document.getElementById("type-device")
+        const ua = navigator.userAgent
+            if (/android/i.test(ua)) 
+            {
+                window.location.href = `{{android}}`;
+            }
+            else if (/iPad|iPhone|iPod/.test(ua) || navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+            {
+                window.location.href = `{{iphone}}`
+            }else{
+                window.location.href = `{{other}}`;
+            }
+      }
+      getMobileOS()
+      </script>
+</body>
+</html>

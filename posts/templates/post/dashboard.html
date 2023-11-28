@@ -1,0 +1,634 @@
+{% extends 'based.html' %}
+{% load static %}
+{% load i18n %}
+{% load humanize %}
+{% block css %}
+<!-- Mobile Specific Metas -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'styles/core.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/icon-font.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/datatables/css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/datatables/css/responsive.bootstrap4.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+
+{% endblock css %}
+
+{% block body %}
+
+<div id="modal" class="modal fade">
+	<div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+</div>
+<div class="main-container">
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+			{% endfor %}
+	</ul>
+	{% endif %}
+
+	<div class="pd-ltr-20">
+		
+		<div class="card-box pd-20 height-100-p mb-30" hx-get="{% url 'dashheader' %}" hx-target="this" hx-trigger="load">
+			
+		</div>
+		<div class="row">
+			<div class="col mb-30">
+				<div class="card-box height-100-p widget-style1">
+					<div class="d-flex flex-wrap align-items-center">
+						<div class="progress-data">
+							<p style="font-size: 55px; color:rgb(199, 199, 199)"><i class="fa-solid fa-photo-film"></i>
+							</p>
+						</div>
+						<div class="widget-data">
+							<div class="h5 mb-0">{{post_count}}</div>
+							<div class="weight-600 font-14">{% trans "Posts Count" %}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col mb-30">
+				<div class="card-box height-100-p widget-style1">
+					<div class="d-flex flex-wrap align-items-center">
+						<div class="progress-data">
+							<p style="font-size: 55px; color:rgb(199, 199, 199)"><i class="fa-solid fa-shop"></i>
+							</p>
+						</div>
+						<div class="widget-data">
+							<div class="h5 mb-0">{{shops_active}}</div>
+							<div class="weight-600 font-14">{% trans "Shops" %}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col mb-30">
+				<div class="card-box height-100-p widget-style1">
+					<div class="d-flex flex-wrap align-items-center">
+						<div class="progress-data">
+							<p style="font-size: 55px; color:rgb(199, 199, 199)"><i class="icon-copy fa fa-area-chart" aria-hidden="true"></i> </p>
+						</div>
+						<div class="widget-data">
+							<div class="h5 mb-0">{{monthly_impressions|intcomma}}</div>
+							<div class="weight-600 font-14">{% trans "30 days Impression" %}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col mb-30">
+				<div class="card-box height-100-p widget-style1">
+					<div class="d-flex flex-wrap align-items-center">
+						<div class="progress-data">
+							<p style="font-size: 55px; color:rgb(199, 199, 199)"><i class="fa-solid fa-arrows-down-to-people"></i></p>
+						</div>
+						<div class="widget-data">
+							<div class="h5 mb-0">{{monthly_engaged|intcomma}}</div>
+							<div class="weight-600 font-14">{% trans "30 days Engages" %}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+		</div>
+		
+		<div class="row">
+			<div class="col-xl-8 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20"> <i class="fa-brands fa-usps"></i> {% trans "Posts" %}</h2>
+					<div id="chart5"></div>
+				</div>
+			</div>
+			<div class="col-xl-4 mb-30">
+				<div class="card-box height-100-p pd-20">
+					<h2 class="h4 mb-20"><i class="fa-solid fa-headset"></i> {% trans "Lead Target" %}</h2>
+					<div id="chart6"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card-box mb-30">
+			<h2 class="h4 pd-20"><i class="fa-solid fa-upload"></i> {% trans "Recent Published Posts" %}</h2>
+			<table class="data-table table nowrap dataTable no-footer dtr-inline collapsed">
+				<thead>
+					<tr class="table-secondary">
+						<th class="datatable-nosort"><i class="fa-brands fa-usps"></i> {% trans "Post" %}</th>
+						<th><i class="fa-solid fa-file-circle-question"></i> {% trans "Category" %}</th>
+						<th><i class="fa-solid fa-thumbs-up"></i> {% trans "Likes" %}</th>
+						<th><i class="fa-solid fa-comment"></i> {% trans "Comments" %}</th>
+						<th><i class="fa-solid fa-user"></i> {% trans "Published by" %}</th>
+						<th class="datatable-nosort"><i class="fa-solid fa-gears"></i> {% trans "Action" %}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for post in published %}
+
+					<tr>
+						<td>
+							<img src="{{post.thumbnail}}" class="square-image" alt="">
+						</td>
+						<td>
+							<h5 class="font-16">{{post.category}}</h5>
+
+						</td>
+
+						<td>{% if post.like_count %}{{post.like_count}}{% else %} 0{% endif %} {% trans " Likes" %}</td>
+						<td>{{post.comments.count}} {% trans " Comments" %}</td>
+						<td>{{post.scheduled_by}}</td>
+						<td>
+							<a type="button" class="btn btn-sm btn-info" style="color: aliceblue;"
+								hx-get="{% url 'show_pub_post' post.id %}" hx-target="#dialog"><i
+									class="fa-solid fa-eye"></i></a>
+							<a class="btn btn-sm btn-primary" href="{{post.fblink}}" target="_blank"><i
+									class="fa-brands fa-square-facebook"></i></a>
+						</td>
+
+
+					</tr>
+
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+
+		{% endblock body %}
+		{% block js %}
+
+		<script src="{% static 'scripts/core.js'%}"></script>
+		<script src="{% static 'scripts/toast.js'%}"></script>
+		<script src="{% static 'scripts/script.min.js'%}"></script>
+		<script src="{% static 'scripts/process.js'%}"></script>
+		<script src="{% static 'scripts/layout-settings.js'%}"></script>
+		<script src="{% static 'plugins/apexcharts/apexcharts.min.js'%}"></script>
+		<script src="{% static 'plugins/datatables/js/jquery.dataTables.min.js'%}"></script>
+		<script src="{% static 'plugins/datatables/js/dataTables.bootstrap4.min.js'%}"></script>
+		<script src="{% static 'plugins/datatables/js/dataTables.responsive.min.js'%}"></script>
+		<script src="{% static 'plugins/datatables/js/responsive.bootstrap4.min.js'%}"></script>
+		<script>
+			var options = {
+				series: [`{{precent|safe}}`],
+				grid: {
+					padding: {
+						top: 0,
+						right: 0,
+						bottom: 0,
+						left: 0
+					},
+				},
+				chart: {
+					height: 100,
+					width: 70,
+					type: 'radialBar',
+				},
+				plotOptions: {
+					radialBar: {
+						hollow: {
+							size: '50%',
+						},
+						dataLabels: {
+							name: {
+								show: false,
+								color: '#fff'
+							},
+							value: {
+								show: true,
+								color: '#333',
+								offsetY: 5,
+								fontSize: '15px'
+							}
+						}
+					}
+				},
+				colors: ['#ecf0f4'],
+				fill: {
+					type: 'gradient',
+					gradient: {
+						shade: 'dark',
+						type: 'diagonal1',
+						shadeIntensity: 0.8,
+						gradientToColors: ['#1b00ff'],
+						inverseColors: false,
+						opacityFrom: [1, 0.2],
+						opacityTo: 1,
+						stops: [0, 100],
+					}
+				},
+				states: {
+					normal: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					hover: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					active: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+				}
+			};
+
+			var options2 = {
+				series: [`{{shops_active}}`],
+				grid: {
+					padding: {
+						top: 0,
+						right: 0,
+						bottom: 0,
+						left: 0
+					},
+				},
+				chart: {
+					height: 100,
+					width: 70,
+					type: 'radialBar',
+				},
+				plotOptions: {
+					radialBar: {
+						hollow: {
+							size: '50%',
+						},
+						dataLabels: {
+							name: {
+								show: false,
+								color: '#fff'
+							},
+							value: {
+								show: true,
+								color: '#333',
+								offsetY: 5,
+								fontSize: '15px'
+							}
+						}
+					}
+				},
+				colors: ['#ecf0f4'],
+				fill: {
+					type: 'gradient',
+					gradient: {
+						shade: 'dark',
+						type: 'diagonal1',
+						shadeIntensity: 1,
+						gradientToColors: ['#009688'],
+						inverseColors: false,
+						opacityFrom: [1, 0.2],
+						opacityTo: 1,
+						stops: [0, 100],
+					}
+				},
+				states: {
+					normal: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					hover: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					active: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+				}
+			};
+
+			var options3 = {
+				series: [75],
+				grid: {
+					padding: {
+						top: 0,
+						right: 0,
+						bottom: 0,
+						left: 0
+					},
+				},
+				chart: {
+					height: 100,
+					width: 70,
+					type: 'radialBar',
+				},
+				plotOptions: {
+					radialBar: {
+						hollow: {
+							size: '50%',
+						},
+						dataLabels: {
+							name: {
+								show: false,
+								color: '#fff'
+							},
+							value: {
+								show: true,
+								color: '#333',
+								offsetY: 5,
+								fontSize: '15px'
+							}
+						}
+					}
+				},
+				colors: ['#ecf0f4'],
+				fill: {
+					type: 'gradient',
+					gradient: {
+						shade: 'dark',
+						type: 'diagonal1',
+						shadeIntensity: 0.8,
+						gradientToColors: ['#f56767'],
+						inverseColors: false,
+						opacityFrom: [1, 0.2],
+						opacityTo: 1,
+						stops: [0, 100],
+					}
+				},
+				states: {
+					normal: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					hover: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					active: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+				}
+			};
+
+			var options4 = {
+				series: [85],
+				grid: {
+					padding: {
+						top: 0,
+						right: 0,
+						bottom: 0,
+						left: 0
+					},
+				},
+				chart: {
+					height: 100,
+					width: 70,
+					type: 'radialBar',
+				},
+				plotOptions: {
+					radialBar: {
+						hollow: {
+							size: '50%',
+						},
+						dataLabels: {
+							name: {
+								show: false,
+								color: '#fff'
+							},
+							value: {
+								show: true,
+								color: '#333',
+								offsetY: 5,
+								fontSize: '15px'
+							}
+						}
+					}
+				},
+				colors: ['#ecf0f4'],
+				fill: {
+					type: 'gradient',
+					gradient: {
+						shade: 'dark',
+						type: 'diagonal1',
+						shadeIntensity: 0.8,
+						gradientToColors: ['#2979ff'],
+						inverseColors: false,
+						opacityFrom: [1, 0.5],
+						opacityTo: 1,
+						stops: [0, 100],
+					}
+				},
+				states: {
+					normal: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					hover: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+					active: {
+						filter: {
+							type: 'none',
+							value: 0,
+						}
+					},
+				}
+			};
+
+			var options5 = {
+				chart: {
+					height: 350,
+					type: 'bar',
+					parentHeightOffset: 0,
+					fontFamily: 'Poppins, sans-serif',
+					toolbar: {
+						show: false,
+					},
+				},
+				colors: ['#1b00ff', '#f56767'],
+				grid: {
+					borderColor: '#c7d2dd',
+					strokeDashArray: 5,
+				},
+				plotOptions: {
+					bar: {
+						horizontal: false,
+						columnWidth: '25%',
+						endingShape: 'rounded'
+					},
+				},
+				dataLabels: {
+					enabled: false
+				},
+				stroke: {
+					show: true,
+					width: 2,
+					colors: ['transparent']
+				},
+				series: [{
+					name: 'Post Count',
+					data: [{% for cat in category %} '{{cat.posts.count}}', {% endfor %}]
+				}, {
+				name: 'Published',
+					data: [{% for cat in category %} '{{cat.pubposts.count}}', {% endfor %}]
+				}],
+
+			xaxis: {
+
+				categories: [{% for cat in category %} '{{cat.name|escapejs}}', {% endfor %}],
+			labels: {
+				style: {
+					colors: ['#353535'],
+						fontSize: '10px',
+						},
+			},
+			axisBorder: {
+				color: '#8fa6bc',
+					}
+				},
+			yaxis: {
+				title: {
+					text: ''
+				},
+				labels: {
+					style: {
+						colors: '#353535',
+							fontSize: '16px',
+						},
+				},
+				axisBorder: {
+					color: '#f00',
+					}
+			},
+			legend: {
+				horizontalAlign: 'right',
+					position: 'top',
+						fontSize: '16px',
+							offsetY: 0,
+								labels: {
+					colors: '#353535',
+					},
+				markers: {
+					width: 10,
+						height: 10,
+							radius: 15,
+					},
+				itemMargin: {
+					vertical: 0
+				},
+			},
+			fill: {
+				opacity: 1
+
+			},
+			tooltip: {
+				style: {
+					fontSize: '10px',
+						fontFamily: 'Poppins, sans-serif',
+					},
+				y: {
+					formatter: function (val) {
+						return val
+					}
+				}
+			}
+							}
+
+			var options6 = {
+				series: [`{{lead_target|safe}}`],
+				chart: {
+					height: 350,
+					type: 'radialBar',
+					offsetY: 0
+				},
+				colors: ['#0B132B', '#222222'],
+				plotOptions: {
+					radialBar: {
+						startAngle: -135,
+						endAngle: 135,
+						dataLabels: {
+							name: {
+								fontSize: '16px',
+								color: undefined,
+								offsetY: 120
+							},
+							value: {
+								offsetY: 76,
+								fontSize: '22px',
+								color: undefined,
+								formatter: function (val) {
+									return val + "%";
+								}
+							}
+						}
+					}
+				},
+				fill: {
+					type: 'gradient',
+					gradient: {
+						shade: 'dark',
+						shadeIntensity: 0.15,
+						inverseColors: false,
+						opacityFrom: 1,
+						opacityTo: 1,
+						stops: [0, 50, 65, 91]
+					},
+				},
+				stroke: {
+					dashArray: 4
+				},
+				labels: ['Active Shops'],
+			};
+			var chart5 = new ApexCharts(document.querySelector("#chart5"), options5);
+			chart5.render();
+			var chart = new ApexCharts(document.querySelector("#chart"), options);
+			chart.render();
+
+			var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+			chart2.render();
+
+			var chart3 = new ApexCharts(document.querySelector("#chart3"), options3);
+			chart3.render();
+
+			var chart4 = new ApexCharts(document.querySelector("#chart4"), options4);
+			chart4.render();
+
+			var chart6 = new ApexCharts(document.querySelector("#chart6"), options6);
+			chart6.render();
+			$('document').ready(function () {
+				$('.data-table').DataTable({
+					autoWidth: true,
+					searching: false,
+					bLengthChange: false,
+					bPaginate: true,
+					bInfo: false,
+					columnDefs: [{
+						targets: "datatable-nosort",
+						orderable: false,
+					}],
+					"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+					"language": {
+						"info": "_START_-_END_ of _TOTAL_ entries",
+						searchPlaceholder: "Search",
+						paginate: {
+							next: '<i class="ion-chevron-right"></i>',
+							previous: '<i class="ion-chevron-left"></i>'
+						}
+					},
+				});
+			});
+		</script>
+
+		{% endblock js %}

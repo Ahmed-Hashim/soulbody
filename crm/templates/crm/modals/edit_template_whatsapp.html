@@ -1,0 +1,36 @@
+<div class="modal-content">
+  {% load crispy_forms_tags %} {% load static %}
+  <div class="modal-header table-warning">
+    <h4 class="modal-title "> Edit - {{temp.title}}
+     
+    </h4>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      {% if "IMAGE" in temp.type %}
+      <img src="{{temp.file_upload.url}}" width="350px" height="350px" style="border-radius: 15%;" alt="">
+      {% elif "VIDEO" in temp.type %}
+      <video width="320" height="240" controls>
+        <source src="{{temp.file_upload.url}}" type="video/mp4">
+      </video>
+      {% elif "PDF" in temp.type %}
+      <embed src="{{temp.file_upload.url}}" width="500" height="375" 
+      type="application/pdf">
+      {% endif %}
+    </div>
+    <form name="edit" enctype="multipart/form-data">
+    {{form|crispy}}
+    <button type="submit" class="btn btn-sm btn-warning" hx-put="{% url 'edit_temp' temp.id%}" hx-headers='{"X-CSRFToken": "{{ csrf_token}}"}'>
+      Save
+    </button>  
+  </form>
+  </div>
+   
+  <div class="modal-footer">
+     
+    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">
+      Close
+    </button>
+  
+  </div>
+</div>

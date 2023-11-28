@@ -1,0 +1,32 @@
+<table class="table crm-table table-bordered mt-3 p-2">
+    <thead class="table-dark">
+      <tr role="row">
+      <th>ID</th>
+      <th>Title</th>
+      <th>Type</th>
+      <th>By</th>
+      <th>Date</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody >
+      {% if templates %}
+      {% for template in templates %}
+      <tr style="cursor:pointer" role="row">
+      <td>{{template.id}}</td>
+      <td>{{template.title}}</td>
+      <td>{{template.type}}</td>
+      <td><img src="{{template.template_by.profile.profile_pic.url}}" style="border-radius: 50%;" width="25px" height="25px">&nbsp;&nbsp;{{template.template_by.profile.fullname}}</td>
+      <td>{{template.date}}</td>
+      <td>
+          <button class="btn btn-primary btn-sm" hx-get="{% url 'show_temp' template.id%}" hx-target="#dialog">Show</button>
+          <button class="btn btn-warning btn-sm" hx-get="{% url 'edit_temp' template.id%}" hx-target="#dialog" >Edit</button>
+          <button class="btn btn-danger btn-sm" hx-get="{% url 'delete_temp' template.id%}"  hx-target="#dialog">Delete</button>
+      </td>
+      </tr>
+        
+      {% endfor %}
+        
+      {% endif %}
+    </tbody>
+  </table>

@@ -1,0 +1,93 @@
+<div class="row clearfix mb-15">
+  <!-- card start -->
+  <div class="m-3" id="products" hx-indicator="#spinner" hx-swap="innerHTML">
+    <h6>Products Count = {{products.count}}</h6>
+  </div>
+{% if products %}
+  {% for product in products %}
+
+  <div class="col-lg-3 col-md-6 col-sm-12 mb-1">
+    <div class="da-card">
+      <div class="da-card-photo">
+        {% if product.imagelink %}
+        <img name="{{product.imagelink}}" src="{{product.imagelink}}" alt="" />
+        {% else %}
+        <img name="{{product.imagelink}}" src="{{product.imagelink}}" alt="" />
+        {% endif %}
+      </div>
+      <div class="da-card-content">
+        <p class="limited-text mb-15" name="{{ product.add_title }}">
+          {{ product.add_title }}
+          <span class="badge badge-secondary badge-sm"
+            >{{ product.owner }}</span
+          >
+          <span class="badge badge-primary badge-sm"
+            >{{ product.category }}</span
+          >
+        </p>
+        <div class="container">
+          <div class="row">
+            <a
+              class="btn btn-primary btn-sm"
+              href="{{ product.add_link }}"
+              target="_blank"
+            >
+              View Ad <i class='fa fa-eye'></i>
+
+            </a>
+            <a
+              class="btn btn-info btn-sm"
+              hx-post="{% url 'create_post' product.id %}"
+              hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            >
+              Create Post <i class="fa fa-send"></i>
+            </a>
+            <a
+              class="btn btn-warning btn-sm"
+              href="{{product.edit_link}}"
+              target="_blank"
+            >
+              View in Admin <i class='fa fa-dashboard'></i>
+
+            </a>
+            <a
+              class="btn btn-danger btn-sm"
+              href="#"
+              target="_blank"
+            >
+              Block <i class='fa fa-ban'></i>
+
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+  <!-- card end -->
+  {% else %}
+  <div id="spinner" class="htmx-indicator indicator-style">
+    <div class="spinner-grow text-secondary " role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+<h6>no Posts Refresh Posts to get the new one</h6>
+  {% endif %}
+</div>
+<script>
+  document.body.addEventListener('htmx:beforeRequest',function(evt){
+    const table= document.getElementById('products')
+    const button=document.getElementById('refresh')
+    button.disabled = true;
+    table.style.opacity = 0.25
+  });
+  document.body.addEventListener('htmx:afterRequest',function(evt){
+    const table= document.getElementById('products')
+    const button=document.getElementById('refresh')
+    button.removeAttribute('disabled');
+    table.style.opacity = 1.00
+  });
+  
+</script> 

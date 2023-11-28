@@ -1,0 +1,37 @@
+<div class="modal-content">
+  <div class="modal-header" style="background-color: #183153;">
+    <h5 class="modal-title color-white"><i class="fa-solid fa-calendar-plus"></i>&nbsp;&nbsp;Schedule Post</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <img class="card-box" src="{{post.link}}" />
+     <hr>
+      <h6>Comments:</h6>
+      <hr>
+      {% if comments %}
+        
+      
+      <div class="chat-box">
+      {% for comment in comments %}
+      <div class="chat-body clearfix card-box m-3 p-3 bg-light">
+        <a href="{{comment.comment_by_profile}}" target="_blank">{{comment.comment_by}}</a>
+        <p>{{ comment.comment }}</p>
+        <hr width="50%" class="center">
+      </div>
+      {% endfor %}
+      
+    </div>
+    {% else %}
+    No Comments Recorded 
+    {% endif %}
+
+  </div>
+  <div class="modal-footer p-1">
+
+    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
+      Close
+    </button>
+  </div>
+</div>

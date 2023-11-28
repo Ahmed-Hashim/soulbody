@@ -1,0 +1,178 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+{% load crispy_forms_tags %}
+<!-- Include Cropper.js from a CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<link rel="stylesheet" href="{% static 'scripts/cropper/cropper.css' %}" />
+<script src="{% static 'scripts/cropper/cropper.js' %}"></script>
+
+<!--Modals-->
+<div id="modal" class="modal fade">
+  <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+</div>
+<div
+  class="toast-container position-fixed bottom-0 end-0 p-3"
+  style="z-index: 11"
+>
+  <div
+    id="toast"
+    class="toast align-items-center text-white border-0"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="d-flex">
+      <div id="toast-body" class="toast-body"></div>
+    </div>
+  </div>
+</div>
+<div>
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
+      <div class="pd-20 card-box height-100-p">
+        <div class="profile-photo">
+          {% if not profile.profile_pic.url %}
+          <img
+            src="{% static 'images/profile/default-profile.jpg'%}"
+            alt=""
+            class="avatar-photo"
+          />
+          {% else %}
+          
+          <div id="imageBox" class="col text-center">
+            <img src="{{ profile.profile_pic.url }}" class="avatar-photo" alt="" />
+            <button
+              hx-get="{% url 'changeProfileImage'  %}"
+              hx-target="#dialog"
+              class="btn btn-info btn-sm mt-3 mb-5"
+            >
+              Update
+            </button>
+          </div>
+
+          {% endif %}
+        </div>
+        <h5 class="text-center h5 mb-0 mt-5">{{ profile.fullname }}</h5>
+
+        <p class="text-center text-muted font-14">{{ profile.bio }}</p>
+        <div class="profile-info">
+          <h5 class="mb-20 h5 text-blue">Contact Information</h5>
+          <ul>
+            <li>
+              <span>Email Address:</span>
+              {{ user.email }}
+            </li>
+            <li>
+              <span>Phone Number:</span>
+              {{ profile.phone_number }}
+            </li>
+            <li>
+              <span>Country - TimeZone:</span>
+              {{ profile.country }} | {{ profile.timezone }}
+            </li>
+            <li>
+              <span>Address:</span>
+              {{ profile.address }}
+            </li>
+          </ul>
+        </div>
+        <div class="profile-social">
+          <h5 class="mb-20 h5 text-blue">Social Links</h5>
+          <ul class="clearfix">
+            {% if profile.facebook_url %}
+            <li>
+              <a
+                href="{{ profile.facebook_url }}"
+                class="btn"
+                data-bgcolor="#3b5998"
+                data-color="#ffffff"
+                ><i class="fa fa-facebook"></i
+              ></a>
+            </li>
+            {% endif %} {% if profile.twitter_url %}
+            <li>
+              <a
+                href="{{ profile.twitter_url }}"
+                class="btn"
+                data-bgcolor="#1da1f2"
+                data-color="#ffffff"
+                ><i class="fa fa-twitter"></i
+              ></a>
+            </li>
+            {% endif %} {% if profile.linkedin_url %}
+            <li>
+              <a
+                href="{{ profile.linkedin_url }}"
+                class="btn"
+                data-bgcolor="#007bb5"
+                data-color="#ffffff"
+                ><i class="fa fa-linkedin"></i
+              ></a>
+            </li>
+            {% endif %} {% if profile.instagram_url %}
+            <li>
+              <a
+                href="{{ profile.instagram_url }}"
+                class="btn"
+                data-bgcolor="#f46f30"
+                data-color="#ffffff"
+                ><i class="fa fa-instagram"></i
+              ></a>
+            </li>
+            {% endif %} {% if profile.skype_url %}
+            <li>
+              <a
+                href="{{ profile.skype_url }}"
+                class="btn"
+                data-bgcolor="#00aff0"
+                data-color="#ffffff"
+                ><i class="fa fa-skype"></i
+              ></a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
+      <div class="card-box height-100-p overflow-hidden">
+        <div class="profile-tab height-100-p">
+          <div class="tab height-100-p">
+            <ul class="nav nav-tabs customtab" role="tablist">
+              <li class="nav-item">
+                <h6 class="nav-link">Settings</h6>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="profile-setting">
+                <ul class="profile-edit-list row">
+                  <li class="weight-500 col-md-6">
+                    <h4 class="text-blue h5 mb-20">
+                      Edit Your Personal Setting
+                    </h4>
+
+                    <form
+                      action=""
+                      method="POST"
+                      enctype="multipart/form-data"
+                      name="profile_data"
+                    >
+                      {% csrf_token %} {{ form.as_p }}
+                      <input
+                        type="submit"
+                        value="Update"
+                        class="btn btn-secondary"
+                        name="profileUpdate"
+                      />
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endblock body %}
+  </div>
+</div>
