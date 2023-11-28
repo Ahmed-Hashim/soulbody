@@ -5156,7 +5156,10 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 
 /* search-2 */
 .header-search-2 {
-  min-width: 500px; }
+  min-width: 500px;
+  padding-right: 100px; 
+
+ }
   .header-search-2 form {
     position: relative; }
   .header-search-2 input {
@@ -5174,7 +5177,8 @@ ul.wp-block-latest-posts.is-grid.alignwide {
     background-color: transparent;
     height: 45px;
     top: 0;
-    padding: 0 15px; }
+    padding: 0 15px;
+    }
 
 /* ----------------------------------------
     Currency Menu
