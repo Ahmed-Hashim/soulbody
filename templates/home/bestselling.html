@@ -1,0 +1,44 @@
+{% with products|dictsortreversed:"best_selling" as sorted_products %}
+    {% if sorted_products %}
+        <div class="ltn__product-area ltn__product-gutter pt-50 pb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title-area ltn__section-title-2 text-center">
+                            <h1 class="section-title">Best Selling ✨</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ltn__tab-product-slider-one-active--- slick-arrow-1">
+                        {% for product in sorted_products %}
+                            {% ifchanged %}
+                                {% if product.best_selling %}
+                                    <!-- ltn__product-item -->
+                                        <div class="col-lg-3 col-md-4 col-sm-6 col-6">
+                                            <div class="ltn__product-item ltn__product-item-3 text-center">
+                                                <div class="product-img">
+                                                    <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
+                                                    <div class="product-hover-action">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                                                    <i class="far fa-eye"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="product-info">
+                                                    <h2 class="product-title"><a href="product-details.html">{{product.en_name}}</a></h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endifchanged %}
+                            {% endfor %}
+                    
+            </div>
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}

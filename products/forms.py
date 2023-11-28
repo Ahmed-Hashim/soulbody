@@ -4,7 +4,7 @@ from django import forms
 class ProductForm(forms.ModelForm):
     class Meta:
         model=Product
-        fields=['name','description','price']
+        fields=['en_name','en_description','ar_name','ar_description','price']
         name=forms.CharField(label="Service Name")
         description=forms.CharField(label="Description")
         price=forms.CharField(label="Price")

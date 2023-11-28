@@ -10,35 +10,41 @@ from datetime import timedelta, date
 from django_resized import ResizedImageField
 # Create your models here.
 
-class Categoies(models.Model):
-    name=models.CharField(max_length=50)
+class Categories(models.Model):
+    en_name=models.CharField(max_length=50)
+    ar_name=models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return self.en_name
     
 class Product(models.Model):
     CURRENCY=[
     ("EGP","EGP")
     ]
+    category= models.ForeignKey(Categories,on_delete=models.DO_NOTHING,related_name='products')
     image=ResizedImageField(
         force_format="WEBP", quality=80, null=True, blank=True,upload_to="products/images/",default='products/images/defaults_products.jpg')
-    name=models.CharField(max_length=100,null=True,blank=True)
-    description=models.TextField(max_length=1000,null=True,blank=True)
+    
+    en_name=models.CharField(max_length=100,null=True,blank=True)
+    ar_name=models.CharField(max_length=100,null=True,blank=True)
+    en_description=models.TextField(max_length=1000,null=True,blank=True)
+    ar_description=models.TextField(max_length=1000,null=True,blank=True)
     price=models.DecimalField(null=True,blank=True,max_digits=100, decimal_places=2,)
     currency=models.CharField(choices=CURRENCY,default="EGP",max_length=5,null=True,blank=True)
     uniqueId =models.CharField(null=True,blank=True,max_length=100)
     slug=models.SlugField(max_length=500,unique=True,null=True,blank=True)
+    best_selling=models.BooleanField(default=False)
 
 
     def __str__(self):
-        return '{} {}'.format(self.name,self.uniqueId)
+        return '{} {}'.format(self.en_name,self.uniqueId)
 
     def save(self, *args, **kwargs):
         if self.uniqueId is None:
             self.uniqueId = str(uuid4()).split('-')[4]
-            self.slug = slugify('{} {}'.format(self.name, self.uniqueId))
+            self.slug = slugify('{} {}'.format(self.en_name, self.uniqueId))
 
-        self.slug = slugify('{} {}'.format(self.name, self.uniqueId))
+        self.slug = slugify('{} {}'.format(self.en_name, self.uniqueId))
         super(Product, self).save(*args, **kwargs)
 
 
@@ -94,3 +100,21 @@ class Invoice(models.Model):
         super(Invoice, self).save(*args, **kwargs)
 
 
+class MedicalSystem(models.Model):
+    image=ResizedImageField(
+        force_format="WEBP", quality=80, null=True, blank=True,upload_to="products/images/systems/",default='products/systems/images/defaults_products.jpg')
+    en_name=models.CharField(max_length=50)
+    ar_name=models.CharField(max_length=50)
+    en_description=models.TextField(null=True,blank=True)
+    ar_description=models.TextField(null=True,blank=True)
+
+    def __str__(self):
+        return self.en_name
+    
+class Testimonials(models.Model):
+    image=ResizedImageField(
+        force_format="WEBP", quality=80, null=True, blank=True,upload_to="products/images/testimonials/",default='products/images/testimonials/defaults_products.jpg')
+    name=models.CharField(max_length=50)
+    JobTitle=models.CharField(max_length=50)
+    en_description=models.TextField(null=True,blank=True)
+    ar_description=models.TextField(null=True,blank=True)
