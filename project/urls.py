@@ -7,16 +7,16 @@ from django.conf.urls.i18n import i18n_patterns
 from members.views import download_app
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
-    path('', views.home, name='home'),
-    path('admin/', admin.site.urls),]
+]
 urlpatterns += i18n_patterns(
-    
+    path('', views.home, name='home'),
+    path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
     path('crm/', include('crm.urls')),
     path('products/', include('products.urls')),
     path('members/', include('members.urls')),
     path('members/', include('django.contrib.auth.urls')),
-    
+
 
 
 )

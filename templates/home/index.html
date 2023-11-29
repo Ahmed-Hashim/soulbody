@@ -1,7 +1,7 @@
 <!doctype html>
-<html class="no-js" lang="zxx">
+<html class="no-js">
 {% load static %}
-
+{% load i18n %}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -9,15 +9,20 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    {% get_current_language as LANGUAGE_CODE %}   
     <!-- Place favicon.png in the root directory -->
-    <link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{sitedata.logo.url}}" type="image/x-icon" />
     <!-- Font Icons css -->
     <link rel="stylesheet" href="{% static 'css/font-icons.css' %}">
     <!-- plugins css -->
     <link rel="stylesheet" href="{% static 'css/plugins.css' %}">
     <!-- Main Stylesheet -->
+       
+    {% if LANGUAGE_CODE == 'ar' %}
+    <link rel="stylesheet" href="{% static 'css/style_ar.css' %}">
+    {% else %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% endif %}
     <!-- Responsive css -->
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <script src="{% static 'js/htmx.min.js' %}"></script>
@@ -44,8 +49,7 @@
                                 <ul>
                                     <li><a href="mailto:info@soulbody.com?Subject=Flower%20greetings%20to%20you"><i
                                                 class="icon-mail"></i> info@soulbody.com</a></li>
-                                    <li><a href="locations.html"><i class="icon-placeholder"></i> 32 EL Batrawy St, Abas
-                                            El Aqad ,Madinet Masr Cairo</a></li>
+                                    <li><a href="{{sitedata.map_link}}"><i class="icon-placeholder"></i> {{sitedata.address}}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -57,14 +61,20 @@
                                             <!-- ltn__language-menu -->
                                             <div class="ltn__drop-menu ltn__currency-menu ltn__language-menu">
                                                 <ul>
-                                                    <li><a href="#" class="dropdown-toggle"><span
-                                                                class="active-currency">English</span></a>
-                                                        <ul>
-                                                            <li><a href="#">Arabic</a></li>
-                                                            <li><a href="#">English</a></li>
-
-                                                        </ul>
-                                                    </li>
+                                                    <form action="{% url 'set_language' %}" method="post">{% csrf_token %}                           
+                                                        <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
+                                                        {% if LANGUAGE_CODE == 'ar' %}
+                                                        <button type='submit' name='language' value='en' style="background-color: transparent !important;" ><span
+                                                            class="" style="color: gray; ">
+                                                                English</span>
+                                                            </button></li>
+                                                        {% else %}
+                                                        <button type='submit' name='language' value='ar' style="background-color: transparent !important;" ><span
+                                                            class="" style="color: gray; ">
+                                                                عربي</span>
+                                                            </button></li>
+                                                        {% endif %}
+                                                    </form>	                
                                                 </ul>
                                             </div>
                                         </li>
@@ -72,11 +82,11 @@
                                             <!-- ltn__social-media -->
                                             <div class="ltn__social-media">
                                                 <ul>
-                                                    <li><a href="#" title="Facebook"><i
+                                                    <li><a href=" {{sitedata.facebook}}" title="Facebook"><i
                                                                 class="fab fa-facebook-f"></i></a></li>
-                                                    <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                                                    <li><a href=" {{sitedata.twiter}}" title="Twitter"><i class="fab fa-twitter"></i></a>
                                                     </li>
-                                                    <li><a href="#" title="Instagram"><i
+                                                    <li><a href=" {{sitedata.instgram}}" title="Instagram"><i
                                                                 class="fab fa-instagram"></i></a></li>
                                                 </ul>
                                             </div>
@@ -95,7 +105,7 @@
                     <div class="row justify-content-between">
                         <div class="col-3">
                             <div class="site-logo">
-                                <a href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}" alt="Logo"></a>
+                                <a href="{% url 'home' %}"><img src="{{sitedata.logo.url}}" alt="Logo"></a>
                             </div>
                         </div>
                         <div class="col-3">
@@ -107,9 +117,9 @@
                                 <div class="header-feature-info">
                                     <h6>Phone</h6>
                                     <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/eg.svg' %}">
-                                            +20222617124</a></p>
+                                           {{sitedata.phone_number_1}}</a></p>
                                     <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/jo.svg' %}">
-                                            +96265814185</a></p>
+                                        {{sitedata.phone_number_2}}</a></p>
                                 </div>
                             </div>
                         </div>

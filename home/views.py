@@ -12,6 +12,7 @@ def home(request):
     sliders = MainSlider.objects.filter(active=True)
     tests = Testimonials.objects.filter(active=True)
     coldown = Cooldown.objects.filter(active=True).last()
+    site_data = sitedata.objects.all().last()
 
     context = {'products': products,
                'systems': systems,
@@ -19,6 +20,7 @@ def home(request):
                'sliders': sliders,
                'coldown': coldown,
                'tests': tests,
+               'sitedata': site_data,
 
                }
     return render(request, "home/index.html", context)
