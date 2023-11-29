@@ -18,11 +18,13 @@
                                     <li><a href="{% url 'home' %}">Home</a></li>
                                     <li class="menu-icon"><a href="#">Medical Management Systems</a>
                                         <ul>
-                                            {% for system in systems %}
-                                            <li><a href="#">{{system.en_name}}</a></li>
-                                            {% endfor %}
-                                            
-                                            
+                                            {% if systems %}
+                                                {% for system in systems %}
+                                                    <li><a href="#">{{system.en_name}}</a></li>
+                                                {% endfor %}
+                                            {% else %}
+                                                <li>No systems available</li>
+                                            {% endif %}
                                         </ul>
                                     </li>
                                     <li class="menu-icon"><a href="#">Medical Supplies & Equipment</a>
@@ -30,7 +32,7 @@
                                             {% if categories %}
                                                     {% for category in categories %}
                                                         <li>
-                                                            <a href="#">{{ category.name }}</a>
+                                                            <a href="#">{{ category.en_name }}</a>
                                                             <ul>
                                                                 {% if category.products.all %}
                                                                     {% for product in category.products.all|slice:":5" %}

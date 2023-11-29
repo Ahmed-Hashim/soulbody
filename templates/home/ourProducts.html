@@ -1,4 +1,7 @@
 {% load static %}
+{% if categories %}
+
+
 <div class="ltn__product-tab-area ltn__product-gutter pt-40 pb-70">
     <div class="container">
         <div class="row">
@@ -35,7 +38,7 @@
                                                         <div class="product-hover-action">
                                                             <ul>
                                                                 <li>
-                                                                    <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                                                    <a title="Quick View"  hx-get="{% url 'show_product' product.id %}"  hx-target="#dialog">
                                                                         <i class="far fa-eye"></i>
                                                                     </a>
                                                                 </li>
@@ -63,3 +66,4 @@
         </div>
     </div>
 </div>
+{% endif %}

@@ -110,11 +110,3 @@ class MedicalSystem(models.Model):
 
     def __str__(self):
         return self.en_name
-    
-class Testimonials(models.Model):
-    image=ResizedImageField(
-        force_format="WEBP", quality=80, null=True, blank=True,upload_to="products/images/testimonials/",default='products/images/testimonials/defaults_products.jpg')
-    name=models.CharField(max_length=50)
-    JobTitle=models.CharField(max_length=50)
-    en_description=models.TextField(null=True,blank=True)
-    ar_description=models.TextField(null=True,blank=True)

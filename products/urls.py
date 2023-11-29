@@ -17,6 +17,7 @@ urlpatterns = [
     path('delete_invoice/<int:id>', views.delete_invoice,name='delete_invoice'),
     path('set_to_paid/<int:id>', views.set_to_paid,name='set_to_paid'),
     path('expiry_products', views.expiry_products,name='expiry_products'),
+    path('show_product/<int:id>', views.show_product,name='show_product'),
 
 
 

@@ -3,3 +3,4 @@ from .models import *
 # Register your models here.
 admin.site.register(MainSlider)
 admin.site.register(Cooldown)
+admin.site.register(sitedata)

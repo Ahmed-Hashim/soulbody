@@ -1,6 +1,7 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
 {% load static %}
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -19,6 +20,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <!-- Responsive css -->
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <script src="{% static 'js/htmx.min.js' %}"></script>
 </head>
 
 <body>
@@ -28,446 +30,187 @@
 
     <!-- Add your site or application content here -->
 
-<!-- Body main wrapper start -->
-<div class="body-wrapper">
+    <!-- Body main wrapper start -->
+    <div class="body-wrapper">
 
-<!-- HEADER AREA START (header-3) -->
-    <header class="ltn__header-area ltn__header-3">       
-        <!-- ltn__header-top-area start -->
-        <div class="ltn__header-top-area border-bottom">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="ltn__top-bar-menu">
-                            <ul>
-                                <li><a href="mailto:info@soulbody.com?Subject=Flower%20greetings%20to%20you"><i class="icon-mail"></i> info@soulbody.com</a></li>
-                                <li><a href="locations.html"><i class="icon-placeholder"></i> 32 EL Batrawy St, Abas El Aqad ,Madinet Masr Cairo</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="top-bar-right text-right text-end">
+        <!-- HEADER AREA START (header-3) -->
+        <header class="ltn__header-area ltn__header-3">
+            <!-- ltn__header-top-area start -->
+            <div class="ltn__header-top-area border-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-7">
                             <div class="ltn__top-bar-menu">
                                 <ul>
-                                    <li>
-                                        <!-- ltn__language-menu -->
-                                        <div class="ltn__drop-menu ltn__currency-menu ltn__language-menu">
-                                            <ul>
-                                                <li><a href="#" class="dropdown-toggle"><span class="active-currency">English</span></a>
-                                                    <ul>
-                                                        <li><a href="#">Arabic</a></li>
-                                                        <li><a href="#">English</a></li>
-                                                        
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <!-- ltn__social-media -->
-                                        <div class="ltn__social-media">
-                                            <ul>
-                                                <li><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                                                <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a></li>
-                                                <li><a href="#" title="Instagram"><i class="fab fa-instagram"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </li>
+                                    <li><a href="mailto:info@soulbody.com?Subject=Flower%20greetings%20to%20you"><i
+                                                class="icon-mail"></i> info@soulbody.com</a></li>
+                                    <li><a href="locations.html"><i class="icon-placeholder"></i> 32 EL Batrawy St, Abas
+                                            El Aqad ,Madinet Masr Cairo</a></li>
                                 </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="top-bar-right text-right text-end">
+                                <div class="ltn__top-bar-menu">
+                                    <ul>
+                                        <li>
+                                            <!-- ltn__language-menu -->
+                                            <div class="ltn__drop-menu ltn__currency-menu ltn__language-menu">
+                                                <ul>
+                                                    <li><a href="#" class="dropdown-toggle"><span
+                                                                class="active-currency">English</span></a>
+                                                        <ul>
+                                                            <li><a href="#">Arabic</a></li>
+                                                            <li><a href="#">English</a></li>
+
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <!-- ltn__social-media -->
+                                            <div class="ltn__social-media">
+                                                <ul>
+                                                    <li><a href="#" title="Facebook"><i
+                                                                class="fab fa-facebook-f"></i></a></li>
+                                                    <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                                                    </li>
+                                                    <li><a href="#" title="Instagram"><i
+                                                                class="fab fa-instagram"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- ltn__header-top-area end --> 
-        <!-- ltn__header-middle-area start -->
-        <div class="ltn__header-middle-area">
+            <!-- ltn__header-top-area end -->
+            <!-- ltn__header-middle-area start -->
+            <div class="ltn__header-middle-area">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <div class="col-3">
+                            <div class="site-logo">
+                                <a href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}" alt="Logo"></a>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <!-- header-feature-item -->
+                            <div class="header-feature-item">
+                                <div class="header-feature-icon">
+                                    <i class="icon-call"></i>
+                                </div>
+                                <div class="header-feature-info">
+                                    <h6>Phone</h6>
+                                    <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/eg.svg' %}">
+                                            +20222617124</a></p>
+                                    <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/jo.svg' %}">
+                                            +96265814185</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ltn__header-middle-area end -->
+            {% include 'home/header.html' %}
+        </header>
+
+        <!-- HEADER AREA END -->
+
+        <!-- MOBILE MENU START -->
+        <div class="mobile-header-menu-fullwidth mb-30 d-block d-lg-none">
             <div class="container">
-                <div class="row justify-content-between">
-                    <div class="col-3">
-                        <div class="site-logo">
-                            <a href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}" alt="Logo"></a>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <!-- header-feature-item -->
-                        <div class="header-feature-item">
-                            <div class="header-feature-icon">
-                                <i class="icon-call"></i>
-                            </div>
-                            <div class="header-feature-info">
-                                <h6>Phone</h6>
-                                <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/eg.svg' %}"> +20222617124</a></p>
-                                <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/jo.svg' %}"> +96265814185</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ltn__header-middle-area end -->
-        {% include 'home/header.html' %}
-    </header>
-
-    <!-- HEADER AREA END -->
-
-<!-- MOBILE MENU START -->
-    <div class="mobile-header-menu-fullwidth mb-30 d-block d-lg-none">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Mobile Menu Button -->
-                    <div class="mobile-menu-toggle d-lg-none">
-                        <span>MENU</span>
-                        <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle">
-                            <svg viewBox="0 0 800 600">
-                                <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top"></path>
-                                <path d="M300,320 L540,320" id="middle"></path>
-                                <path d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" id="bottom" transform="translate(480, 320) scale(1, -1) translate(-480, -318) "></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- MOBILE MENU END -->
-
-<!-- SLIDER AREA START (slider-3) -->
-    {% include "home/mainslider.html" %}
-    <!-- SLIDER AREA END -->
-
-<!-- PRODUCT TAB AREA START (product-item-3) -->
-    {% include "home/ourProducts.html" %}
-    <!-- PRODUCT TAB AREA END -->
-
-
-<!-- COUNTDOWN AREA START -->
-    {% include "home/countdown.html" %}
-    <!-- COUNTDOWN AREA END -->
-
-<!-- PRODUCT AREA START (product-item-3) -->
-
-   <!-- PRODUCT AREA END --> 
-<!-- Best Selling AREA START (product-item-3) -->
-    {% include "home/bestselling.html" %}
-    <!-- Best Selling AREA END --> 
-<!-- Clients AREA START (testimonial-4) -->
-    <div class="ltn__testimonial-area section-bg-1 pt-5 pb-70">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title-area ltn__section-title-2 text-center">
-                        <h6 class="section-subtitle ltn__secondary-color">Testimonials</h6>
-                        <h1 class="section-title">Clients Feedbacks<span>.</span></h1>
-                    </div>
-                </div>
-            </div>
-            <div class="row ltn__testimonial-slider-3-active slick-arrow-1 slick-arrow-1-inner">
-                <div class="col-lg-12">
-                    <div class="ltn__testimonial-item ltn__testimonial-item-4">
-                        <div class="ltn__testimoni-img">
-                            <img src="{% static 'img/testimonial/6.jpg' %}" alt="#">
-                        </div>
-                        <div class="ltn__testimoni-info">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            <h4>Rosalina D. William</h4>
-                            <h6>Founder</h6>
-                        </div>
-                        <div class="ltn__testimoni-bg-icon">
-                            <i class="far fa-comments"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="ltn__testimonial-item ltn__testimonial-item-4">
-                        <div class="ltn__testimoni-img">
-                            <img src="{% static 'img/testimonial/7.jpg' %}" alt="#">
-                        </div>
-                        <div class="ltn__testimoni-info">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            <h4>Rosalina D. William</h4>
-                            <h6>Founder</h6>
-                        </div>
-                        <div class="ltn__testimoni-bg-icon">
-                            <i class="far fa-comments"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="ltn__testimonial-item ltn__testimonial-item-4">
-                        <div class="ltn__testimoni-img">
-                            <img src="{% static 'img/testimonial/1.jpg' %}" alt="#">
-                        </div>
-                        <div class="ltn__testimoni-info">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            <h4>Rosalina D. William</h4>
-                            <h6>Founder</h6>
-                        </div>
-                        <div class="ltn__testimoni-bg-icon">
-                            <i class="far fa-comments"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="ltn__testimonial-item ltn__testimonial-item-4">
-                        <div class="ltn__testimoni-img">
-                            <img src="{% static 'img/testimonial/2.jpg' %}" alt="#">
-                        </div>
-                        <div class="ltn__testimoni-info">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            <h4>Rosalina D. William</h4>
-                            <h6>Founder</h6>
-                        </div>
-                        <div class="ltn__testimoni-bg-icon">
-                            <i class="far fa-comments"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="ltn__testimonial-item ltn__testimonial-item-4">
-                        <div class="ltn__testimoni-img">
-                            <img src="{% static 'img/testimonial/5.jpg' %}" alt="#">
-                        </div>
-                        <div class="ltn__testimoni-info">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipi sicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                            <h4>Rosalina D. William</h4>
-                            <h6>Founder</h6>
-                        </div>
-                        <div class="ltn__testimoni-bg-icon">
-                            <i class="far fa-comments"></i>
-                        </div>
-                    </div>
-                </div>
-                <!--  -->
-            </div>
-        </div>
-    </div>
-    <!-- TESTIMONIAL AREA END -->
-
-<!-- CALL TO ACTION START (call-to-action-6) -->
-    <div class="ltn__call-to-action-area call-to-action-6 before-bg-bottom" data-bs-bg="{% static 'img/1.jpg--' %}">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="call-to-action-inner call-to-action-inner-6 ltn__secondary-bg position-relative text-center---">
-                        <div class="coll-to-info text-color-white">
-                            <h1>Buy medical disposable face mask <br> to protect your loved ones</h1>
-                        </div>
-                        <div class="btn-wrapper">
-                            <a class="btn btn-effect-3 btn-white" href="shop.html">Explore Products <i class="icon-next"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- CALL TO ACTION END -->
-
-<!-- FOOTER AREA START -->
-    <footer class="ltn__footer-area">
-        <div class="footer-top-area  section-bg-2 plr--5">
-            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xl-3 col-md-6 col-sm-6 col-12">
-                        <div class="footer-widget footer-about-widget">
-                            <div class="footer-logo">
-                                <div class="site-logo">
-                                    <img src="{% static 'img/logo.png' %}" alt="Logo">
-                                </div>
-                            </div>
-                            <p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is dummy text of the printing.</p>
-                            <div class="footer-address">
-                                <ul>
-                                    <li>
-                                        <div class="footer-address-icon">
-                                            <i class="icon-placeholder"></i>
-                                        </div>
-                                        <div class="footer-address-info">
-                                            <p>Brooklyn, New York, United States</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="footer-address-icon">
-                                            <i class="icon-call"></i>
-                                        </div>
-                                        <div class="footer-address-info">
-                                            <p><a href="tel:+0123-456789">+0123-456789</a></p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="footer-address-icon">
-                                            <i class="icon-mail"></i>
-                                        </div>
-                                        <div class="footer-address-info">
-                                            <p><a href="mailto:example@example.com">example@example.com</a></p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="ltn__social-media mt-20">
-                                <ul>
-                                    <li><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#" title="Linkedin"><i class="fab fa-linkedin"></i></a></li>
-                                    <li><a href="#" title="Youtube"><i class="fab fa-youtube"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-md-6 col-sm-6 col-12">
-                        <div class="footer-widget footer-menu-widget clearfix">
-                            <h4 class="footer-title">Company</h4>
-                            <div class="footer-menu">
-                                <ul>
-                                    <li><a href="about.html">About</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
-                                    <li><a href="shop.html">All Products</a></li>
-                                    <li><a href="locations.html">Locations Map</a></li>
-                                    <li><a href="faq.html">FAQ</a></li>
-                                    <li><a href="contact.html">Contact us</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-md-6 col-sm-6 col-12">
-                        <div class="footer-widget footer-menu-widget clearfix">
-                            <h4 class="footer-title">Services</h4>
-                            <div class="footer-menu">
-                                <ul>
-                                    <li><a href="order-tracking.html">Order tracking</a></li>
-                                    <li><a href="wishlist.html">Wish List</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="account.html">My account</a></li>
-                                    <li><a href="about.html">Terms & Conditions</a></li>
-                                    <li><a href="about.html">Promotional Offers</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-md-6 col-sm-6 col-12">
-                        <div class="footer-widget footer-menu-widget clearfix">
-                            <h4 class="footer-title">Customer Care</h4>
-                            <div class="footer-menu">
-                                <ul>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="account.html">My account</a></li>
-                                    <li><a href="wishlist.html">Wish List</a></li>
-                                    <li><a href="order-tracking.html">Order tracking</a></li>
-                                    <li><a href="faq.html">FAQ</a></li>
-                                    <li><a href="contact.html">Contact us</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6 col-sm-12 col-12">
-                        <div class="footer-widget footer-newsletter-widget">
-                            <h4 class="footer-title">Newsletter</h4>
-                            <p>Subscribe to our weekly Newsletter and receive updates via email.</p>
-                            <div class="footer-newsletter">
-                                <form action="#">
-                                    <input type="email" name="email" placeholder="Email*">
-                                    <div class="btn-wrapper">
-                                        <button class="theme-btn-1 btn" type="submit"><i class="fas fa-location-arrow"></i></button>
-                                    </div>
-                                </form>
-                            </div>
-                            <h5 class="mt-30">We Accept</h5>
-                            <img src="{% static 'img/icons/payment-4.png' %}" alt="Payment Image">
+                    <div class="col-lg-12">
+                        <!-- Mobile Menu Button -->
+                        <div class="mobile-menu-toggle d-lg-none">
+                            <span>MENU</span>
+                            <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle">
+                                <svg viewBox="0 0 800 600">
+                                    <path
+                                        d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200"
+                                        id="top"></path>
+                                    <path d="M300,320 L540,320" id="middle"></path>
+                                    <path
+                                        d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190"
+                                        id="bottom" transform="translate(480, 320) scale(1, -1) translate(-480, -318) ">
+                                    </path>
+                                </svg>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="ltn__copyright-area ltn__copyright-2 section-bg-7  plr--5">
-            <div class="container-fluid ltn__border-top-2">
-                <div class="row">
-                    <div class="col-md-6 col-12">
-                        <div class="ltn__copyright-design clearfix">
-                            <p>All Rights Reserved @ Company <span class="current-year"></span></p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12 align-self-center">
-                        <div class="ltn__copyright-menu text-end">
-                            <ul>
-                                <li><a href="#">Terms & Conditions</a></li>
-                                <li><a href="#">Claim</a></li>
-                                <li><a href="#">Privacy & Policy</a></li>
-                            </ul>
-                        </div>
-                    </div>
+        <!-- MOBILE MENU END -->
+
+        <!-- SLIDER AREA START (slider-3) -->
+        {% include "home/mainslider.html" %}
+        <!-- SLIDER AREA END -->
+
+        <!-- PRODUCT TAB AREA START (product-item-3) -->
+        {% include "home/ourProducts.html" %}
+        <!-- PRODUCT TAB AREA END -->
+        <!-- COUNTDOWN AREA START -->
+        {% include "home/countdown.html" %}
+        <!-- COUNTDOWN AREA END -->
+        <!-- Best Selling AREA START (product-item-3) -->
+        {% include "home/bestselling.html" %}
+        <!-- Best Selling AREA END -->
+        <!-- Clients AREA START (testimonial-4) -->
+        {% include "home/testimonials.html" %}
+        <!-- TESTIMONIAL AREA END -->
+
+        <!-- CALL TO ACTION START (call-to-action-6) -->
+        {% include "home/calltoaction.html" %}
+        <!-- CALL TO ACTION END -->
+
+        <!-- FOOTER AREA START -->
+        {% include "home/footer.html" %}
+        <!-- FOOTER AREA END -->
+
+        <!-- MODAL AREA START (Quick View Modal) -->
+        <div class="ltn__modal-area ltn__quick-view-modal-area">
+            <div class="modal fade" id="quick_view_modal" tabindex="-1">
+                <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                
+            </div>
+        </div>
+
+        <!-- MODAL AREA END -->
+        <!-- Body main wrapper end -->
+
+        <!-- preloader area start -->
+        <div class="preloader d-none" id="preloader">
+            <div class="preloader-inner">
+                <div class="spinner">
+                    <div class="dot1"></div>
+                    <div class="dot2"></div>
                 </div>
             </div>
         </div>
-    </footer>
-    <!-- FOOTER AREA END -->
+        <!-- preloader area end -->
 
-<!-- MODAL AREA START (Quick View Modal) -->
-    <div class="ltn__modal-area ltn__quick-view-modal-area">
-        <div class="modal fade" id="quick_view_modal" tabindex="-1">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            <!-- <i class="fas fa-times"></i> -->
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                         <div class="ltn__quick-view-modal-inner">
-                             <div class="modal-product-item">
-                                <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <div class="modal-product-img">
-                                            <img src="{% static 'img/product/4.png' %}" alt="#">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="modal-product-info">
-                                            <h3>Digital Stethoscope</h3>
-                                            <div class="product-price">
-                                                <span>$149.00</span>
-                                                <del>$165.00</del>
-                                            </div>
-                                            
-                                            <div class="ltn__product-details-menu-2">
-                                                <div class="product-info">
-                                                    <h2 class="product-title">Description</h2>
-                                                    <p>
-                                                        descripe item
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                             </div>
-                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- MODAL AREA END -->
-<!-- Body main wrapper end -->
+        <!-- All JS Plugins -->
+        <script src="{% static 'js/plugins.js' %}"></script>
+        <!-- Main JS -->
+        <script src="{% static 'js/main.js' %}"></script>
+        <script>
+            const modal = new bootstrap.Modal(document.getElementById("quick_view_modal"))
 
-    <!-- preloader area start -->
-    <div class="preloader d-none" id="preloader">
-        <div class="preloader-inner">
-            <div class="spinner">
-                <div class="dot1"></div>
-                <div class="dot2"></div>
-            </div>
-        </div>
-    </div>
-    <!-- preloader area end -->
+            htmx.on("htmx:afterSwap", (e) => {
+            // Response targeting #dialog => show the modal
+            if (e.detail.target.id == "dialog") {
+                modal.show()
+            }
+            })
+        </script>
 
-    <!-- All JS Plugins -->
-    <script src="{% static 'js/plugins.js' %}"></script>
-    <!-- Main JS -->
-    <script src="{% static 'js/main.js' %}"></script>
-  
 </body>
-</html>
 
+</html>

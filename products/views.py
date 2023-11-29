@@ -219,3 +219,9 @@ def expiry_products(request):
         'title':'Expired Products'
     }
     return render(request,"products/expiry_products.html",context) 
+def show_product(request,id):
+    product_details=get_object_or_404(Product,id=id)
+    context={
+        'product_details':product_details,
+    }
+    return render (request,'home/modals/showproduct.html',context)

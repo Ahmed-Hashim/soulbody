@@ -1,19 +1,24 @@
 from django.shortcuts import render
-from products.models import Product,MedicalSystem,Categories
+from products.models import Product, MedicalSystem, Categories
+from crm.models import Testimonials
 from .models import *
 # Create your views here.
+
+
 def home(request):
     products = Product.objects.all()
     categories = Categories.objects.all()
-    systems=MedicalSystem.objects.all()
+    systems = MedicalSystem.objects.all()
     sliders = MainSlider.objects.filter(active=True)
-    coldown=Cooldown.objects.filter(active=True).last()
+    tests = Testimonials.objects.filter(active=True)
+    coldown = Cooldown.objects.filter(active=True).last()
 
-    context={'products':products,
-             'systems':systems,
-             'categories':categories,
-             'sliders':sliders,
-             'coldown':coldown,
+    context = {'products': products,
+               'systems': systems,
+               'categories': categories,
+               'sliders': sliders,
+               'coldown': coldown,
+               'tests': tests,
 
-             }
-    return render(request , "home/index.html",context)
+               }
+    return render(request, "home/index.html", context)

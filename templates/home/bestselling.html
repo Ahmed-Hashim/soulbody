@@ -1,3 +1,4 @@
+
 {% with products|dictsortreversed:"best_selling" as sorted_products %}
     {% if sorted_products %}
         <div class="ltn__product-area ltn__product-gutter pt-50 pb-50">
@@ -21,7 +22,7 @@
                                                     <div class="product-hover-action">
                                                         <ul>
                                                             <li>
-                                                                <a href="#" title="Quick View" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
+                                                                <a title="Quick View"  hx-get="{% url 'show_product' product.id %}"  hx-target="#dialog">
                                                                     <i class="far fa-eye"></i>
                                                                 </a>
                                                             </li>
