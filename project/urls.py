@@ -9,12 +9,14 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 urlpatterns += i18n_patterns(
-    path('', views.home, name='home'),
+    path('', views.base, name='base'),
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
     path('crm/', include('crmsb.urls')),
     path('products/', include('product.urls')),
+    path('pages/', include('corepages.urls')),
     path('members/', include('members.urls')),
+    path('', include('home.urls')),
     path('members/', include('django.contrib.auth.urls')),
 
 

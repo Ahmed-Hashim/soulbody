@@ -48,7 +48,7 @@
                             <div class="ltn__top-bar-menu">
                                 <ul>
                                     <li><a href="mailto:info@soulbody.com?Subject=Flower%20greetings%20to%20you"><i
-                                                class="icon-mail"></i> info@soulbody.com</a></li>
+                                                class="icon-mail"></i>{{sitedata.email}}</a></li>
                                     <li><a href="{{sitedata.map_link}}"><i class="icon-placeholder"></i> {{sitedata.address}}</a></li>
                                 </ul>
                             </div>
@@ -158,68 +158,53 @@
             </div>
         </div>
         <!-- MOBILE MENU END -->
+<div id="main-content">
+    {% include "home/home.html" %}
+</div>
+{% block content %}
 
-        <!-- SLIDER AREA START (slider-3) -->
-        {% include "home/mainslider.html" %}
-        <!-- SLIDER AREA END -->
 
-        <!-- PRODUCT TAB AREA START (product-item-3) -->
-        {% include "home/ourProducts.html" %}
-        <!-- PRODUCT TAB AREA END -->
-        <!-- COUNTDOWN AREA START -->
-        {% include "home/countdown.html" %}
-        <!-- COUNTDOWN AREA END -->
-        <!-- Best Selling AREA START (product-item-3) -->
-        {% include "home/bestselling.html" %}
-        <!-- Best Selling AREA END -->
-        <!-- Clients AREA START (testimonial-4) -->
-        {% include "home/testimonials.html" %}
-        <!-- TESTIMONIAL AREA END -->
+{% endblock content %}
+<!-- FOOTER AREA START -->
+{% include "home/footer.html" %}
+<!-- FOOTER AREA END -->
 
-        <!-- CALL TO ACTION START (call-to-action-6) -->
-        {% include "home/calltoaction.html" %}
-        <!-- CALL TO ACTION END -->
+<!-- MODAL AREA START (Quick View Modal) -->
+<div class="ltn__modal-area ltn__quick-view-modal-area">
+    <div class="modal fade" id="quick_view_modal" tabindex="-1">
+        <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+        
+    </div>
+</div>
 
-        <!-- FOOTER AREA START -->
-        {% include "home/footer.html" %}
-        <!-- FOOTER AREA END -->
+<!-- MODAL AREA END -->
+<!-- Body main wrapper end -->
 
-        <!-- MODAL AREA START (Quick View Modal) -->
-        <div class="ltn__modal-area ltn__quick-view-modal-area">
-            <div class="modal fade" id="quick_view_modal" tabindex="-1">
-                <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
-                
-            </div>
+<!-- preloader area start -->
+<div class="preloader d-none" id="preloader">
+    <div class="preloader-inner">
+        <div class="spinner">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
         </div>
+    </div>
+</div>
+<!-- preloader area end -->
 
-        <!-- MODAL AREA END -->
-        <!-- Body main wrapper end -->
+<!-- All JS Plugins -->
+<script src="{% static 'js/plugins.js' %}"></script>
+<!-- Main JS -->
+<script src="{% static 'js/main.js' %}"></script>
+<script>
+    const modal = new bootstrap.Modal(document.getElementById("quick_view_modal"))
 
-        <!-- preloader area start -->
-        <div class="preloader d-none" id="preloader">
-            <div class="preloader-inner">
-                <div class="spinner">
-                    <div class="dot1"></div>
-                    <div class="dot2"></div>
-                </div>
-            </div>
-        </div>
-        <!-- preloader area end -->
-
-        <!-- All JS Plugins -->
-        <script src="{% static 'js/plugins.js' %}"></script>
-        <!-- Main JS -->
-        <script src="{% static 'js/main.js' %}"></script>
-        <script>
-            const modal = new bootstrap.Modal(document.getElementById("quick_view_modal"))
-
-            htmx.on("htmx:afterSwap", (e) => {
-            // Response targeting #dialog => show the modal
-            if (e.detail.target.id == "dialog") {
-                modal.show()
-            }
-            })
-        </script>
+    htmx.on("htmx:afterSwap", (e) => {
+    // Response targeting #dialog => show the modal
+    if (e.detail.target.id == "dialog") {
+        modal.show()
+    }
+    })
+</script>
 
 </body>
 

@@ -1,5 +1,5 @@
 
-{% with products|dictsortreversed:"best_selling" as sorted_products %}
+{% with products|dictsortreversed:"best_selling"|slice:":8" as sorted_products %}
     {% if sorted_products %}
         <div class="ltn__product-area ltn__product-gutter pt-50 pb-50">
             <div class="container">
