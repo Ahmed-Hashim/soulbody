@@ -14,7 +14,7 @@ from django.http import QueryDict
 
 from .forms import *
 from .models import *
-from products.models import *
+from product.models import *
 from datetime import datetime,timedelta
 #email imports
 

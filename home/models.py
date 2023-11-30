@@ -1,6 +1,6 @@
 from django.db import models
 from django_resized import ResizedImageField
-from products.models import Product,MedicalSystem
+from product.models import Product,MedicalSystem
 # Create your models here.
 class MainSlider(models.Model):
     image=ResizedImageField(

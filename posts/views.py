@@ -7,7 +7,7 @@ from django.views.generic.list import ListView
 from posts.uploads3 import upload_file
 from posts.uploadtofacebook import uptofb
 from .models import Post, PublishedPost, Schedule, AlmazadiProducts, Category
-from crm.models import *
+from crmsb.models import *
 from .forms import PostForm, ScheduleForm
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required

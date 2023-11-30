@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.db import models
-from crm.models import Customer, Note
+from crmsb.models import Customer, Note
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.utils import timezone

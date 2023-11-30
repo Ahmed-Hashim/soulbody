@@ -12,8 +12,8 @@ urlpatterns += i18n_patterns(
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
-    path('crm/', include('crm.urls')),
-    path('products/', include('products.urls')),
+    path('crm/', include('crmsb.urls')),
+    path('products/', include('product.urls')),
     path('members/', include('members.urls')),
     path('members/', include('django.contrib.auth.urls')),
 

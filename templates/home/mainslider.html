@@ -50,7 +50,7 @@
         {% if sliders %}
         {% for item in sliders  %}
         <!-- ltn__slide-item -->
-        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bs-bg="{% static 'img/bg/2.jpg' %}">
+        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bs-bg="{{item.image.url}}">
             <div class="ltn__slide-item-inner  text-left">
                 <div class="container">
                     <div class="row">

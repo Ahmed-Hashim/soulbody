@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from products.models import Product, MedicalSystem, Categories
-from crm.models import Testimonials
+from product.models import Product, MedicalSystem, Categories
+from crmsb.models import Testimonials
 from .models import *
 # Create your views here.
 

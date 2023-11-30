@@ -9,13 +9,13 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.http import QueryDict
 
-from products.views import invoice
+from product.views import invoice
 from .whatsapp import send_whatsapp_img, send_whatsapp_message, send_whatsapp_pdf, send_whatsapp_video
 # Create your views here.
 
 from .forms import *
 from .models import *
-from products.models import *
+from product.models import *
 
 # email imports
 

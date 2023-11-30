@@ -3,7 +3,7 @@ from random import choices
 from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-from .fields import NonStrippingTextField
+from crmsb.fields import NonStrippingTextField
 from django_resized import ResizedImageField
 GENDER = (
     ('Male', 'Male'),
