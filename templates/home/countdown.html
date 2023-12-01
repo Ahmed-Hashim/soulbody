@@ -1,3 +1,6 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
 {% if coldown %}
     {% load static %}
     <div class="ltn__call-to-action-area section-bg-1 bg-image pt-120 pb-120" data-bs-bg="{{coldown.image.url}}">
@@ -9,14 +12,14 @@
                 <div class="col-lg-5 col-md-6 col-sm-8">
                     <div class="call-to-action-inner text-color-white--- text-center---">
                         <div class="section-title-area ltn__section-title-2--- text-center---">
-                            <h6 class="ltn__secondary-color">{{coldown.en_offer}}</h6>
-                            <h1 class="section-title">{{coldown.en_bigTitle}}</h1>
-                            <p>{{coldown.en_description}}</p>
+                            <h6 class="ltn__secondary-color">{% if LANGUAGE_CODE == "en" %}{{coldown.en_offer}}{% else %}{{coldown.ar_offer}}{% endif %}</h6>
+                            <h1 class="section-title">{% if LANGUAGE_CODE == "en" %}{{coldown.en_bigTitle}}{% else %}{{coldown.ar_bigTitle}}{% endif %}</h1>
+                            <p>{% if LANGUAGE_CODE == "en" %}{{coldown.en_description}}{% else %}{{coldown.ar_description}}{% endif %}</p>
                         </div>
                         <div class="ltn__countdown ltn__countdown-3 bg-white--" data-countdown="{{coldown.end_time|date:'Y/m/d'}}"></div>
                         <div class="btn-wrapper animated">
-                            <a href="#" class="theme-btn-1 btn btn-effect-1 text-uppercase">Shop now</a>
-                            <a href="#" class="ltn__secondary-color text-decoration-underline">Deal of The Day</a>
+                            <a href="#" class="theme-btn-1 btn btn-effect-1 text-uppercase">{% if LANGUAGE_CODE == "en" %}Shop now{% else %}أحصل على العرض الآن{% endif %}</a>
+                            <a href="#" class="ltn__secondary-color text-decoration-underline">{% if LANGUAGE_CODE == "en" %}Deal of The Day{% else %}عرض اليوم{% endif %}</a>
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,7 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 urlpatterns += i18n_patterns(
-    path('', views.base, name='base'),
+    path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
     path('crm/', include('crmsb.urls')),

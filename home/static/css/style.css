@@ -3291,8 +3291,8 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 .ltn__breadcrumb-area {
   background-color: var(--section-bg-1);
   margin-bottom: 120px;
-  padding-top: 110px;
-  padding-bottom: 110px; }
+  padding-top: 25px;
+  padding-bottom: 25px; }
 
 .ltn__breadcrumb-list ul {
   margin: 0;
@@ -4698,7 +4698,8 @@ ul.wp-block-latest-posts.is-grid.alignwide {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     font-family: 'Font Awesome\ 5 Free';
-    font-weight: 900; }
+    font-weight: 900;
+    cursor: pointer;  }
 
 /* Menu Item Badge */
 .menu-item-badge {

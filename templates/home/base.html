@@ -2,6 +2,7 @@
 <html class="no-js">
 {% load static %}
 {% load i18n %}
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -9,15 +10,18 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% get_current_language as LANGUAGE_CODE %}   
+    {% get_current_language as LANGUAGE_CODE %}
     <!-- Place favicon.png in the root directory -->
+
     <link rel="shortcut icon" href="{{sitedata.logo.url}}" type="image/x-icon" />
     <!-- Font Icons css -->
     <link rel="stylesheet" href="{% static 'css/font-icons.css' %}">
     <!-- plugins css -->
     <link rel="stylesheet" href="{% static 'css/plugins.css' %}">
     <!-- Main Stylesheet -->
-       
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
     {% if LANGUAGE_CODE == 'ar' %}
     <link rel="stylesheet" href="{% static 'css/style_ar.css' %}">
     {% else %}
@@ -49,7 +53,8 @@
                                 <ul>
                                     <li><a href="mailto:info@soulbody.com?Subject=Flower%20greetings%20to%20you"><i
                                                 class="icon-mail"></i>{{sitedata.email}}</a></li>
-                                    <li><a href="{{sitedata.map_link}}"><i class="icon-placeholder"></i> {{sitedata.address}}</a></li>
+                                    <li><a href="{{sitedata.map_link}}"><i class="icon-placeholder"></i>
+                                            {{sitedata.address}}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -61,150 +66,152 @@
                                             <!-- ltn__language-menu -->
                                             <div class="ltn__drop-menu ltn__currency-menu ltn__language-menu">
                                                 <ul>
-                                                    <form action="{% url 'set_language' %}" method="post">{% csrf_token %}                           
-                                                        <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}">
+                                                    <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                                                        <input name="next" type="hidden"
+                                                            value="{{ request.get_full_path|slice:'3:' }}">
                                                         {% if LANGUAGE_CODE == 'ar' %}
-                                                        <button type='submit' name='language' value='en' style="background-color: transparent !important;" ><span
-                                                            class="" style="color: gray; ">
+                                                        <button type='submit' name='language' value='en'
+                                                            style="background-color: transparent !important;"><span
+                                                                class="" style="color: gray; ">
                                                                 English</span>
-                                                            </button></li>
-                                                        {% else %}
-                                                        <button type='submit' name='language' value='ar' style="background-color: transparent !important;" ><span
-                                                            class="" style="color: gray; ">
-                                                                عربي</span>
-                                                            </button></li>
-                                                        {% endif %}
-                                                    </form>	                
-                                                </ul>
-                                            </div>
+                                                        </button>
                                         </li>
-                                        <li>
-                                            <!-- ltn__social-media -->
-                                            <div class="ltn__social-media">
-                                                <ul>
-                                                    <li><a href=" {{sitedata.facebook}}" title="Facebook"><i
-                                                                class="fab fa-facebook-f"></i></a></li>
-                                                    <li><a href=" {{sitedata.twiter}}" title="Twitter"><i class="fab fa-twitter"></i></a>
-                                                    </li>
-                                                    <li><a href=" {{sitedata.instgram}}" title="Instagram"><i
-                                                                class="fab fa-instagram"></i></a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
+                                        {% else %}
+                                        <button type='submit' name='language' value='ar'
+                                            style="background-color: transparent !important;"><span class=""
+                                                style="color: gray; ">
+                                                عربي</span>
+                                        </button></li>
+                                        {% endif %}
+                                        </form>
                                     </ul>
                                 </div>
+                                </li>
+                                <li>
+                                    <!-- ltn__social-media -->
+                                    <div class="ltn__social-media">
+                                        <ul>
+                                            <li><a href=" {{sitedata.facebook}}" title="Facebook"><i
+                                                        class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href=" {{sitedata.twiter}}" title="Twitter"><i
+                                                        class="fab fa-twitter"></i></a>
+                                            </li>
+                                            <li><a href=" {{sitedata.instgram}}" title="Instagram"><i
+                                                        class="fab fa-instagram"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- ltn__header-top-area end -->
-            <!-- ltn__header-middle-area start -->
-            <div class="ltn__header-middle-area">
-                <div class="container">
-                    <div class="row justify-content-between">
-                        <div class="col-3">
-                            <div class="site-logo">
-                                <a href="{% url 'home' %}"><img src="{{sitedata.logo.url}}" alt="Logo"></a>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <!-- header-feature-item -->
-                            <div class="header-feature-item">
-                                <div class="header-feature-icon">
-                                    <i class="icon-call"></i>
-                                </div>
-                                <div class="header-feature-info">
-                                    <h6>Phone</h6>
-                                    <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/eg.svg' %}">
-                                           {{sitedata.phone_number_1}}</a></p>
-                                    <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/jo.svg' %}">
-                                        {{sitedata.phone_number_2}}</a></p>
-                                </div>
-                            </div>
-                        </div>
+    </div>
+    <!-- ltn__header-top-area end -->
+    <!-- ltn__header-middle-area start -->
+    <div class="ltn__header-middle-area">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-3">
+                    <div class="site-logo">
+                        <a href="{% url 'home' %}"><img src="{{sitedata.logo.url}}" alt="Logo"></a>
                     </div>
                 </div>
-            </div>
-            <!-- ltn__header-middle-area end -->
-            {% include 'home/header.html' %}
-        </header>
-
-        <!-- HEADER AREA END -->
-
-        <!-- MOBILE MENU START -->
-        <div class="mobile-header-menu-fullwidth mb-30 d-block d-lg-none">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <!-- Mobile Menu Button -->
-                        <div class="mobile-menu-toggle d-lg-none">
-                            <span>MENU</span>
-                            <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle">
-                                <svg viewBox="0 0 800 600">
-                                    <path
-                                        d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200"
-                                        id="top"></path>
-                                    <path d="M300,320 L540,320" id="middle"></path>
-                                    <path
-                                        d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190"
-                                        id="bottom" transform="translate(480, 320) scale(1, -1) translate(-480, -318) ">
-                                    </path>
-                                </svg>
-                            </a>
+                <div class="col-3">
+                    <!-- header-feature-item -->
+                    <div class="header-feature-item">
+                        <div class="header-feature-icon">
+                            <i class="icon-call"></i>
+                        </div>
+                        <div class="header-feature-info">
+                            <h6>Phone</h6>
+                            <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/eg.svg' %}">
+                                    {{sitedata.phone_number_1}}</a></p>
+                            <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/jo.svg' %}">
+                                    {{sitedata.phone_number_2}}</a></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- MOBILE MENU END -->
-<div id="main-content">
-    {% include "home/home.html" %}
-</div>
-{% block content %}
-
-
-{% endblock content %}
-<!-- FOOTER AREA START -->
-{% include "home/footer.html" %}
-<!-- FOOTER AREA END -->
-
-<!-- MODAL AREA START (Quick View Modal) -->
-<div class="ltn__modal-area ltn__quick-view-modal-area">
-    <div class="modal fade" id="quick_view_modal" tabindex="-1">
-        <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
-        
     </div>
-</div>
+    <!-- ltn__header-middle-area end -->
+    {% include 'home/header.html' %}
+    </header>
 
-<!-- MODAL AREA END -->
-<!-- Body main wrapper end -->
+    <!-- HEADER AREA END -->
 
-<!-- preloader area start -->
-<div class="preloader d-none" id="preloader">
-    <div class="preloader-inner">
-        <div class="spinner">
-            <div class="dot1"></div>
-            <div class="dot2"></div>
+    <!-- MOBILE MENU START -->
+    <div class="mobile-header-menu-fullwidth mb-30 d-block d-lg-none">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Mobile Menu Button -->
+                    <div class="mobile-menu-toggle d-lg-none">
+                        <span>MENU</span>
+                        <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle">
+                            <svg viewBox="0 0 800 600">
+                                <path
+                                    d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200"
+                                    id="top"></path>
+                                <path d="M300,320 L540,320" id="middle"></path>
+                                <path
+                                    d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190"
+                                    id="bottom" transform="translate(480, 320) scale(1, -1) translate(-480, -318) ">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<!-- preloader area end -->
+    <!-- MOBILE MENU END -->
+    {% block content %}
 
-<!-- All JS Plugins -->
-<script src="{% static 'js/plugins.js' %}"></script>
-<!-- Main JS -->
-<script src="{% static 'js/main.js' %}"></script>
-<script>
-    const modal = new bootstrap.Modal(document.getElementById("quick_view_modal"))
 
-    htmx.on("htmx:afterSwap", (e) => {
-    // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog") {
-        modal.show()
-    }
-    })
-</script>
+    {% endblock content %}
+    <!-- FOOTER AREA START -->
+    {% include "home/footer.html" %}
+    <!-- FOOTER AREA END -->
+
+    <!-- MODAL AREA START (Quick View Modal) -->
+    <div class="ltn__modal-area ltn__quick-view-modal-area">
+        <div class="modal fade" id="quick_view_modal" tabindex="-1">
+            <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+
+        </div>
+    </div>
+
+    <!-- MODAL AREA END -->
+    <!-- Body main wrapper end -->
+
+    <!-- preloader area start -->
+    <div class="preloader d-none" id="preloader">
+        <div class="preloader-inner">
+            <div class="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+        </div>
+    </div>
+    <!-- preloader area end -->
+
+    <!-- All JS Plugins -->
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <!-- Main JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        const modal = new bootstrap.Modal(document.getElementById("quick_view_modal"))
+
+        htmx.on("htmx:afterSwap", (e) => {
+            // Response targeting #dialog => show the modal
+            if (e.detail.target.id == "dialog") {
+                modal.show()
+            }
+        })
+    </script>
 
 </body>
 

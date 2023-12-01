@@ -1,69 +1,116 @@
 {% load static %}
 {% if categories %}
-
-
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <div class="ltn__product-tab-area ltn__product-gutter pt-40 pb-70">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
+                {% if LANGUAGE_CODE == 'ar' %}
                 <div class="section-title-area ltn__section-title-2--- text-center">
                     <!-- <h6 class="section-subtitle ltn__secondary-color">// Cars</h6> -->
+
+                    <h1 class="section-title">منتجاتنا</h1>
+                </div>
+                <div class="ltn__tab-menu ltn__tab-menu-2 ltn__tab-menu-top-right-- text-uppercase text-center">
+                    <div class="nav">
+                        {% for category in categories %}
+                        <a class="{% if forloop.first %}active show{% endif %}" data-bs-toggle="tab"
+                            href="#liton_tab_3_{{category.id}}">{{category.ar_name}}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="section-title-area ltn__section-title-2--- text-center">
+                    <!-- <h6 class="section-subtitle ltn__secondary-color">// Cars</h6> -->
+
                     <h1 class="section-title">Our Products</h1>
                     <p>A highly efficient slip-ring scanner for today's diagnostic requirements.</p>
                 </div>
                 <div class="ltn__tab-menu ltn__tab-menu-2 ltn__tab-menu-top-right-- text-uppercase text-center">
                     <div class="nav">
                         {% for category in categories %}
-                        <a class="{% if forloop.first %}active show{% endif %}" data-bs-toggle="tab" href="#liton_tab_3_{{category.id}}">{{category.en_name}}</a>
+                        <a class="{% if forloop.first %}active show{% endif %}" data-bs-toggle="tab"
+                            href="#liton_tab_3_{{category.id}}">{{category.en_name}}</a>
                         {% endfor %}
-                        
                     </div>
                 </div>
+                {% endif %}
                 <div class="tab-content">
                     {% for category in categories %}
-                        <div class="tab-pane fade{% if forloop.first %} active show{% endif %}" id="liton_tab_3_{{category.id}}">
-                            <div class="ltn__product-tab-content-inner">
-                                <div class="row ltn__tab-product-slider-one-active slick-arrow-1">
-                                    {% for product in category.products.all %}
-                                        <!-- ltn__product-item -->
-                                            <div class="col-lg-12">
-                                                <div class="ltn__product-item ltn__product-item-3 text-center">
-                                                    <div class="product-img">
-                                                        <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
-                                                        <div class="product-badge">
-                                                            <ul>
-                                                                <li class="sale-badge">New</li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="product-hover-action">
-                                                            <ul>
-                                                                <li>
-                                                                    <a title="Quick View"  hx-get="{% url 'show_product' product.id %}"  hx-target="#dialog">
-                                                                        <i class="far fa-eye"></i>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <h2 class="product-title"><a href="product-details.html">{{product.en_name}}</a></h2>
-                                                        <div class="product-price">
-                                                            <span>{{product.price}} {{product.currency}}</span>
-                                                            <del>$85.00</del>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                    <div class="tab-pane fade{% if forloop.first %} active show{% endif %}"
+                        id="liton_tab_3_{{category.id}}">
+                        <div class="ltn__product-tab-content-inner">
+                            <div class="row ltn__tab-product-slider-one-active slick-arrow-1">
+                                {% for product in category.products.all %}
+                                <!-- ltn__product-item -->
+                                <div class="col-lg-12">
+                                    <div class="ltn__product-item ltn__product-item-3 text-center">
+                                        <div class="product-img">
+                                            <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
+                                            <div class="product-badge">
+                                                {% if LANGUAGE_CODE == 'ar' %}
+                                                <ul>
+                                                    <li class="sale-badge">جديد</li>
+                                                </ul>
                                             </div>
-                                        <!--  -->
-                                        {% endfor %}
-                                        
+                                            <div class="product-hover-action">
+                                                <ul>
+                                                    <li>
+                                                        <a title="Quick View"
+                                                            hx-get="{% url 'show_product' product.id %}"
+                                                            hx-target="#dialog">
+                                                            <i class="far fa-eye"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="product-info">
+                                            <h2 class="product-title"><a
+                                                    href="product-details.html">{{product.ar_name}}</a></h2>
+                                            <div class="product-price">
+                                                <span>{{product.price}} {{product.currency}}</span>
+                                                <del>$85.00</del>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <ul>
+                                            <li class="sale-badge">New</li>
+                                        </ul>
+                                    </div>
+                                    <div class="product-hover-action">
+                                        <ul>
+                                            <li>
+                                                <a title="Quick View" hx-get="{% url 'show_product' product.id %}"
+                                                    hx-target="#dialog">
+                                                    <i class="far fa-eye"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
+                                <div class="product-info">
+                                    <h2 class="product-title"><a href="product-details.html">{{product.en_name}}</a>
+                                    </h2>
+                                    <div class="product-price">
+                                        <span>{{product.price}} {{product.currency}}</span>
+                                        <del>$85.00</del>
+                                    </div>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
-                    {% endfor %}
+                        <!--  -->
+                        {% endfor %}
+
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
+</div>
+</div>
 </div>
 {% endif %}

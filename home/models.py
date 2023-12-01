@@ -23,7 +23,7 @@ class Cooldown(models.Model):
     active=models.BooleanField(default=False)
 class sitedata(models.Model):
     logo=ResizedImageField(
-        force_format="WEBP", quality=80, null=True, blank=True,upload_to="=images/",default='home/images/logo.WEBP')
+        force_format="WEBP", quality=80, null=True, blank=True,upload_to="images/logo/",default='images/logo.WEBP')
     phone_number_1=models.CharField(max_length=50, null=True, blank=True)
     phone_number_2=models.CharField(max_length=50, null=True, blank=True)
     email=models.EmailField(max_length=75, null=True, blank=True)

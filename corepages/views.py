@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from home.models import sitedata
-from product.models import Categories,Product
+from product.models import Categories, Product
 from django.core.paginator import Paginator
 # Create your views here.
 
@@ -32,19 +32,5 @@ def privacy_policy(request):
 def terms_conditions(request):
     return render(request, 'corepages/terms_conditions.html')
 
-def shop(request):
-    products = Product.objects.all()
-    productscount = products.count()
-    paginator = Paginator(products, 12)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-    categories = Categories.objects.all()
-    site_data = sitedata.objects.all().last()
-    context={
-        'products': page_obj,
-        'productscount': productscount,
-        'categories': categories,
-        'title': 'Shop',
-        'site_data': site_data,
-        }
-    return render(request, 'home/shop.html',context)
+
+

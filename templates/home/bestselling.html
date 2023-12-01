@@ -1,4 +1,6 @@
 
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 {% with products|dictsortreversed:"best_selling"|slice:":8" as sorted_products %}
     {% if sorted_products %}
         <div class="ltn__product-area ltn__product-gutter pt-50 pb-50">
@@ -6,7 +8,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-title-area ltn__section-title-2 text-center">
-                            <h1 class="section-title">Best Selling ✨</h1>
+                            <h1 class="section-title"> {% if LANGUAGE_CODE == "en" %}Best Selling ✨{% else %}  ✨الأكثر طلباً {% endif %}</h1>
                         </div>
                     </div>
                 </div>
@@ -30,7 +32,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="product-info">
-                                                    <h2 class="product-title"><a href="product-details.html">{{product.en_name}}</a></h2>
+                                                    <h2 class="product-title"><a href="product-details.html">{% if LANGUAGE_CODE == "en" %}{{product.en_name}}{% else %} {{product.ar_name}}{% endif %}</a></h2>
                                                 </div>
                                             </div>
                                         </div>

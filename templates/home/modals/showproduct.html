@@ -1,3 +1,7 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+
 
     <div class="modal-content">
         <div class="modal-header">
@@ -17,7 +21,7 @@
                         </div>
                         <div class="col-lg-6 col-12">
                             <div class="modal-product-info">
-                                <h3>{{product_details.en_name}}</h3>
+                                <h3>{% if LANGUAGE_CODE == 'en' %}{{product_details.en_name}}{% else %}{{product_details.ar_name}}{% endif %}</h3>
                                 <div class="product-price">
                                     <span>EGP {{product_details.price}}</span>
                                     <del>$165.00</del>
@@ -25,9 +29,9 @@
 
                                 <div class="ltn__product-details-menu-2">
                                     <div class="product-info">
-                                        <h2 class="product-title">Description</h2>
+                                        <h2 class="product-title">{% if LANGUAGE_CODE == 'en' %}Description{% else %}وصف المنتج{% endif %}</h2>
                                         <p>
-                                            {{product_details.en_description}}
+                                            {% if LANGUAGE_CODE == 'en' %}{{product_details.en_description}}{% else %}{{product_details.ar_description}}{% endif %}
                                         </p>
                                     </div>
                                 </div>

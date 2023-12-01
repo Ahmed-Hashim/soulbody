@@ -227,8 +227,8 @@ font-family: 'Nunito', sans-serif;
   /* Lighten */
   --ltn__heading-color: #071c1f;
   --ltn__paragraph-color: #5C727D;
-  --ltn__heading-font: 'Josefin Sans', sans-serif;
-  --ltn__body-font: 'Nunito Sans', sans-serif;
+  --ltn__heading-font: 'Cairo', sans-serif;
+  --ltn__body-font: 'Cairo', sans-serif;
   /* Footer ACD2D8 8CB2B2  */
   --ltn__color-1: #8cb2b2;
   --ltn__color-2: #ACD2D8;
@@ -3293,8 +3293,8 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 .ltn__breadcrumb-area {
   background-color: var(--section-bg-1);
   margin-bottom: 120px;
-  padding-top: 110px;
-  padding-bottom: 110px; }
+  padding-top: 25px;
+  padding-bottom: 25px; }
 
 .ltn__breadcrumb-list ul {
   margin: 0;
@@ -4691,7 +4691,7 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 .menu-icon > a {
   position: relative; }
   .menu-icon > a::before {
-    content: "\f067";
+    content: "⇣";
     font-size: 8px;
     position: absolute;
     top: 50%;
@@ -4700,7 +4700,8 @@ ul.wp-block-latest-posts.is-grid.alignwide {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     font-family: 'Font Awesome\ 5 Free';
-    font-weight: 900; }
+    font-weight: 900;
+    cursor: pointer; }
 
 /* Menu Item Badge */
 .menu-item-badge {
