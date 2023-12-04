@@ -36,4 +36,15 @@ class sitedata(models.Model):
     instagram=models.CharField(max_length=50, null=True, blank=True)
     en_about_us_footer=models.TextField(max_length=120)
     ar_about_us_footer=models.TextField(max_length=120)
+
+class Contact(models.Model):
+    name=models.CharField(max_length=50)
+    subject=models.CharField(max_length=50)
+    email=models.EmailField(max_length=50)
+    phone_number=models.CharField(max_length=50)
+    message=models.TextField()
+    date=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
     

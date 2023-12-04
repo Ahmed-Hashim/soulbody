@@ -10,7 +10,7 @@
                         {% if LANGUAGE_CODE == "en" %}<h1>Buy medical disposable face mask <br> to protect your loved ones</h1>{% else %}<h1>أحصل على أفضل وأجود  <br> المستلزمات والمعدات من خلالنا</h1>{% endif %}
                     </div>
                     <div class="btn-wrapper">
-                        <a class="btn btn-effect-3 btn-white" href="shop.html">{% if LANGUAGE_CODE == "en" %}Explore Products{% else %}اكتشف منتجاتنا{% endif %} <i class="icon-next"></i></a>
+                        <a class="btn btn-effect-3 btn-white" href="{% url 'shop' %}">{% if LANGUAGE_CODE == "en" %}Explore Products{% else %}اكتشف منتجاتنا{% endif %} <i class="icon-next"></i></a>
                     </div>
                 </div>
             </div>

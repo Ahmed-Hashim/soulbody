@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(MainSlider)
 admin.site.register(Cooldown)
 admin.site.register(sitedata)
+admin.site.register(Contact)

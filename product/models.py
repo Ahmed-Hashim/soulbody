@@ -30,6 +30,7 @@ class Product(models.Model):
     en_description=models.TextField(max_length=1000,null=True,blank=True)
     ar_description=models.TextField(max_length=1000,null=True,blank=True)
     price=models.DecimalField(null=True,blank=True,max_digits=100, decimal_places=2,)
+    old_price=models.DecimalField(null=True,blank=True,max_digits=100, decimal_places=2,)
     currency=models.CharField(choices=CURRENCY,default="EGP",max_length=5,null=True,blank=True)
     uniqueId =models.CharField(null=True,blank=True,max_length=100)
     slug=models.SlugField(max_length=500,unique=True,null=True,blank=True)

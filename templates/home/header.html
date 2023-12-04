@@ -2,10 +2,9 @@
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 {% if LANGUAGE_CODE == 'en' %}
-{% if LANGUAGE_CODE == "en" %}{% else %} {% endif %}
 <!-- header-bottom-area start -->
 <div
-    class="header-bottom-area ltn__border-top ltn__header-sticky  ltn__sticky-bg-white--- ltn__sticky-bg-secondary ltn__secondary-bg section-bg-1 menu-color-white d-none d-lg-block">
+    class="header-bottom-area ltn__border-top ltn__header-sticky  ltn__sticky-bg-white--- ltn__sticky-bg-secondary ltn__secondary-bg section-bg-1 menu-color-white d-none d-lg-block ">
     <div class="container">
         <div class="row">
             <div class="col header-menu-column justify-content-center">
@@ -39,7 +38,7 @@
                                             <ul>
                                                 {% if category.products.all %}
                                                 {% for product in category.products.all|slice:":5" %}
-                                                <li><a href="#">{{ product.en_name }}</a></li>
+                                                <li><a href="{% url 'product_details' product.id %}">{{ product.en_name }}</a></li>
                                                 {% endfor %}
                                                 <li><a href="{% url 'shop' %}">Show All</a></li>
                                                 {% else %}
@@ -53,9 +52,9 @@
                                         {% endif %}
                                     </ul>
                                 </li>
-                                <li><a href="#">Medical Tourism</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">About us</a></li>
+                                <!--<li><a href="#">Medical Tourism</a></li>-->
+                                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                                <li><a href="{% url 'about_us' %}">About us</a></li>
                             </ul>
                         </div>
                     </nav>
@@ -65,6 +64,7 @@
     </div>
 </div>
 <!-- header-bottom-area end -->
+
 <!-- Utilize Mobile Menu Start -->
 <div id="ltn__utilize-mobile-menu" class="ltn__utilize ltn__utilize-mobile-menu">
     <div class="ltn__utilize-menu-inner ltn__scrollbar">
@@ -98,7 +98,7 @@
                             <ul class="sub-menu">
                                 {% if category.products.all %}
                                 {% for product in category.products.all|slice:":5" %}
-                                <li><a href="#">{{ product.en_name }}</a></li>
+                                <li><a href="{% url 'product_details' product.id %}">{{ product.en_name }}</a></li>
                                 {% endfor %}
                                 <li><a href="{% url 'shop' %}">Show All</a></li>
                                 {% else %}
@@ -112,9 +112,9 @@
                         {% endif %}
                     </ul>
                 </li>
-                <li><a href="#">Medical Tourism</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">About us</a></li>
+                <!--<li><a href="#">Medical Tourism</a></li>-->
+                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                <li><a href="{% url 'about_us' %}">About us</a></li>
             </ul>
         </div>
         <div class="ltn__social-media-2">
@@ -173,7 +173,7 @@
                                             <ul>
                                                 {% if category.products.all %}
                                                 {% for product in category.products.all|slice:":5" %}
-                                                <li><a href="#">{{ product.ar_name }}</a></li>
+                                                <li><a href="{% url 'product_details' product.id %}">{{ product.ar_name }}</a></li>
                                                 {% endfor %}
                                                 <li><a href="{% url 'shop' %}">الجميع</a></li>
                                                 {% else %}
@@ -187,9 +187,9 @@
                                         {% endif %}
                                     </ul>
                                 </li>
-                                <li><a href="#">السياحة العلاجية</a></li>
-                                <li><a href="#">تواصل معنا</a></li>
-                                <li><a href="#">عنا</a></li>
+                                <!--<li><a href="#">السياحة العلاجية</a></li>-->
+                                <li><a href="{% url 'contact_us' %}">تواصل معنا</a></li>
+                                <li><a href="{% url 'about_us' %}">عنا</a></li>
                             </ul>
                         </div>
                     </nav>
@@ -199,6 +199,11 @@
     </div>
 </div>
 <!-- header-bottom-area end -->
+
+
+
+
+
 <!-- Utilize Mobile Menu Start -->
 <div id="ltn__utilize-mobile-menu" class="ltn__utilize ltn__utilize-mobile-menu">
     <div class="ltn__utilize-menu-inner ltn__scrollbar">
@@ -232,7 +237,7 @@
                             <ul class="sub-menu">
                                 {% if category.products.all %}
                                 {% for product in category.products.all|slice:":5" %}
-                                <li><a href="#">{{ product.ar_name }}</a></li>
+                                <li><a href="{% url 'product_details' product.id %}">{{ product.ar_name }}</a></li>
                                 {% endfor %}
                                 <li><a href="{% url 'shop' %}"></a></li>
                                 {% else %}
@@ -246,9 +251,9 @@
                         {% endif %}
                     </ul>
                 </li>
-                <li><a href="#">السياحة العلاجية</a></li>
-                <li><a href="#">تواصل معنا</a></li>
-                <li><a href="#">عنا</a></li>
+                <!--<li><a href="#">السياحة العلاجية</a></li>-->
+                <li><a href="{% url 'contact_us' %}">تواصل معنا</a></li>
+                <li><a href="{% url 'about_us' %}">عنا</a></li>
             </ul>
         </div>
         <div class="ltn__social-media-2">
@@ -270,4 +275,8 @@
     </div>
 </div>
 <!-- Utilize Mobile Menu End -->
+
+
+
+
 {% endif %}

@@ -1,0 +1,248 @@
+{% extends "home/base.html" %}
+{% block content %}
+    <!-- BREADCRUMB AREA START -->
+    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image "  data-bs-bg="img/bg/14.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ltn__breadcrumb-inner">
+                        <h1 class="page-title">{{title}}</h1>
+                        <div class="ltn__breadcrumb-list">
+                            <ul>
+                                
+                                {% if LANGUAGE_CODE == 'en' %}
+                                <li><a href="{% url 'home' %}"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span> Home</a></li>
+                                <li><a href="{% url 'shop' %}"><span class="ltn__secondary-color"></span> Shop</a></li>
+                                <li>{{product.en_name}}</li>
+                                {% else %}
+                                <li><a href="{% url 'home' %}"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span> الرئيسية</a></li>
+                                <li><a href="{% url 'shop' %}"><span class="ltn__secondary-color"></span> متجر</a></li>
+                                <li>{{product.ar_name}}</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BREADCRUMB AREA END -->
+
+    <!-- SHOP DETAILS AREA START -->
+    <div class="ltn__shop-details-area pb-85">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="ltn__shop-details-inner mb-60">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="ltn__shop-details-img-gallery">
+                                    <div class="ltn__shop-details-large-img">
+                                        <div class="single-large-img">
+                                            <a href={{product.image.url}} data-rel="lightcase:myCollection">
+                                                <img src="{{product.image.url}}" alt="Image">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="modal-product-info shop-details-info pl-0">
+                                    
+                                    <h3>
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                        {{product.en_name}}
+                                        {% else %}
+                                        {{product.ar_name}}
+                                        {% endif %}
+                                    </h3>
+                                    <div class="product-price">
+
+                                        <span>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                            {{product.price}} EGP
+                                            {% else %}
+                                            {{product.price}} جنيه
+                                            {% endif %}
+                                        </span>
+                                        {% if product.old_price %}
+                                        <del>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                            {{product.old_price}} EGP
+                                            {% else %}
+                                            {{product.old_price}} جنيه
+                                            {% endif %}
+                                        </del>
+                                        {% endif %}
+                                    </div>
+                                    <div class="modal-product-meta ltn__product-details-menu-1">
+                                        <ul>
+                                            <li>{% if LANGUAGE_CODE == 'en' %}
+                                                <strong>Categories:</strong> 
+                                                
+                                                {% else %}
+                                                <strong>تصنيفات:</strong> 
+                                                {% endif %}
+                                                
+                                                <span>
+                                                    <span>
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        {{product.category.en_name}}
+                                                        {% else %}
+                                                        {{product.category.ar_name}}
+                                                        {% endif %}
+                                                    </span>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    
+                                    <hr>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Shop Tab Start -->
+                    <div class="ltn__shop-details-tab-inner ltn__shop-details-tab-inner-2">
+                        <div class="ltn__shop-details-tab-menu">
+                            <div class="nav">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                    <a class="active show" data-bs-toggle="tab" href="#liton_tab_details_1_1">Description</a>
+                                    
+                                {% else %}
+                                    <a class="active show" data-bs-toggle="tab" href="#liton_tab_details_1_1">الوصف</a>
+                                    
+                                {% endif %}
+                                
+                            </div>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active show" id="liton_tab_details_1_1">
+                                <div class="ltn__shop-details-tab-content-inner">
+                                    
+                                    <p>
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                           {{product.en_description}}
+                                        {% else %}
+                                            {{product.ar_description}}
+                                        {% endif %}
+                                    </p> 
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Shop Tab End -->
+                </div>
+                {% if LANGUAGE_CODE == 'en' %}
+                <div class="col-lg-4">
+                    <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar">
+                        <!-- Category Widget -->
+                        <div class="widget ltn__menu-widget">
+                            <h4 class="ltn__widget-title ltn__widget-title-border">Product categories</h4>
+                            <ul>
+                                {% for category in categories  %}
+                                {% if category.en_name == category_n.en_name %}<li class="active"> {% else %} <li>  {% endif %}  <a href="{% url 'category_products' category.id %}">{{category.en_name}}<span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% with products|dictsortreversed:"best_selling"|slice:":3" as sorted_products %}
+                                    {% if sorted_products %}
+                        <!-- Top Rated Product Widget -->
+                        <div class="widget ltn__top-rated-product-widget">
+                            <h4 class="ltn__widget-title ltn__widget-title-border">Top Rated Product</h4>
+                            <ul>
+                                
+                                {% for product in sorted_products %}
+                                    {% ifchanged %}
+                                        {% if product.best_selling %}
+                                <li>
+                                    <div class="top-rated-product-item clearfix">
+                                        <div class="top-rated-product-img">
+                                            <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
+                                        </div>
+                                        <div class="top-rated-product-info">
+                                            <h6><a href="product-details.html">{{product.en_name}}</a></h6>
+                                            <div class="product-price">
+                                                <span>{{product.price}}</span>
+                                                <del>
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                    {{product.old_price}} EGP
+                                                    {% else %}
+                                                    {{product.old_price}} جنيه
+                                                    {% endif %}
+                                                </del>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endif %}
+                                {% endifchanged %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% endwith %}
+                    </aside>
+                </div>
+                {% else %}
+                <div class="col-lg-4">
+                    <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar">
+                        <!-- Category Widget -->
+                        <div class="widget ltn__menu-widget">
+                            <h4 class="ltn__widget-title ltn__widget-title-border">التصنيفات</h4>
+                           <ul>
+                                {% for category in categories  %}
+                                {% if category.en_name == category_n.en_name %}<li class="active"> {% else %} <li>  {% endif %}  <a href="{% url 'category_products' category.id %}">{{category.en_name}}<span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% with products|dictsortreversed:"best_selling"|slice:":3" as sorted_products %}
+                                    {% if sorted_products %}
+                        <!-- Top Rated Product Widget -->
+                        <div class="widget ltn__top-rated-product-widget">
+                            <h4 class="ltn__widget-title ltn__widget-title-border">أعلى المنتجات تصنيف</h4>
+                            <ul>
+                                
+                                {% for product in sorted_products %}
+                                    {% ifchanged %}
+                                        {% if product.best_selling %}
+                                <li>
+                                    <div class="top-rated-product-item clearfix">
+                                        <div class="top-rated-product-img">
+                                            <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
+                                        </div>
+                                        <div class="top-rated-product-info">
+                                            <h6><a href="product-details.html">{{product.ar_name}}</a></h6>
+                                            <div class="product-price">
+                                                <span>{{product.price}}</span>
+                                                <del>
+                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                    {{product.old_price}} EGP
+                                                    {% else %}
+                                                    {{product.old_price}} جنيه
+                                                    {% endif %}
+                                                </del>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endif %}
+                                {% endifchanged %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% endwith %}
+                    </aside>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- SHOP DETAILS AREA END -->
+
+{% endblock content %}

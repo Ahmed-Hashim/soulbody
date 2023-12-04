@@ -47,10 +47,12 @@
                                 <li>
                                    <div class="short-by text-center">
                                         <select class="nice-select">
-                                            <option>Select Category</option>
-                                            {% for category in categories  %}
-                                            <option hx-get="#">{{category.en_name}}</option>
-                                            {% endfor %}
+                                            {% if category_n %}
+                                                <option>Select Category</option>
+                                                {% for category in categories  %}
+                                                <option {% if category.en_name == category_n.en_name %}class="active" selected{% endif %}>{{ category.en_name }}</option>
+                                                {% endfor %}
+                                            {% endif %}
                                         </select>
                                     </div> 
                                 </li>
@@ -68,7 +70,7 @@
                                             <div class="col-lg-12">
                                                 <div class="ltn__product-item ltn__product-item-3 text-center">
                                                     <div class="product-img">
-                                                        <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
+                                                        <a href="{% url 'product_details' product.id %}"><img src="{{product.image.url}}" alt="#"></a>
                                                         <div class="product-badge">
                                                             <ul>
                                                                 <li class="sale-badge">New</li>
@@ -85,10 +87,19 @@
                                                         </div>
                                                     </div>
                                                     <div class="product-info">
-                                                        <h2 class="product-title"><a href="product-details.html">{{product.en_name}}</a></h2>
+                                                        <h2 class="product-title"><a href="{% url 'product_details' product.id %}">{{product.en_name}}</a></h2>
                                                         <div class="product-price">
                                                             <span>{{product.price}} {{product.currency}}</span>
-                                                            <del>$85.00</del>
+                                                            {% if product.old_price > 0 %}
+                                                                <del>
+                                                                    {% if LANGUAGE_CODE == 'en' %}
+                                                                            {{product.old_price}} EGP
+                                                                        {% else %}
+                                                                            {{product.old_price}} جنيه
+                                                                    {% endif %}
+                                                                </del>
+                                                            {% endif %}
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -130,10 +141,11 @@
                         <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar">
                             <!-- Category Widget -->
                             <div class="widget ltn__menu-widget">
+                               
                                 <h4 class="ltn__widget-title ltn__widget-title-border">Product categories</h4>
                                 <ul>
                                     {% for category in categories  %}
-                                    <li><a href="portfolio-details.html">{{category.en_name}}<span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
+                                    {% if category.en_name == category_n.en_name %}<li class="active"> {% else %} <li>  {% endif %}  <a href="{% url 'category_products' category.id %}">{{category.en_name}}<span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -150,13 +162,21 @@
                                     <li>
                                         <div class="top-rated-product-item clearfix">
                                             <div class="top-rated-product-img">
-                                                <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
+                                                <a href="{% url 'product_details' product.id %}"><img src="{{product.image.url}}" alt="#"></a>
                                             </div>
                                             <div class="top-rated-product-info">
-                                                <h6><a href="product-details.html">{{product.en_name}}</a></h6>
+                                                <h6><a href="{% url 'product_details' product.id %}">{{product.en_name}}</a></h6>
                                                 <div class="product-price">
                                                     <span>{{product.price}}</span>
-                                                    <del>$65.00</del>
+                                                    {% if product.old_price > 0 %}
+                                                    <del>
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                                {{product.old_price}} EGP
+                                                            {% else %}
+                                                                {{product.old_price}} جنيه
+                                                        {% endif %}
+                                                    </del>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>
@@ -225,7 +245,7 @@
                                         <select class="nice-select">
                                             <option>اختر التصنيف</option>
                                             {% for category in categories  %}
-                                            <option hx-get="#">{{category.ar_name}}</option>
+                                            <option {% if category.en_name == category_n.en_name %} selected {% endif %}>{{category.ar_name}}</option>
                                             {% endfor %}
                                         </select>
                                     </div> 
@@ -244,7 +264,7 @@
                                             <div class="col-lg-12">
                                                 <div class="ltn__product-item ltn__product-item-3 text-center">
                                                     <div class="product-img">
-                                                        <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
+                                                        <a href="{% url 'product_details' product.id %}"><img src="{{product.image.url}}" alt="#"></a>
                                                         <div class="product-badge">
                                                             <ul>
                                                                 <li class="sale-badge">جديد</li>
@@ -261,10 +281,18 @@
                                                         </div>
                                                     </div>
                                                     <div class="product-info">
-                                                        <h2 class="product-title"><a href="product-details.html">{{product.ar_name}}</a></h2>
+                                                        <h2 class="product-title"><a href="{% url 'product_details' product.id %}">{{product.ar_name}}</a></h2>
                                                         <div class="product-price">
                                                             <span>{{product.price}} {{product.currency}}</span>
-                                                            <del>$85.00</del>
+                                                            {% if product.old_price > 0 %}
+                                                            <del>
+                                                                {% if LANGUAGE_CODE == 'en' %}
+                                                                        {{product.old_price}} EGP
+                                                                    {% else %}
+                                                                        {{product.old_price}} جنيه
+                                                                {% endif %}
+                                                            </del>
+                                                            {% endif %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -308,7 +336,7 @@
                                 <h4 class="ltn__widget-title ltn__widget-title-border">التصنيفات</h4>
                                 <ul>
                                     {% for category in categories  %}
-                                    <li><a href="portfolio-details.html">{{category.ar_name}}<span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
+                                    <li ><a {% if category.en_name == category_n.en_name %} class="product-price" {% endif %} href="{% url 'category_products' category.id %}">{{category.ar_name}}<span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -325,13 +353,21 @@
                                     <li>
                                         <div class="top-rated-product-item clearfix">
                                             <div class="top-rated-product-img">
-                                                <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
+                                                <a href="{% url 'product_details' product.id %}"><img src="{{product.image.url}}" alt="#"></a>
                                             </div>
                                             <div class="top-rated-product-info">
-                                                <h6><a href="product-details.html">{{product.ar_name}}</a></h6>
+                                                <h6><a href="{% url 'product_details' product.id %}">{{product.ar_name}}</a></h6>
                                                 <div class="product-price">
                                                     <span>{{product.price}}</span>
-                                                    <del>$65.00</del>
+                                                    {% if product.old_price > 0 %}
+                                                    <del>
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                                {{product.old_price}} EGP
+                                                            {% else %}
+                                                                {{product.old_price}} جنيه
+                                                        {% endif %}
+                                                    </del>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>

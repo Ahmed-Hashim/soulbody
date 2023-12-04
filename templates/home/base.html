@@ -16,19 +16,29 @@
     <link rel="shortcut icon" href="{{sitedata.logo.url}}" type="image/x-icon" />
     <!-- Font Icons css -->
     <link rel="stylesheet" href="{% static 'css/font-icons.css' %}">
-    <!-- plugins css -->
-    <link rel="stylesheet" href="{% static 'css/plugins.css' %}">
-    <!-- Main Stylesheet -->
+    
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
     {% if LANGUAGE_CODE == 'ar' %}
+    <!-- plugins css -->
+    <link rel="stylesheet" href="{% static 'css/ar_plugins.css' %}">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="{% static 'css/ar_responsive.css' %}">
+    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="{% static 'css/style_ar.css' %}">
+    
     {% else %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% endif %}
+    <!-- plugins css -->
+    <link rel="stylesheet" href="{% static 'css/plugins.css' %}">
     <!-- Responsive css -->
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    {% endif %}
+    
     <script src="{% static 'js/htmx.min.js' %}"></script>
 </head>
 
@@ -168,10 +178,15 @@
         </div>
     </div>
     <!-- MOBILE MENU END -->
+    <div class="ltn__utilize-overlay"></div>
+
     {% block content %}
 
 
     {% endblock content %}
+    <!-- CALL TO ACTION START (call-to-action-6) -->
+    {% include "home/calltoaction.html" %}
+    <!-- CALL TO ACTION END -->
     <!-- FOOTER AREA START -->
     {% include "home/footer.html" %}
     <!-- FOOTER AREA END -->
@@ -201,7 +216,12 @@
     <!-- All JS Plugins -->
     <script src="{% static 'js/plugins.js' %}"></script>
     <!-- Main JS -->
+    {% if LANGUAGE_CODE == 'ar' %}
+    <script src="{% static 'js/ar_main.js' %}"></script>
+    {% else %}
     <script src="{% static 'js/main.js' %}"></script>
+    {% endif %}
+    
     <script>
         const modal = new bootstrap.Modal(document.getElementById("quick_view_modal"))
 

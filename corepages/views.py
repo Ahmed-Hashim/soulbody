@@ -5,9 +5,6 @@ from django.core.paginator import Paginator
 # Create your views here.
 
 
-def about(request):
-    return render(request, 'corepages/about.html')
-
 
 def claim(request):
     return render(request, 'corepages/claim.html')

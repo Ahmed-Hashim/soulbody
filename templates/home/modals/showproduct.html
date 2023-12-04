@@ -24,7 +24,15 @@
                                 <h3>{% if LANGUAGE_CODE == 'en' %}{{product_details.en_name}}{% else %}{{product_details.ar_name}}{% endif %}</h3>
                                 <div class="product-price">
                                     <span>EGP {{product_details.price}}</span>
-                                    <del>$165.00</del>
+                                    {% if product.old_price > 0 %}
+                                        <del>
+                                            {% if LANGUAGE_CODE == 'en' %}
+                                                    {{product.old_price}} EGP
+                                                {% else %}
+                                                    {{product.old_price}} جنيه
+                                            {% endif %}
+                                        </del>
+                                    {% endif %}
                                 </div>
 
                                 <div class="ltn__product-details-menu-2">
