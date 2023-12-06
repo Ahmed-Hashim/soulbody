@@ -1,5 +1,85 @@
-{% extends "home/base.html" %}
-{% block content %}
-    
-    
-{% endblock content %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% if LANGUAGE_CODE == 'en' %}
+   <!-- FAQ AREA START (faq-2) (ID > accordion_2) -->
+    <div class="ltn__faq-area pt-115 pb-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area ltn__section-title-2 text-center">
+                        <h1 class="section-title white-color---">Some Questions</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ltn__faq-inner ltn__faq-inner-2">
+                        <div id="accordion_2">
+                            {% for fqa in fqas %}
+                            <!-- Question -->
+                            <div class="card">
+                                <h6 class="collapsed ltn__card-title" data-bs-toggle="collapse" data-bs-target="#faq-item-2-{{fqa.id}}" aria-expanded="false">
+                                    {{fqa.en_question}}
+                                </h6>
+                                <div id="faq-item-2-{{fqa.id}}" class="collapse" data-bs-parent="#accordion_2">
+                                    <div class="card-body">
+                                        <p>{{fqa.en_answer}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <aside class="about-us-img-wrap about-img-right">
+                        <img src="{{sitedata.fqa_image.url}}" alt="Banner Image">
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FAQ AREA START -->
+{% else %}
+   <!-- FAQ AREA START (faq-2) (ID > accordion_2) -->
+    <div class="ltn__faq-area pt-115 pb-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title-area ltn__section-title-2 text-center">
+                        <h1 class="section-title white-color---">بعض الأسئلة</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="ltn__faq-inner ltn__faq-inner-2">
+                         <div id="accordion_2">
+                            {% for fqa in fqas %}
+                            <!-- Question -->
+                            <div class="card">
+                                <h6 class="collapsed ltn__card-title" data-bs-toggle="collapse" data-bs-target="#faq-item-2-{{fqa.id}}" aria-expanded="false">
+                                    {{fqa.ar_question}}
+                                </h6>
+                                <div id="faq-item-2-{{fqa.id}}" class="collapse" data-bs-parent="#accordion_2">
+                                    <div class="card-body">
+                                        <p>{{fqa.ar_answer}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <aside class="about-us-img-wrap about-img-right">
+                        <img src="{{sitedata.fqa_image.url}}" alt="Banner Image">
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FAQ AREA START -->
+{% endif %}
+ 

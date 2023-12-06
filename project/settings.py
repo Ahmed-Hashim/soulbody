@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "crmsb",
     "product",
     "home",
+    "taggit",
     "corepages",
     "django_htmx",
 ]
@@ -150,3 +151,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AWS_S3_ACCESS_KEY_ID = ""
 AWS_S3_SECRET_ACCESS_KEY = ""
+
+TAGGIT_CASE_INSENSITIVE = True

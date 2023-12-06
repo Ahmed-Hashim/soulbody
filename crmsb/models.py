@@ -5,14 +5,15 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 from crmsb.fields import NonStrippingTextField
 from django_resized import ResizedImageField
+
 GENDER = (
-    ('Male', 'Male'),
-    ('Female', 'Female'),
+    ("Male", "Male"),
+    ("Female", "Female"),
 )
 
 TITLE = (
-    ('MR', 'MR'),
-    ('MRS', 'MRS'),
+    ("MR", "MR"),
+    ("MRS", "MRS"),
 )
 
 # Create your models here.
@@ -26,17 +27,27 @@ class Customer(models.Model):
         ("Expired", "Expired"),
         ("Suspended", "Suspended"),
     )
-    title = models.CharField(
-        max_length=25, choices=TITLE, null=True, blank=True)
+    logo = ResizedImageField(
+        force_format="WEBP",
+        quality=80,
+        null=True,
+        blank=True,
+        upload_to="images/clients/",
+        default="images/clients/",
+    )
+    title = models.CharField(max_length=25, choices=TITLE, null=True, blank=True)
     first_name = models.CharField(max_length=120, blank=True, null=True)
     middle_name = models.CharField(max_length=120, blank=True, null=True)
     last_name = models.CharField(max_length=120, blank=True, null=True)
-    gender = models.CharField(
-        max_length=10, choices=GENDER, null=True, blank=True)
-    lead_referral_source = models.CharField(
-        max_length=120, blank=True, null=True)
+    gender = models.CharField(max_length=10, choices=GENDER, null=True, blank=True)
+    lead_referral_source = models.CharField(max_length=120, blank=True, null=True)
     industry = models.ForeignKey(
-        'Industry', on_delete=models.SET_NULL, null=True, blank=True, related_name='industry_type')
+        "Industry",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="industry_type",
+    )
     company = models.CharField(max_length=120, blank=False, null=False)
     address = models.CharField(max_length=190, null=True, blank=True)
     street = models.CharField(max_length=190, null=True, blank=True)
@@ -44,7 +55,8 @@ class Customer(models.Model):
     email = models.CharField(max_length=120, null=True, blank=True)
     website = models.CharField(max_length=190, null=True, blank=True)
     Situation = models.CharField(
-        null=True, blank=True, choices=STATUS, default="Prospect", max_length=100)
+        null=True, blank=True, choices=STATUS, default="Prospect", max_length=100
+    )
     # status= models.ForeignKey('Status',on_delete=models.SET_NULL,null=True,blank=True,related_name='status_type')
     background_info = models.TextField(max_length=500, null=True, blank=True)
     last_contact_date = models.DateTimeField(null=True, blank=True)
@@ -62,7 +74,7 @@ class Customer(models.Model):
         if not self.slug:
             self.slug = slugify(self.company)
         super(Customer, self).save(*args, **kwargs)
-
+    expert=models.BooleanField(default=False)
 
 class Contact(models.Model):
     full_name = models.CharField(max_length=150)
@@ -75,7 +87,6 @@ class Contact(models.Model):
 
 
 class Industry(models.Model):
-
     name = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
@@ -83,7 +94,6 @@ class Industry(models.Model):
 
 
 class Status(models.Model):
-
     type = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
@@ -97,7 +107,7 @@ class Note(models.Model):
     date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-date']
+        ordering = ["-date"]
 
 
 class Customer_Email(models.Model):
@@ -109,57 +119,63 @@ class Customer_Email(models.Model):
     date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return '{} ({})'.format(self.company, self.subject)
+        return "{} ({})".format(self.company, self.subject)
 
-TYPES = {
-        ("TEXT", "TEXT"),
-        ("IMAGE", "IMAGE"),
-        ("PDF", "PDF"),
-        ("VIDEO", "VIDEO")
-    }
+
+TYPES = {("TEXT", "TEXT"), ("IMAGE", "IMAGE"), ("PDF", "PDF"), ("VIDEO", "VIDEO")}
 LANG = (
-        ('AR', 'AR'),
-        ('EN', 'EN'),
-        ('FR', 'FR'),
-    )
+    ("AR", "AR"),
+    ("EN", "EN"),
+    ("FR", "FR"),
+)
+
+
 class Whatsapp_Template(models.Model):
-    
     title = models.CharField(max_length=25)
     type = models.CharField(choices=TYPES, default="TEXT", max_length=10)
     message = NonStrippingTextField(max_length=1000)
     file_upload = models.FileField(
-        null=True, blank=True, upload_to="whatsapp_templates/")
-    language = models.CharField(
-        choices=LANG, max_length=2, null=True, blank=True)
+        null=True, blank=True, upload_to="whatsapp_templates/"
+    )
+    language = models.CharField(choices=LANG, max_length=2, null=True, blank=True)
     template_by = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return '{}'.format(self.title)
+        return "{}".format(self.title)
+
 
 class Whatsapp_Messages(models.Model):
-
     company = models.ForeignKey(
-        Customer, on_delete=models.CASCADE, related_name="whatappmsg")
+        Customer, on_delete=models.CASCADE, related_name="whatappmsg"
+    )
     type = models.CharField(choices=TYPES, default="TEXT", max_length=10)
     message = models.TextField(max_length=1000)
     file_upload = models.FileField(
-        null=True, blank=True, upload_to="whatsapp_templates/")
+        null=True, blank=True, upload_to="whatsapp_templates/"
+    )
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.date}-{self.company}'
+        return f"{self.date}-{self.company}"
 
 
 class Testimonials(models.Model):
     image = ResizedImageField(
-        force_format="WEBP", quality=80, null=True, blank=True, upload_to="home/images/testimonials/", default='home/images/testimonials/defaults_testimonials.WEBP')
+        force_format="WEBP",
+        quality=80,
+        null=True,
+        blank=True,
+        upload_to="home/images/testimonials/",
+        default="home/images/testimonials/defaults_testimonials.WEBP",
+    )
     customer = models.ForeignKey(
-        Customer, on_delete=models.CASCADE, related_name="testimonials")
+        Customer, on_delete=models.CASCADE, related_name="testimonials"
+    )
     name = models.CharField(max_length=50)
     jobtitle = models.CharField(max_length=50)
     comment = models.TextField()
     active = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.name}-{self.customer.company}-{self.jobtitle}'
+        return f"{self.name}-{self.customer.company}-{self.jobtitle}"

@@ -10,7 +10,7 @@
                 <div class="section-title-area ltn__section-title-2--- text-center">
                     <!-- <h6 class="section-subtitle ltn__secondary-color">// Cars</h6> -->
 
-                    <h1 class="section-title">منتجاتنا</h1>
+                    <h1 class="section-title">المستلزمات والأدوات</h1>
                 </div>
                 <div class="ltn__tab-menu ltn__tab-menu-2 ltn__tab-menu-top-right-- text-uppercase text-center">
                     <div class="nav">
@@ -70,7 +70,7 @@
                                             <h2 class="product-title"><a
                                                     href="{% url 'product_details' product.id %}">{{product.ar_name}}</a></h2>
                                             <div class="product-price">
-                                                <span>{{product.price}} {{product.currency}}</span>
+                                                <span>{{product.price}} جنيه</span>
                                                 {% if product.old_price > 0 %}
                                                     <del>
                                                         {% if LANGUAGE_CODE == 'en' %}
@@ -118,7 +118,7 @@
                             </div>
                         </div>
                         <!--  -->
-                        {% endfor %}
+                    {% endfor %}
 
                     </div>
                 </div>
