@@ -1,6 +1,6 @@
 {% extends "home/base.html" %}
 {% block content %}
-        {% if LANGUAGE_CODE == 'en' %}
+{% if LANGUAGE_CODE == 'en' %}
         <!-- BREADCRUMB AREA START -->
         <div class="ltn__breadcrumb-area text-left" >
             <div class="container">
@@ -336,7 +336,7 @@
                                 <h4 class="ltn__widget-title ltn__widget-title-border">التصنيفات</h4>
                                 <ul>
                                     {% for category in categories  %}
-                                    <li ><a {% if category.en_name == category_n.en_name %} class="product-price" {% endif %} href="{% url 'category_products' category.id %}">{{category.ar_name}}<span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
+                                    <li ><a {% if category.ar_name == category_n.ar_name %} class="product-price" {% endif %} href="{% url 'category_products' category.id %}">{{category.ar_name}}<span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
                                     {% endfor %}
                                 </ul>
                             </div>

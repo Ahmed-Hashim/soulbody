@@ -196,7 +196,7 @@
                             <h4 class="ltn__widget-title ltn__widget-title-border">التصنيفات</h4>
                            <ul>
                                 {% for category in categories  %}
-                                {% if category.en_name == category_n.en_name %}<li class="active"> {% else %} <li>  {% endif %}  <a href="{% url 'category_products' category.id %}">{{category.en_name}}<span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
+                                {% if category.en_name == category_n.en_name %}<li class="active"> {% else %} <li>  {% endif %}  <a href="{% url 'category_products' category.id %}">{{category.ar_name}}<span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
                                 {% endfor %}
                             </ul>
                         </div>

@@ -139,11 +139,13 @@ def medical_systems(request, id):
     categories = Categories.objects.all()
     medical_systems = MedicalSystem.objects.get(id=id)
     system_tags = MedicalSystem.objects.prefetch_related("tags").all()
+    products = Product.objects.all()
     context = {
         "categories": categories,
         "title": "About Us",
+        "products": products,
         "medical_systems": medical_systems,
         "system_tags": system_tags,
         "sitedata": site_data,
     }
-    return render(request, "corepages/systems.html", context)
+    return render(request, "corepages/systems_details.html", context)

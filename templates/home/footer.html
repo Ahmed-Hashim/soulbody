@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as LC %}
 <footer class="ltn__footer-area">
     <div class="footer-top-area  section-bg-2 plr--5">
         <div class="container-fluid">
@@ -60,45 +62,40 @@
                 </div>
                 <div class="col-xl-2 col-md-6 col-sm-6 col-12">
                     <div class="footer-widget footer-menu-widget clearfix">
-                        <h4 class="footer-title">Company</h4>
                         <div class="footer-menu">
+                            <h4 class="footer-title">{% if LC == 'en' %}}Company{% else %}الشركة {% endif %}</h4>
                             <ul>
-                                <li><a href="about.html">About</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="shop.html">All Products</a></li>
-                                <li><a href="locations.html">Locations Map</a></li>
-                                <li><a href="faq.html">FAQ</a></li>
-                                <li><a href="contact.html">Contact us</a></li>
+                                <li><a href="{% url 'about_us' %}">{% if LC == 'en' %}About Us{% else %}عن الشركة{% endif %}</a></li>
+                                <li><a href="{% url 'contact_us' %}">{% if LC == 'en' %}Contact us{% else %}تواصل معنا{% endif %}</a></li>
+                                <li><a href="{% url 'shop' %}">{% if LC == 'en' %}All Products{% else %}كل المنتجات{% endif %}</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-2 col-md-6 col-sm-6 col-12">
                     <div class="footer-widget footer-menu-widget clearfix">
-                        <h4 class="footer-title">Services</h4>
+                        <h4 class="footer-title">{% if LC == 'en' %}Medical Systems{% else %}البرامج الطبية{% endif %}</h4>
                         <div class="footer-menu">
                             <ul>
-                                <li><a href="order-tracking.html">Order tracking</a></li>
-                                <li><a href="wishlist.html">Wish List</a></li>
-                                <li><a href="login.html">Login</a></li>
-                                <li><a href="account.html">My account</a></li>
-                                <li><a href="about.html">Terms & Conditions</a></li>
-                                <li><a href="about.html">Promotional Offers</a></li>
+                                {% for medical_system in systems  %}
+                                <li><a href="{% url 'medical_systems' medical_system.id %}">{% if LC == 'en' %} {{medical_system.en_name}} {% else %} {{medical_system.ar_name}} {% endif %}</a></li>
+                                {% endfor %} 
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-2 col-md-6 col-sm-6 col-12">
                     <div class="footer-widget footer-menu-widget clearfix">
-                        <h4 class="footer-title">Customer Care</h4>
+                        <h4 class="footer-title">{% if LC == 'en' %} Medical Supplies & Equipment  {% else %} المعدات والأدوات الطبية {% endif %}</h4>
                         <div class="footer-menu">
                             <ul>
-                                <li><a href="login.html">Login</a></li>
-                                <li><a href="account.html">My account</a></li>
-                                <li><a href="wishlist.html">Wish List</a></li>
-                                <li><a href="order-tracking.html">Order tracking</a></li>
-                                <li><a href="faq.html">FAQ</a></li>
-                                <li><a href="contact.html">Contact us</a></li>
+                                {% for category in categories %}
+                                    {% if forloop.counter < 4 %}
+                                        <li><a href="{% url 'category_products' category.id %}">{% if LC == 'en' %} {{ category.en_name }}{% else %}{{ category.ar_name }} {% endif %}</a></li>
+                                    {% elif forloop.counter == 4 %}
+                                        <li><a href="{% url 'shop'  %}">{% if LC == 'en' %}View all{% else %}الجميع {% endif %}</a></li>
+                                    {% endif %}
+                                {% endfor %} 
                             </ul>
                         </div>
                     </div>
