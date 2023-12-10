@@ -5,5 +5,45 @@ from .models import *
 admin.site.register(Product)
 admin.site.register(Invoice)
 admin.site.register(Categories)
-admin.site.register(MedicalSystem)
+
 admin.site.register(System_FQA)
+
+
+class MedicalSystemsAdmin(admin.ModelAdmin):
+    class Media:
+        js = (
+            "js/tinymce.min.js",
+            "js/textEditor.js",
+        )
+        css = {"all": ("css/admin.css",)}
+
+
+admin.site.register(MedicalSystem, MedicalSystemsAdmin)
+
+
+class RequestClinicSystemPackageAdmin(admin.ModelAdmin):
+    list_display = [
+        "name",
+        "phone_number",
+        "email",
+        "clinic_count",
+        "departement_count",
+        "doctors_count",
+        "users_count",
+        "details",
+        "date",
+    ]
+    list_filter = [
+        "name",
+        "phone_number",
+        "email",
+        "clinic_count",
+        "departement_count",
+        "doctors_count",
+        "users_count",
+        "details",
+        "date",
+    ]
+
+
+admin.site.register(RequestClinicSystemPackage, RequestClinicSystemPackageAdmin)

@@ -1,10 +1,13 @@
-from django.shortcuts import render
-from home.forms import Contact_form
+from django.shortcuts import redirect, render
+from home.forms import Contact_form, Request_Clinic_form
 from product.models import Product, MedicalSystem, Categories
 from crmsb.models import Customer, Testimonials
 from .models import *
 import random
+from taggit.models import Tag
 from django.core.paginator import Paginator
+import sweetify
+from django.utils.translation import get_language
 
 # Assuming products is a queryset
 
@@ -138,14 +141,57 @@ def medical_systems(request, id):
     site_data = sitedata.objects.all().last()
     categories = Categories.objects.all()
     medical_systems = MedicalSystem.objects.get(id=id)
-    system_tags = MedicalSystem.objects.prefetch_related("tags").all()
+    systems = MedicalSystem.objects.all()
     products = Product.objects.all()
+    form = Request_Clinic_form()
+    lang = get_language()
+    if request.method == "POST":
+        form = Request_Clinic_form(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            form.save()
+            if lang == "en":
+                sweetify.success(
+                    request,
+                    title="You did it",
+                    text="Your Request Had Been Sent Successfully!",
+                    timer=5000,
+                )
+                return redirect("home")
+            else:
+                sweetify.success(
+                    request,
+                    title="طلب ناجح",
+                    text="!لقد تم إرسال طلبك بنجاح",
+                    timer=5000,
+                )
+                return redirect("home")
+
     context = {
         "categories": categories,
-        "title": "About Us",
+        "title": "Medical Systems",
         "products": products,
+        "systems": systems,
         "medical_systems": medical_systems,
-        "system_tags": system_tags,
         "sitedata": site_data,
+        "form": form,
     }
     return render(request, "corepages/systems_details.html", context)
+
+
+def request_clinic(request, id):
+    site_data = sitedata.objects.all().last()
+    categories = Categories.objects.all()
+    medical_systems = MedicalSystem.objects.get(id=id)
+    systems = MedicalSystem.objects.all()
+    products = Product.objects.all()
+
+    context = {
+        "categories": categories,
+        "title": "Request Clinic",
+        "products": products,
+        "systems": systems,
+        "medical_systems": medical_systems,
+        "sitedata": site_data,
+    }
+    return render(request, "corepages/request_clinic.html", context)

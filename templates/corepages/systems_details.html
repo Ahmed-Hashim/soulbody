@@ -40,22 +40,144 @@
                             <h2 class="ltn__blog-title">{% if LANGUAGE_CODE == 'en' %}{{medical_systems.en_name}}{% else %} {{medical_systems.ar_name}} {% endif %}
                             </h2>
                             <img src="{{medical_systems.image.url}}" alt="Image">
-                            <p>{% if LANGUAGE_CODE == 'en' %}{{medical_systems.en_description}}{% else %}{{medical_systems.ar_description}} {% endif %}.</p>
+                            <p>{% if LANGUAGE_CODE == 'en' %}{{medical_systems.en_description|safe}}{% else %}{{medical_systems.ar_description|safe}} {% endif %}.</p>
                         </div>
+                        <!-- FAQ AREA START (faq-2) (ID > accordion_2) -->
+    <div class="ltn__faq-area mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="ltn__faq-inner ltn__faq-inner-2">
+                        
+                        <div id="accordion_2">
+                            <!-- card -->
+                            <div class="card">
+                                <h6 class="collapsed ltn__card-title" data-bs-toggle="collapse" data-bs-target="#faq-item-2-1" aria-expanded="false">
+                                    {% if LANGUAGE_CODE == 'en' %}Get your Clinic Trial{% else %}أطلب على نسخة تجريبية للعيادة الخاصة بك
+                        {% endif %}
+                                </h6>
+                                <div id="faq-item-2-1" class="collapse" data-bs-parent="#accordion_2">
+                                    <div class="card-body">
+                                        <form id="contact-form" action="{% url 'medical_systems' medical_systems.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-item">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            <label for="#id_name"> Name</label>
+                                        {% else %}
+                                            <label for="#id_name">الإسم</label>
+                                        {% endif %}
+                                        {{form.name}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-item">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            <label for="#id_email"> Email</label>
+                                        {% else %}
+                                            <label for="#id_email">البريد الإلكتروني</label>
+                                        {% endif %}
+                                        {{form.email}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-item">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            <label for="#id_subject"> Phone Number</label>
+                                        {% else %}
+                                            <label for="#id_subject">رقم الهاتف</label>
+                                        {% endif %}
+                                        {{form.phone_number}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-item">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            <label for="#id_phone_number"> Clinics Count</label>
+                                        {% else %}
+                                            <label for="#id_phone_number">عدد العيادات</label>
+                                        {% endif %}
+                                        {{form.clinic_count}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-item">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            <label for="#id_phone_number"> Departments Count</label>
+                                        {% else %}
+                                            <label for="#id_phone_number">عدد الأقسام</label>
+                                        {% endif %}
+                                        {{form.departement_count}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-item">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            <label for="#id_phone_number"> Doctors Count</label>
+                                        {% else %}
+                                            <label for="#id_phone_number">عدد الأطباء</label>
+                                        {% endif %}
+                                        {{form.doctors_count}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-item">
+                                        {% if LANGUAGE_CODE == 'en' %}
+                                            <label for="#id_phone_number"> Users Count</label>
+                                        {% else %}
+                                            <label for="#id_phone_number">عدد المستخدمين</label>
+                                        {% endif %}
+                                        {{form.users_count}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-item input-item-textarea">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                    <label for="#id_message"> Details</label>
+                                   
+                                {% else %}
+                                    <label for="#id_message"> تفاصيل أخرى</label>
+
+                                {% endif %}
+                                    {{form.details}}
+                            </div>
+                            <div class="btn-wrapper mt-0">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                    <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">Send</button>
+                                {% else %}
+                                    <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">إرسل</button>
+                                {% endif %}
+                            </div>
+                            <p class="form-messege mb-0 mt-20"></p>
+                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FAQ AREA START -->
                         <!-- blog-tags-social-media -->
                         <div class="ltn__blog-tags-social-media mt-80 row">
                             <div class="ltn__tagcloud-widget col-lg-8">
                                 <h4>{% if LANGUAGE_CODE == 'en' %}Releted Tags{% else %} الكلمات المفتاحية{% endif %}</h4>
-                                {% for tags in system_tags %}
+                                
                                     <ul>
+                                        {% for tag in medical_systems.tags.all %}
                                         <li>
-                                            <a href="#">{{tags}}</a>
+                                            <a>{{tag}}</a>
                                         </li>
+                                        {% endfor %}
                                     </ul>
-                                {% endfor %}
+                                
                                 
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -115,5 +237,4 @@
         </div>
     </div>
     <!-- PAGE DETAILS AREA END -->
-    
 {% endblock content %}

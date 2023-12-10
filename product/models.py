@@ -133,6 +133,7 @@ class MedicalSystem(models.Model):
     en_description = models.TextField(null=True, blank=True)
     ar_description = models.TextField(null=True, blank=True)
     tags = TaggableManager()
+
     def __str__(self):
         return self.en_name
 
@@ -146,3 +147,15 @@ class System_FQA(models.Model):
 
     def __str__(self):
         return self.system.en_name
+
+
+class RequestClinicSystemPackage(models.Model):
+    name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField()
+    clinic_count = models.PositiveIntegerField()
+    departement_count = models.PositiveIntegerField()
+    doctors_count = models.PositiveIntegerField()
+    users_count = models.PositiveIntegerField()
+    details = models.TextField(blank=True,null=True)
+    date = models.DateTimeField(auto_now=True)

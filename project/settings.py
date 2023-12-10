@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "taggit",
     "corepages",
     "django_htmx",
+    "sweetify",
 ]
 DataBaseChose = env("Datalocal")
 
@@ -49,7 +50,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.locale.LocaleMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -152,4 +153,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AWS_S3_ACCESS_KEY_ID = ""
 AWS_S3_SECRET_ACCESS_KEY = ""
 
-TAGGIT_CASE_INSENSITIVE = True

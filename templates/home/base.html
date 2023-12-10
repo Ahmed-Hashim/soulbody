@@ -39,11 +39,15 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     
     {% endif %}
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{% static 'js/htmx.min.js' %}"></script>
 </head>
 
 <body>
+    {% load sweetify %}
+{% sweetify %}
+
     <!--[if lte IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
     <![endif]-->
