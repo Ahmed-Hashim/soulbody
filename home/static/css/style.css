@@ -13253,7 +13253,19 @@ ul.wp-block-latest-posts.is-grid.alignwide {
 /* blog-details-wrap */
 .ltn__blog-details-wrap {
   border: 2px solid var(--border-color-11);
-  padding: 50px;
+  /*padding: 50px;*/
+}
+
+.padding__50 {
+  padding-top: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.padding__b__50 {
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px;
 }
 
 blockquote {
@@ -15080,7 +15092,7 @@ input.cart-plus-minus-box {
 }
 
 .ltn__faq-inner-2 .card .card-body {
-  padding: 15px 40px 25px;
+  padding: 15px 40px;
 }
 
 .ltn__faq-inner-3 .card {

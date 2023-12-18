@@ -118,7 +118,7 @@
                                 <ul>
                                     {{page_number.number}}{{number}}
                                     {% if products.has_previous %}
-                                    <li><a hx-get="{% url 'shop' %}?page={{ products.previous_page_number }}" hx-target="#main-content"><i class="fas fa-angle-double-left"></i></a></li>
+                                    <li><a href="{% url 'shop' %}?page={{ products.previous_page_number }}" hx-target="#main-content"><i class="fas fa-angle-double-left"></i></a></li>
                                     {% endif %}
                                     {% for page_number in products.paginator.page_range %}
                                         {% if products.number == page_number %}
@@ -276,6 +276,10 @@
                                                                     <a title="Quick View"  hx-get="{% url 'show_product' product.id %}"  hx-target="#dialog">
                                                                         <i class="far fa-eye"></i>
                                                                     </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
+                                                                        <i class="far fa-heart"></i></a>
                                                                 </li>
                                                             </ul>
                                                         </div>

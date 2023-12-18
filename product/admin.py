@@ -47,3 +47,35 @@ class RequestClinicSystemPackageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(RequestClinicSystemPackage, RequestClinicSystemPackageAdmin)
+
+
+class RequestHospitalSystemPackageAdmin(admin.ModelAdmin):
+    list_display = [
+        "title",
+        "name",
+        "hosbital",
+        "phone_number",
+        "email",
+        "hospital_beds_count",
+        "departement_count",
+        "doctors_count",
+        "users_count",
+        "details",
+        "date",
+    ]
+    list_display = [
+        "title",
+        "name",
+        "hosbital",
+        "phone_number",
+        "email",
+        "hospital_beds_count",
+        "departement_count",
+        "doctors_count",
+        "users_count",
+        "details",
+        "date",
+    ]
+
+
+admin.site.register(RequestHospitalSystemPackage, RequestHospitalSystemPackageAdmin)

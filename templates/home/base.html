@@ -39,8 +39,9 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     
     {% endif %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.5/sweetalert2.all.min.js"></script>
     <script src="{% static 'js/htmx.min.js' %}"></script>
 </head>
 
@@ -127,27 +128,74 @@
     <!-- ltn__header-middle-area start -->
     <div class="ltn__header-middle-area">
         <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-3">
+            <div class="row justify-between-content">
+                <div class="col-7">
                     <div class="site-logo">
                         <a href="{% url 'home' %}"><img src="{{sitedata.logo.url}}" alt="Logo"></a>
                     </div>
                 </div>
-                <div class="col-3">
-                    <!-- header-feature-item -->
-                    <div class="header-feature-item">
-                        <div class="header-feature-icon">
-                            <i class="icon-call"></i>
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="header-contact-search">
+                            <!-- header-feature-item -->
+                                <div class="header-feature-item">
+                                    <div class="header-feature-icon">
+                                        <i class="icon-call"></i>
+                                    </div>
+                                    <div class="header-feature-info">
+                                        <h6>Phone</h6>
+                                        <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/eg.svg' %}">
+                                                {{sitedata.phone_number_1}}</a></p>
+                                        <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/jo.svg' %}">
+                                                {{sitedata.phone_number_2}}</a></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="header-feature-info">
-                            <h6>Phone</h6>
-                            <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/eg.svg' %}">
-                                    {{sitedata.phone_number_1}}</a></p>
-                            <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/jo.svg' %}">
-                                    {{sitedata.phone_number_2}}</a></p>
+                        <div class="col">
+                            <!-- header-options -->
+                            <div class="ltn__header-options">
+                                <ul>
+                                    <li class="d-none---"> 
+                                        <!-- user-menu -->
+                                        <div class="ltn__drop-menu user-menu">
+                                            <ul>
+                                                <li>
+                                                    <a href="#"><i class="icon-user"></i></a>
+                                                    <ul>
+                                                        {% if user.is_authenticated %}
+                                                            <li><a href="{% url 'logout_user' %}">Logout</a></li>
+                                                            <li><a href="account.html">My Account</a></li>
+                                                            <li><a href="wishlist.html">Wishlist</a></li>
+                                                        {% else %}
+                                                            <li><a href="{% url 'login_user' %}">Login</a></li>
+                                                            <li><a href="{% url 'register_user' %}">Register</a></li>
+                                                        {% endif %}
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    {% if user.is_authenticated %}
+                                    <li>
+                                        <!-- mini-cart 2 -->
+                                        <div class="mini-cart-icon mini-cart-icon-2">
+                                            <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle">
+                                                <span class="mini-cart-icon">
+                                                    <i class="icon-shopping-cart"></i>
+                                                    <sup>2</sup>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -190,7 +238,13 @@
     </div>
     <!-- MOBILE MENU END -->
     <div class="ltn__utilize-overlay"></div>
-
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags|safe }}"{% endif %}>{{ message|safe }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
     {% block content %}
 
 

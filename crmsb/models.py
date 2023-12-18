@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 from crmsb.fields import NonStrippingTextField
 from django_resized import ResizedImageField
+from django.conf import settings
 
 GENDER = (
     ("Male", "Male"),
@@ -74,7 +75,9 @@ class Customer(models.Model):
         if not self.slug:
             self.slug = slugify(self.company)
         super(Customer, self).save(*args, **kwargs)
-    expert=models.BooleanField(default=False)
+
+    expert = models.BooleanField(default=False)
+
 
 class Contact(models.Model):
     full_name = models.CharField(max_length=150)
@@ -101,7 +104,7 @@ class Status(models.Model):
 
 
 class Note(models.Model):
-    writer = models.ForeignKey(User, on_delete=models.CASCADE)
+    writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     company = models.ForeignKey(Customer, on_delete=models.CASCADE)
     notes = models.TextField(max_length=500)
     date = models.DateTimeField(auto_now=True)
@@ -114,7 +117,7 @@ class Customer_Email(models.Model):
     subject = models.CharField(max_length=50)
     message = models.TextField(max_length=1000)
     file_upload = models.FileField(null=True, blank=True)
-    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     company = models.ForeignKey(Customer, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True)
 
@@ -138,7 +141,7 @@ class Whatsapp_Template(models.Model):
         null=True, blank=True, upload_to="whatsapp_templates/"
     )
     language = models.CharField(choices=LANG, max_length=2, null=True, blank=True)
-    template_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    template_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):

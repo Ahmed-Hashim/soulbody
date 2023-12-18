@@ -1,0 +1,12 @@
+/* Add this CSS to your stylesheet */
+.swal2-select {
+    display: none !important;
+    width: auto !important;
+    position: static !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+}
+
+.nice-select.swal2-select {
+    display: none !important;
+}

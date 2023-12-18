@@ -34,8 +34,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "posts",
-    "members",
     "crmsb",
+    "account",
     "product",
     "home",
     "taggit",
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.locale.LocaleMiddleware",
-    # "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -152,4 +152,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AWS_S3_ACCESS_KEY_ID = ""
 AWS_S3_SECRET_ACCESS_KEY = ""
-
+AUTH_USER_MODEL = "account.CustomUser"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.office365.com"
+EMAIL_HOST_USER = "info@soulnbody.net"
+EMAIL_HOST_PASSWORD = "Mada1@Media2"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
