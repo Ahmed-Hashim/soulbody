@@ -3,88 +3,11 @@ from home.forms import Contact_form, Request_Clinic_form, Request_Hosbital_form
 from product.models import Product, MedicalSystem, Categories
 from crmsb.models import Customer, Testimonials
 from .models import *
-import random
-from taggit.models import Tag
 from django.core.paginator import Paginator
 import sweetify
 from django.utils.translation import get_language
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate,login,logout
-from django.contrib import messages
-# Assuming products is a queryset
-from .forms import UserLoginForm
-
-# Create your views here.
-
-def login_user(request):
-    site_data = sitedata.objects.all().last()
-    categories = Categories.objects.all()
-    systems = MedicalSystem.objects.all()
-    products = Product.objects.all()
-    form = UserLoginForm()
-    if request.method == "POST":
-        form = UserLoginForm(request=request, data=request.POST)
-        if form.is_valid():
-            user = authenticate(
-                email=form.cleaned_data["email"],
-                password=form.cleaned_data["password"],
-            )
-            print(form.cleaned_data["email"])
-            if user is not None:
-                login(request, user)
-                messages.success(request, f"Hello <b>{user.email}</b>! You have been logged in")
-                print(f"Hello <b>{user.email}</b>! You have been logged in")
-                return redirect("home")
-            else:
-            # Authentication failed, add an error message to display in the template
-                messages.error(request, 'Invalid email or password. Please try again.')
-        else:
-            print("form wrong")
-    form = UserLoginForm()
 
 
-    context = {
-        "categories": categories,
-        "title": "Login",
-        "form": form,
-        "products": products,
-        "systems": systems,
-        "medical_systems": medical_systems,
-        "sitedata": site_data,
-    }
-    return render(request, "home/login.html", context)
-
-@login_required
-def logout_user(request):
-    logout(request)
-    return redirect("home")
-
-"""def register_user(request):
-    site_data = sitedata.objects.all().last()
-    categories = Categories.objects.all()
-    systems = MedicalSystem.objects.all()
-    products = Product.objects.all()
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        email = request.POST["email"]
-        firstname = request.POST["firstname"]
-        lastname = request.POST["lastname"]
-        User.objects.create(username=username,firstname=firstname,lastname=lastname,email=email,password=password)
-        login(request, user)
-            return redirect("home")
-        else:
-            return redirect("login")
-
-    context = {
-        "categories": categories,
-        "title": "Login",
-        "products": products,
-        "systems": systems,
-        "medical_systems": medical_systems,
-        "sitedata": site_data,
-    }
-    return render(request, "home/register.html", context)"""
 
 def home(request):
     products = Product.objects.all()
@@ -220,13 +143,14 @@ def medical_systems(request, id):
         lang = get_language()
         if request.method == "POST":
             form = Request_Clinic_form(request.POST)
+            name=form.cleaned_data["name"]
             if form.is_valid():
                 form.save()
                 if lang == "en":
                     sweetify.success(
                         request,
                         "We received your request Successfully ",
-                        text=f'Thank you {form.cleaned_data["name"]} for choosing us!',
+                        text=f'Thank you {name} for choosing us!',
                         button="Ok",
                         timer=5000,
                     )
@@ -235,7 +159,7 @@ def medical_systems(request, id):
                     sweetify.success(
                         request,
                         "طلب ناجح",
-                        text=f"شكراً {form.cleaned_data["name"]} لإختيارك لنا!",
+                        text=f"شكراً {name} لإختيارك لنا!",
                         timer=5000,
                     )
                     return redirect("home")
@@ -250,7 +174,7 @@ def medical_systems(request, id):
                     sweetify.success(
                         request,
                         "We received your request Successfully ",
-                        text=f'Thank you {form.cleaned_data["name"]} for choosing us!',
+                        text=f'Thank you {name} for choosing us!',
                         button="Ok",
                         timer=5000,
                     )
@@ -259,7 +183,7 @@ def medical_systems(request, id):
                     sweetify.success(
                         request,
                         "طلب ناجح",
-                        text=f"شكراً {form.cleaned_data["name"]} لإختيارك لنا!",
+                        text=f"شكراً {name} لإختيارك لنا!",
                         timer=5000,
                     )
                     return redirect("home")

@@ -46,7 +46,7 @@
                         {% endif %}
                         <form action="{% url 'login_user' %}" method="post" class="ltn__form-box contact-form-box">
                             {% csrf_token %}
-                            {{form.email}}
+                            {{form.username}}
                             {{form.password}}
                             <div class="btn-wrapper mt-0">
                                 <button class="theme-btn-1 btn btn-block" type="submit">{% if LC == 'ar' %}سجل الدخول{% else %}SIGN IN{% endif %}</button>

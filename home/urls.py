@@ -12,7 +12,4 @@ urlpatterns = [
     path("contact_us", views.contact_us, name="contact_us"),
     path("about_us", views.about_us, name="about_us"),
     path("request_clinic/<int:id>", views.request_clinic, name="request_clinic"),
-    path("login", views.login_user, name="login_user"),
-    path("logout", views.logout_user, name="logout_user"),
-    #path("register", views.register_user, name="register_user"),
 ]
