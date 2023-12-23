@@ -24,7 +24,7 @@ class ClientUserRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["username","email","first_name", "last_name", "password"]
+        fields = ["username", "email", "first_name", "last_name", "password"]
 
     def clean_password1(self):
         password = self.cleaned_data.get("password")
@@ -34,3 +34,11 @@ class ClientUserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError("Passwords do not match.")
 
         return password1
+
+
+class AddToCartForm(forms.Form):
+    quantity = forms.IntegerField(
+        min_value=1,
+        initial=1,
+        widget=forms.NumberInput(attrs={"class": "form-control"}),
+    )

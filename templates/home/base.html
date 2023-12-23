@@ -22,6 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     {% if LANGUAGE_CODE == 'ar' %}
     <!-- plugins css -->
     <link rel="stylesheet" href="{% static 'css/ar_plugins.css' %}">
@@ -43,6 +44,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.5/sweetalert2.all.min.js"></script>
     <script src="{% static 'js/htmx.min.js' %}"></script>
+    
 </head>
 
 <body>
@@ -181,7 +183,7 @@
                                     <li>
                                         <!-- mini-cart 2 -->
                                         <div class="mini-cart-icon mini-cart-icon-2">
-                                            <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle">
+                                            <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle" hx-get="{% url 'view_cart' %}">
                                                 <span class="mini-cart-icon">
                                                     <i class="icon-shopping-cart"></i>
                                                     <sup>2</sup>
@@ -237,6 +239,9 @@
         </div>
     </div>
     <!-- MOBILE MENU END -->
+    <!-- Utilize Cart Menu Start -->
+    {% include 'home/view_cart.html' %}
+    <!-- Utilize Cart Menu End -->
     <div class="ltn__utilize-overlay"></div>
     {% if messages %}
     <ul class="messages">
@@ -245,6 +250,14 @@
     {% endfor %}
     </ul>
     {% endif %}
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="toast" class="toast align-items-center text-white border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div id="toast-body" class="toast-body"></div>
+            </div>
+        </div>
+    </div>
     {% block content %}
 
 
@@ -279,6 +292,9 @@
     <!-- preloader area end -->
 
     <!-- All JS Plugins -->
+    <script src="{% static 'js/bootstrab5.js' %}" ></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}" ></script>
+    <script src="{% static 'js/toast.js' %}" ></script>
     <script src="{% static 'js/plugins.js' %}"></script>
     <!-- Main JS -->
     {% if LANGUAGE_CODE == 'ar' %}

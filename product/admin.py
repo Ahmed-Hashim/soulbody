@@ -79,3 +79,5 @@ class RequestHospitalSystemPackageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(RequestHospitalSystemPackage, RequestHospitalSystemPackageAdmin)
+admin.site.register(Cart)
+admin.site.register(CartItem)

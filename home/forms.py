@@ -5,13 +5,6 @@ from product.models import *
 from django.utils.translation import gettext_lazy as _
 
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 5f6b3bd7cc9c1efb4dfd3b1106962dccdba94f73
-
 class Contact_form(forms.ModelForm):
     class Meta:
         model = Contact

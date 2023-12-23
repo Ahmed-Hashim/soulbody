@@ -1,27 +1,14 @@
 from django.shortcuts import redirect, render
 from home.forms import Contact_form, Request_Clinic_form, Request_Hosbital_form
-from product.models import Product, MedicalSystem, Categories
+from product.models import Product, MedicalSystem, Categories, Cart, CartItem
 from crmsb.models import Customer, Testimonials
 from .models import *
 from django.core.paginator import Paginator
 import sweetify
 from django.utils.translation import get_language
-<<<<<<< HEAD
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate,login,logout
-from django.contrib import messages
+from django.http import JsonResponse, HttpResponse
 
 
-
-# Create your views here.
-
-
-
-=======
-
-
-
->>>>>>> 5f6b3bd7cc9c1efb4dfd3b1106962dccdba94f73
 def home(request):
     products = Product.objects.all()
     categories = Categories.objects.all()
@@ -30,7 +17,6 @@ def home(request):
     tests = Testimonials.objects.filter(active=True)
     coldown = Cooldown.objects.filter(active=True).last()
     site_data = sitedata.objects.all().last()
-
     context = {
         "products": products,
         "systems": systems,
@@ -40,7 +26,19 @@ def home(request):
         "tests": tests,
         "sitedata": site_data,
     }
+    if request.user.is_authenticated:
+
+            cart = Cart.objects.get(user=request.user)
+            context += {
+                "cart": cart,
+            }
+
     return render(request, "home/home.html", context)
+
+
+def view_cart(request):
+    cart = Cart.objects.get(user=request.user)
+    return render(request, "home/view_cart.html", {"cart": cart})
 
 
 def base(request):
@@ -156,14 +154,14 @@ def medical_systems(request, id):
         lang = get_language()
         if request.method == "POST":
             form = Request_Clinic_form(request.POST)
-            name=form.cleaned_data["name"]
+            name = form.cleaned_data["name"]
             if form.is_valid():
                 form.save()
                 if lang == "en":
                     sweetify.success(
                         request,
                         "We received your request Successfully ",
-                        text=f'Thank you {name} for choosing us!',
+                        text=f"Thank you {name} for choosing us!",
                         button="Ok",
                         timer=5000,
                     )
@@ -187,7 +185,7 @@ def medical_systems(request, id):
                     sweetify.success(
                         request,
                         "We received your request Successfully ",
-                        text=f'Thank you {name} for choosing us!',
+                        text=f"Thank you {name} for choosing us!",
                         button="Ok",
                         timer=5000,
                     )
@@ -229,4 +227,3 @@ def request_clinic(request, id):
         "sitedata": site_data,
     }
     return render(request, "corepages/request_clinic.html", context)
-

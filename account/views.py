@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .forms import ClientUserRegistrationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from product.models import Product, MedicalSystem, Categories
+from product.models import Product, MedicalSystem, Categories, Cart, CartItem
 from home.models import sitedata
 from .tokens import account_activation_token
 from django.contrib.auth import login, logout, authenticate, get_user_model
@@ -15,6 +15,10 @@ from django.template.loader import get_template
 from .forms import UserLoginForm
 from django.contrib.auth.decorators import login_required
 from .decorator import user_not_authenticated
+from .forms import AddToCartForm
+import sweetify
+from django.utils.translation import get_language
+import json
 
 
 @user_not_authenticated
@@ -150,3 +154,49 @@ def register_user(request):
         "sitedata": site_data,
     }
     return render(request, "home/register.html", context)
+
+
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, "product_list.html", {"products": products})
+
+
+def add_to_cart(request, product_id):
+    lang = get_language()
+    product = Product.objects.get(pk=product_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_item, created = CartItem.objects.get_or_create(
+        cart=cart, product=product, defaults={"quantity": 1}
+    )
+    if lang == "en":
+        return HttpResponse(
+            status=204,
+            headers={
+                "HX-Trigger": json.dumps(
+                    {
+                        "close": "close",
+                        "showMessage": "Product has been added to cart successfully",
+                        "type": "bg-success",
+                    }
+                )
+            },
+        )
+
+    else:
+        return HttpResponse(
+            status=204,
+            headers={
+                "HX-Trigger": json.dumps(
+                    {
+                        "close": "close",
+                        "showMessage": "تم إضافة المنتج إلى العربة",
+                        "type": "bg-success",
+                    }
+                )
+            },
+        )
+
+
+def view_cart(request):
+    cart = Cart.objects.get(user=request.user)
+    return render(request, "view_cart.html", {"cart": cart})

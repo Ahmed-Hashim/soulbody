@@ -1,0 +1,45 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+    <div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu">
+        <div class="ltn__utilize-menu-inner ltn__scrollbar">
+            <div class="ltn__utilize-menu-head">
+                <span class="ltn__utilize-menu-title">{% if LANGUAGE_CODE == 'ar' %}العربة{% else %}Cart{% endif %}</span>
+                <button class="ltn__utilize-close">×</button>
+            </div>
+            <div class="mini-cart-product-area ltn__scrollbar">
+                {% for cart_item in cart.cartitem_set.all %}              
+                    <div class="mini-cart-item clearfix">
+                        <div class="mini-cart-img">
+                            <a href="{% url 'product_details' cart_item.product.id %}"><img src="{{ cart_item.product.image.url }}" alt="Image"></a>
+                            <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
+                        </div>
+                        <div class="mini-cart-info">
+                            <h6><a href="{% url 'product_details' cart_item.product.id %}">{% if LANGUAGE_CODE == 'ar' %}{{ cart_item.product.ar_name }}{% else %}{{ cart_item.product.en_name }}{% endif %}</a></h6>
+                            <span class="mini-cart-quantity">{{ cart_item.quantity }} x {{ cart_item.product.price }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="mini-cart-footer">
+                <div class="mini-cart-sub-total">
+                    <h5>Subtotal: 
+                        <span>
+                            {% with total=0 %}
+                                {% for cart_item in cart.cartitem_set.all %}
+                                    {% with total=total|add:cart_item.product.price %}
+                                    {% endwith %}
+                                {% endfor %}
+                                {{ total }}
+                            {% endwith %}
+                        </span></h5>
+                </div>
+                <div class="btn-wrapper">
+                    <a href="cart.html" class="theme-btn-1 btn btn-effect-1">View Cart</a>
+                    <a href="cart.html" class="theme-btn-2 btn btn-effect-2">Checkout</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+ 

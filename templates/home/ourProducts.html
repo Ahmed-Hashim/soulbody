@@ -63,10 +63,13 @@
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </li>
-                                                    <li>
-                                                        <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
-                                                            <i class="far fa-heart"></i></a>
-                                                    </li>
+                                                    {% if user.is_authenticated %}
+                                                        <li>
+                                                            <a hx-get="{% url 'add_to_cart' product.id %}" title="Add to Cart" >
+                                                                <i class="fas fa-shopping-cart"></i>
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
                                                 </ul>
                                             </div>
                                         </div>
@@ -99,6 +102,13 @@
                                                     <i class="far fa-eye"></i>
                                                 </a>
                                             </li>
+                                            {% if user.is_authenticated %}
+                                                <li>
+                                                    <a hx-get="{% url 'add_to_cart' product.id %}" title="Add to Cart">
+                                                        <i class="fas fa-shopping-cart"></i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
                                         </ul>
                                     </div>
                                 </div>
