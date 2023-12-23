@@ -12,14 +12,9 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
-<<<<<<< HEAD
 from .forms import UserLoginForm
 from django.contrib.auth.decorators import login_required
 from .decorator import user_not_authenticated
-=======
-from django.contrib.auth.decorators import login_required
-from .forms import UserLoginForm
->>>>>>> 5f6b3bd7cc9c1efb4dfd3b1106962dccdba94f73
 
 
 @user_not_authenticated
@@ -155,47 +150,3 @@ def register_user(request):
         "sitedata": site_data,
     }
     return render(request, "home/register.html", context)
-
-
-def login_user(request):
-    site_data = sitedata.objects.last()
-    categories = Categories.objects.all()
-    systems = MedicalSystem.objects.all()
-    products = Product.objects.all()
-
-    if request.method == "POST":
-        form = UserLoginForm(request=request, data=request.POST)
-        if form.is_valid():
-            email = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            user = authenticate(email=email, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(
-                    request, f"Hello {user.email}! You have been logged in")
-                print(f"Hello {user.email}! You have been logged in")
-                return redirect("home")
-            else:
-                # Authentication failed, add an error message to display in the template
-                messages.error(
-                    request, 'Invalid email or password. Please try again.')
-        else:
-            print(form.errors)
-    else:
-        form = UserLoginForm()
-
-    context = {
-        "categories": categories,
-        "title": "Login",
-        "form": form,
-        "products": products,
-        "systems": systems,
-        "sitedata": site_data,
-    }
-    return render(request, "home/login.html", context)
-
-
-@login_required
-def logout_user(request):
-    logout(request)
-    return redirect("home")

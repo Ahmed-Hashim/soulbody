@@ -1,6 +1,5 @@
 from django import forms
 from django.forms import PasswordInput
-<<<<<<< HEAD
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -18,10 +17,6 @@ class UserLoginForm(AuthenticationForm):
         )
     )
 
-=======
-from .models import ClientUser
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
->>>>>>> 5f6b3bd7cc9c1efb4dfd3b1106962dccdba94f73
 
 class ClientUserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=PasswordInput)
@@ -39,22 +34,3 @@ class ClientUserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError("Passwords do not match.")
 
         return password1
-    
-
-
-
-
-class UserLoginForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
-        super(UserLoginForm, self).__init__(*args, **kwargs)
-
-    username = forms.EmailField(
-        widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": "Email"}),
-        label="Email*",
-    )
-
-    password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={"class": "form-control", "placeholder": "Password"}
-        )
-    )
