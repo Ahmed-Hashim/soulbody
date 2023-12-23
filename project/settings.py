@@ -144,15 +144,17 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, "locale")]
 STATIC_URL = "static/"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media/"
-
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 AWS_S3_ACCESS_KEY_ID = ""
 AWS_S3_SECRET_ACCESS_KEY = ""
-AUTH_USER_MODEL = "account.CustomUser"
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.office365.com"
 EMAIL_HOST_USER = "info@soulnbody.net"

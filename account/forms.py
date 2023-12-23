@@ -1,6 +1,21 @@
 from django import forms
 from django.forms import PasswordInput
-from .models import ClientUser
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+
+class UserLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(UserLoginForm, self).__init__(*args, **kwargs)
+
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control"}), required=False
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={"class": "form-control", "placeholder": "Password"}
+        )
+    )
 
 
 class ClientUserRegistrationForm(forms.ModelForm):
@@ -8,8 +23,8 @@ class ClientUserRegistrationForm(forms.ModelForm):
     password1 = forms.CharField(label="Confirm Password", widget=PasswordInput)
 
     class Meta:
-        model = ClientUser
-        fields = ["email", "first_name", "last_name", "password"]
+        model = User
+        fields = ["username","email","first_name", "last_name", "password"]
 
     def clean_password1(self):
         password = self.cleaned_data.get("password")

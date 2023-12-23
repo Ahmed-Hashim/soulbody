@@ -12,8 +12,61 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
+from .forms import UserLoginForm
+from django.contrib.auth.decorators import login_required
+from .decorator import user_not_authenticated
 
 
+@user_not_authenticated
+def login_user(request):
+    site_data = sitedata.objects.last()
+    categories = Categories.objects.all()
+    systems = MedicalSystem.objects.all()
+    products = Product.objects.all()
+
+    if request.method == "POST":
+        form = UserLoginForm(request=request, data=request.POST)
+        if form.is_valid():
+            user = authenticate(
+                request=request,
+                username=form.cleaned_data["username"],
+                password=form.cleaned_data["password"],
+            )
+            if user is not None:
+                login(request, user)
+                messages.success(
+                    request, f"Hello {user.email}! You have been logged in"
+                )
+                return redirect("home")
+            else:
+                messages.error(request, "Authentication failed. User is None.")
+                print("Authentication failed. User is None.")
+                # You can print more information about the authentication failure if needed
+        else:
+            messages.error(
+                request, "Invalid form submission. Please correct the errors."
+            )
+            print("Form errors:", form.errors)
+    form = UserLoginForm()
+
+    context = {
+        "categories": categories,
+        "title": "Login",
+        "form": form,
+        "products": products,
+        "systems": systems,
+        "sitedata": site_data,
+    }
+    return render(request, "home/login.html", context)
+
+
+@login_required
+def logout_user(request):
+    logout(request)
+    return redirect("home")
+
+
+@user_not_authenticated
 def activate(request, uidb64, token):
     User = get_user_model()
     try:
@@ -71,6 +124,7 @@ def activateEmail(request, user, to_email):
         )
 
 
+@user_not_authenticated
 def register_user(request):
     site_data = sitedata.objects.all().last()
     categories = Categories.objects.all()
@@ -80,6 +134,9 @@ def register_user(request):
     if form.is_valid():
         client_user = form.save(commit=False)
         client_user.is_active = False
+        client_user.set_password(
+            form.cleaned_data.get("password")
+        )  # Set the hashed password
         client_user.save()
         activateEmail(request, client_user, form.cleaned_data.get("email"))
         return redirect("home")
