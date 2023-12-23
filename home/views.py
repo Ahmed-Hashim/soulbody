@@ -3,11 +3,10 @@ from home.forms import Contact_form, Request_Clinic_form, Request_Hosbital_form
 from product.models import Product, MedicalSystem, Categories
 from crmsb.models import Customer, Testimonials
 from .models import *
-import random
-from taggit.models import Tag
 from django.core.paginator import Paginator
 import sweetify
 from django.utils.translation import get_language
+<<<<<<< HEAD
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
@@ -18,6 +17,11 @@ from django.contrib import messages
 
 
 
+=======
+
+
+
+>>>>>>> 5f6b3bd7cc9c1efb4dfd3b1106962dccdba94f73
 def home(request):
     products = Product.objects.all()
     categories = Categories.objects.all()
@@ -152,13 +156,14 @@ def medical_systems(request, id):
         lang = get_language()
         if request.method == "POST":
             form = Request_Clinic_form(request.POST)
+            name=form.cleaned_data["name"]
             if form.is_valid():
                 form.save()
                 if lang == "en":
                     sweetify.success(
                         request,
                         "We received your request Successfully ",
-                        text=f'Thank you {form.cleaned_data["name"]} for choosing us!',
+                        text=f'Thank you {name} for choosing us!',
                         button="Ok",
                         timer=5000,
                     )
@@ -167,7 +172,7 @@ def medical_systems(request, id):
                     sweetify.success(
                         request,
                         "طلب ناجح",
-                        text=f"شكراً {form.cleaned_data["name"]} لإختيارك لنا!",
+                        text=f"شكراً {name} لإختيارك لنا!",
                         timer=5000,
                     )
                     return redirect("home")
@@ -182,7 +187,7 @@ def medical_systems(request, id):
                     sweetify.success(
                         request,
                         "We received your request Successfully ",
-                        text=f'Thank you {form.cleaned_data["name"]} for choosing us!',
+                        text=f'Thank you {name} for choosing us!',
                         button="Ok",
                         timer=5000,
                     )
@@ -191,7 +196,7 @@ def medical_systems(request, id):
                     sweetify.success(
                         request,
                         "طلب ناجح",
-                        text=f"شكراً {form.cleaned_data["name"]} لإختيارك لنا!",
+                        text=f"شكراً {name} لإختيارك لنا!",
                         timer=5000,
                     )
                     return redirect("home")
