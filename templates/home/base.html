@@ -183,10 +183,10 @@
                                     <li>
                                         <!-- mini-cart 2 -->
                                         <div class="mini-cart-icon mini-cart-icon-2">
-                                            <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle" hx-get="{% url 'view_cart' %}">
+                                            <a href="{% url 'view_cart' %}" >
                                                 <span class="mini-cart-icon">
                                                     <i class="icon-shopping-cart"></i>
-                                                    <sup>2</sup>
+                                                    <sup>qweqw</sup>
                                                 </span>
                                             </a>
                                         </div>
@@ -207,6 +207,7 @@
 
     <!-- HEADER AREA END -->
     {% include 'home/mb-menu.html' %}
+    
     <!-- MOBILE MENU START -->
     <div class="mobile-header-menu-fullwidth mb-30 d-block d-lg-none">
         <div class="container">
@@ -239,9 +240,7 @@
         </div>
     </div>
     <!-- MOBILE MENU END -->
-    <!-- Utilize Cart Menu Start -->
-    {% include 'home/view_cart.html' %}
-    <!-- Utilize Cart Menu End -->
+    
     <div class="ltn__utilize-overlay"></div>
     {% if messages %}
     <ul class="messages">

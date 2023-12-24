@@ -42,3 +42,9 @@ class AddToCartForm(forms.Form):
         initial=1,
         widget=forms.NumberInput(attrs={"class": "form-control"}),
     )
+
+
+class CartItemForm(forms.Form):
+    quantity = forms.IntegerField(
+        widget=forms.TextInput(attrs={"class": "cart-plus-minus-box"}),
+    )

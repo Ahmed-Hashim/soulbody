@@ -1,45 +1,176 @@
-{% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
+{% extends "home/base.html" %}
+{% block content %}
 
-    <div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu">
-        <div class="ltn__utilize-menu-inner ltn__scrollbar">
-            <div class="ltn__utilize-menu-head">
-                <span class="ltn__utilize-menu-title">{% if LANGUAGE_CODE == 'ar' %}العربة{% else %}Cart{% endif %}</span>
-                <button class="ltn__utilize-close">×</button>
-            </div>
-            <div class="mini-cart-product-area ltn__scrollbar">
-                {% for cart_item in cart.cartitem_set.all %}              
-                    <div class="mini-cart-item clearfix">
-                        <div class="mini-cart-img">
-                            <a href="{% url 'product_details' cart_item.product.id %}"><img src="{{ cart_item.product.image.url }}" alt="Image"></a>
-                            <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
-                        </div>
-                        <div class="mini-cart-info">
-                            <h6><a href="{% url 'product_details' cart_item.product.id %}">{% if LANGUAGE_CODE == 'ar' %}{{ cart_item.product.ar_name }}{% else %}{{ cart_item.product.en_name }}{% endif %}</a></h6>
-                            <span class="mini-cart-quantity">{{ cart_item.quantity }} x {{ cart_item.product.price }}</span>
+<!-- BREADCRUMB AREA START -->
+    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image "  data-bs-bg="img/bg/14.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ltn__breadcrumb-inner">
+                        <h1 class="page-title">Cart</h1>
+                        <div class="ltn__breadcrumb-list">
+                            <ul>
+                                <li><a href="index.html"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span> Home</a></li>
+                                <li>Cart</li>
+                            </ul>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
-            <div class="mini-cart-footer">
-                <div class="mini-cart-sub-total">
-                    <h5>Subtotal: 
-                        <span>
-                            {% with total=0 %}
-                                {% for cart_item in cart.cartitem_set.all %}
-                                    {% with total=total|add:cart_item.product.price %}
-                                    {% endwith %}
-                                {% endfor %}
-                                {{ total }}
-                            {% endwith %}
-                        </span></h5>
-                </div>
-                <div class="btn-wrapper">
-                    <a href="cart.html" class="theme-btn-1 btn btn-effect-1">View Cart</a>
-                    <a href="cart.html" class="theme-btn-2 btn btn-effect-2">Checkout</a>
                 </div>
             </div>
-
         </div>
     </div>
- 
+    <!-- BREADCRUMB AREA END -->
+
+    <!-- SHOPING CART AREA START -->
+    <div class="liton__shoping-cart-area mb-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping-cart-inner">
+                        <div class="shoping-cart-table table-responsive">
+                            <table class="table">
+                                <!-- <thead>
+                                    <th class="cart-product-remove">Remove</th>
+                                    <th class="cart-product-image">Image</th>
+                                    <th class="cart-product-info">Product</th>
+                                    <th class="cart-product-price">Price</th>
+                                    <th class="cart-product-quantity">Quantity</th>
+                                    <th class="cart-product-subtotal">Subtotal</th>
+                                </thead> -->
+                                <tbody>
+                                    {% for cart_item in cart.cartitem_set.all %}
+                                    <tr data-cart-item-id="{{ cart_item.id }}" data-product-price="{{ cart_item.product.price }}">
+                                        <td class="cart-product-remove">
+                                            <a href="{% url 'remove_cart_item' cart_item.id %}">x</a>
+                                        </td>
+                                        <td class="cart-product-image">
+                                            <a href=""><img src="{{cart_item.product.image.url}}" alt="#"></a>
+                                        </td>
+                                        <td class="cart-product-info">
+                                            <h4><a href="product-details.html">{{cart_item.product.en_name}}</a></h4>
+                                        </td>
+                                        <td class="cart-product-price">${{ cart_item.product.price }}</td>
+                                        <td class="cart-product-quantity">
+                                            <div class="cart-plus-minus">
+                                                <input type="text" value="{{ cart_item.quantity }}" name="qtybutton" class="cart-plus-minus-box">
+                                            </div>
+                                        </td>
+                                        <td class="cart-product-subtotal" data-cart-item-id="{{ cart_item.id }}">
+                                            
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <button id="updateCartButton">Update Cart</button>
+                            </table>
+                        </div>
+                        <div class="shoping-cart-total mt-50">
+                            <h4>Cart Totals</h4>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Cart Subtotal</td>
+                                        <td>$618.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shipping and Handing</td>
+                                        <td>$15.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vat</td>
+                                        <td>$00.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Order Total</strong></td>
+                                        <td><strong>$633.00</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="btn-wrapper text-right">
+                                <a href="checkout.html" class="theme-btn-1 btn btn-effect-1">Proceed to checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SHOPING CART AREA END -->
+
+    <!-- CALL TO ACTION START (call-to-action-6) -->
+    {% include "home/calltoaction.html" %}
+    <!-- CALL TO ACTION END -->
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const updateCartButton = document.getElementById('updateCartButton');
+
+        updateCartButton.addEventListener('click', function () {
+            const cartItems = document.querySelectorAll('tbody tr');
+            const dataToSend = [];
+
+            cartItems.forEach(cartItem => {
+                const cartItemId = cartItem.getAttribute('data-cart-item-id');
+                const quantity = cartItem.querySelector('.cart-plus-minus-box').value;
+                const productPrice = cartItem.getAttribute('data-product-price');
+
+                dataToSend.push({
+                    cartItemId: cartItemId,
+                    quantity: quantity,
+                    productPrice: productPrice
+                });
+            });
+
+            // Send an AJAX request to the server to update quantities
+            updateCartQuantities(dataToSend);
+        });
+
+        function updateCartQuantities(data) {
+            // Implement AJAX logic to update quantities on the server
+            // You can use fetch or any other library to make the AJAX request
+            // Example using fetch:
+            fetch('/update_cart_quantities/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    cartItems: data
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update quantities');
+                }
+                // Implement logic to handle successful update if needed
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to update subtotal for a given cart item
+        function updateSubtotal(cartItemId) {
+            const subtotalElement = document.querySelector(`[data-cart-item-id="${cartItemId}"]`);
+            const price = parseInt(document.querySelector(".cart-product-price").value);
+            const quantity = parseInt(document.querySelector(".cart-plus-minus-box").value);
+
+            const subtotal = price * quantity;
+            subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+        }
+
+        // Example: Trigger the calculation for each cart item
+        const cartItemIds = [1, 2, 3];  // Replace with actual cart item IDs
+        cartItemIds.forEach(cartItemId => {
+            updateSubtotal(cartItemId);
+        });
+
+        // You can call updateSubtotal() in response to user actions or events
+    });
+</script>
+{% endblock content %}

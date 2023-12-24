@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from .forms import ClientUserRegistrationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
@@ -15,7 +15,7 @@ from django.template.loader import get_template
 from .forms import UserLoginForm
 from django.contrib.auth.decorators import login_required
 from .decorator import user_not_authenticated
-from .forms import AddToCartForm
+from .forms import AddToCartForm, CartItemForm
 import sweetify
 from django.utils.translation import get_language
 import json
@@ -165,9 +165,13 @@ def add_to_cart(request, product_id):
     lang = get_language()
     product = Product.objects.get(pk=product_id)
     cart, created = Cart.objects.get_or_create(user=request.user)
+
     cart_item, created = CartItem.objects.get_or_create(
         cart=cart, product=product, defaults={"quantity": 1}
     )
+    if cart_item:
+        cart_item.quantity += 1
+        cart_item.save()
     if lang == "en":
         return HttpResponse(
             status=204,
@@ -190,6 +194,51 @@ def add_to_cart(request, product_id):
                     {
                         "close": "close",
                         "showMessage": "تم إضافة المنتج إلى العربة",
+                        "type": "bg-success",
+                    }
+                )
+            },
+        )
+
+
+def update_cart_item(request, cart_item_id):
+    cart_item = get_object_or_404(CartItem, id=cart_item_id)
+
+    if request.method == "POST":
+        cart_item_form = CartItemForm(request.POST)
+        if cart_item_form.is_valid():
+            cart_item.quantity = cart_item_form.cleaned_data["quantity"]
+            cart_item.save()
+
+    return redirect("cart_page")
+
+
+def remove_cart_item(request, cart_item_id):
+    lang = get_language()
+    cart_item = get_object_or_404(CartItem, id=cart_item_id)
+    cart_item.delete()
+    if lang == "en":
+        return HttpResponse(
+            status=204,
+            headers={
+                "HX-Trigger": json.dumps(
+                    {
+                        "close": "close",
+                        "showMessage": "Product has been deleted",
+                        "type": "bg-success",
+                    }
+                )
+            },
+        )
+
+    else:
+        return HttpResponse(
+            status=204,
+            headers={
+                "HX-Trigger": json.dumps(
+                    {
+                        "close": "close",
+                        "showMessage": "تم حذف المنتج من العربة",
                         "type": "bg-success",
                     }
                 )

@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from account.forms import CartItemForm
 from home.forms import Contact_form, Request_Clinic_form, Request_Hosbital_form
 from product.models import Product, MedicalSystem, Categories, Cart, CartItem
 from crmsb.models import Customer, Testimonials
@@ -27,18 +28,20 @@ def home(request):
         "sitedata": site_data,
     }
     if request.user.is_authenticated:
-
-            cart = Cart.objects.get(user=request.user)
-            context += {
+        cart = Cart.objects.get(user=request.user)
+        context.update(
+            {
                 "cart": cart,
             }
+        )
 
     return render(request, "home/home.html", context)
 
 
 def view_cart(request):
     cart = Cart.objects.get(user=request.user)
-    return render(request, "home/view_cart.html", {"cart": cart})
+    form = CartItemForm
+    return render(request, "home/view_cart.html", {"cart": cart, "form": form})
 
 
 def base(request):
