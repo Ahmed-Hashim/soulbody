@@ -12,5 +12,5 @@ urlpatterns = [
     path("contact_us", views.contact_us, name="contact_us"),
     path("about_us", views.about_us, name="about_us"),
     path("request_clinic/<int:id>", views.request_clinic, name="request_clinic"),
-    path("view_cart", views.view_cart, name="view_cart"),
+    
 ]

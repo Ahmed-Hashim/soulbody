@@ -74,12 +74,18 @@ class Product(models.Model):
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, through="CartItem")
+    created_at = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False)
+    
 
 
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+
+    def calculate_subtotal(self):
+        return float(self.quantity) * float(self.product.price)
 
 
 class Invoice(models.Model):

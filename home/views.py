@@ -38,10 +38,7 @@ def home(request):
     return render(request, "home/home.html", context)
 
 
-def view_cart(request):
-    cart = Cart.objects.get(user=request.user)
-    form = CartItemForm
-    return render(request, "home/view_cart.html", {"cart": cart, "form": form})
+
 
 
 def base(request):

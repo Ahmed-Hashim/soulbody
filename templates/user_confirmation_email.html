@@ -1,0 +1,12 @@
+Subject: Order Confirmation
+
+Thank you for your order!
+
+Order Details:
+{% for item in cart_items %}
+- {{ item.product.en_name }}: {{ item.quantity }} units
+{% endfor %}
+
+Total: ${{ order_total }}
+
+We will contact you shortly to confirm your order.

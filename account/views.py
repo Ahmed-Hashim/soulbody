@@ -1,3 +1,5 @@
+from decimal import Decimal
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from .forms import ClientUserRegistrationForm
 from django.contrib.auth import authenticate, login
@@ -19,6 +21,9 @@ from .forms import AddToCartForm, CartItemForm
 import sweetify
 from django.utils.translation import get_language
 import json
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 
 @user_not_authenticated
@@ -201,16 +206,35 @@ def add_to_cart(request, product_id):
         )
 
 
-def update_cart_item(request, cart_item_id):
-    cart_item = get_object_or_404(CartItem, id=cart_item_id)
-
+def update_cart_item(request):
     if request.method == "POST":
-        cart_item_form = CartItemForm(request.POST)
-        if cart_item_form.is_valid():
-            cart_item.quantity = cart_item_form.cleaned_data["quantity"]
-            cart_item.save()
+        cart_items = json.loads(request.POST.get("cart_items", "[]"))
 
-    return redirect("cart_page")
+        # Process the cart items and update quantities
+        updated_subtotals = {}
+        for item in cart_items:
+            cart_item = get_object_or_404(CartItem, id=item["id"])
+            cart_item.quantity = item["quantity"]
+            cart_item.save()
+            updated_subtotals[item["id"]] = cart_item.calculate_subtotal()
+
+        # Calculate new totals
+        cart_subtotal = calculate_cart_subtotal(request.user)
+        shipping_and_handling = calculate_shipping_and_handling()
+        vat = calculate_vat(cart_subtotal)
+        order_total = cart_subtotal + shipping_and_handling + vat
+
+        return JsonResponse(
+            {
+                "updated_subtotals": updated_subtotals,
+                "cart_subtotal": cart_subtotal,
+                "shipping_and_handling": shipping_and_handling,
+                "vat": vat,
+                "order_total": order_total,
+            }
+        )
+
+    return JsonResponse({"error": "Invalid request method"})
 
 
 def remove_cart_item(request, cart_item_id):
@@ -246,6 +270,96 @@ def remove_cart_item(request, cart_item_id):
         )
 
 
+def calculate_cart_subtotal(user):
+    # Replace this with your actual logic to fetch the user's cart items and calculate the subtotal
+    cart_items = user.cart.cartitem_set.all()
+    subtotal = sum(item.product.price * item.quantity for item in cart_items)
+    return subtotal
+
+
+def calculate_shipping_and_handling():
+    # Replace this with your actual logic to calculate shipping and handling costs
+    return Decimal("150.00")
+
+
+def calculate_vat(cart_subtotal):
+    # Replace this with your actual logic to calculate VAT
+    return Decimal("0.14") * cart_subtotal
+
+
 def view_cart(request):
+    site_data = sitedata.objects.all().last()
+    categories = Categories.objects.all()
+    systems = MedicalSystem.objects.all()
+    products = Product.objects.all()
     cart = Cart.objects.get(user=request.user)
-    return render(request, "view_cart.html", {"cart": cart})
+    cart_subtotal = calculate_cart_subtotal(request.user)
+    shipping_and_handling = calculate_shipping_and_handling()
+    vat = calculate_vat(cart_subtotal)
+    order_total = cart_subtotal + shipping_and_handling + vat
+    form = CartItemForm
+    context = {
+        "cart_subtotal": cart_subtotal,
+        "shipping_and_handling": shipping_and_handling,
+        "vat": vat,
+        "order_total": order_total,
+        "cart": cart,
+        "form": form,
+        "categories": categories,
+        "title": "Login",
+        "products": products,
+        "systems": systems,
+        "sitedata": site_data,
+    }
+    cart = Cart.objects.get(user=request.user)
+    form = CartItemForm
+
+    return render(request, "home/view_cart.html", context)
+
+
+@login_required
+def checkout(request):
+    user_email = request.user.email
+
+    cart_items = Cart.objects.get(user=request.user).cartitem_set.all()
+    cart_subtotal = calculate_cart_subtotal(request.user)
+    shipping_and_handling = calculate_shipping_and_handling()
+    vat = calculate_vat(cart_subtotal)
+    order_total = cart_subtotal + shipping_and_handling + vat
+    # Send admin notification email
+    admin_subject = "New Order Received"
+    admin_message = render_to_string(
+        "admin_notification_email.html",
+        {"cart_items": cart_items, "order_total": order_total},
+    )
+    send_mail(
+        admin_subject, admin_message, "info@soulnbody.net", ["info@soulnbody.net"]
+    )
+
+    # Send user confirmation email
+    user_subject = "Order Confirmation"
+    user_message = render_to_string(
+        "user_confirmation_email.html",
+        {"cart_items": cart_items, "order_total": order_total},
+    )
+    send_mail(user_subject, user_message, "info@soulnbody.net", [user_email])
+
+    # Additional logic for order confirmation, payment processing, etc.
+    lang = get_language()
+    if lang == "en":
+        sweetify.success(
+            request,
+            "We received your request Successfully ",
+            text=f"Thank you {request.user.username} for choosing us!",
+            button="Ok",
+            timer=5000,
+        )
+        return redirect("home")
+    else:
+        sweetify.success(
+            request,
+            "طلب ناجح",
+            text=f"شكراً {request.user.username} لإختيارك لنا!",
+            timer=5000,
+        )
+        return redirect("home")

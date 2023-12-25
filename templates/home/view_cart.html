@@ -44,12 +44,12 @@
                                             <a href="{% url 'remove_cart_item' cart_item.id %}">x</a>
                                         </td>
                                         <td class="cart-product-image">
-                                            <a href=""><img src="{{cart_item.product.image.url}}" alt="#"></a>
+                                            <img src="{{cart_item.product.image.url}}" alt="#">
                                         </td>
                                         <td class="cart-product-info">
                                             <h4><a href="product-details.html">{{cart_item.product.en_name}}</a></h4>
                                         </td>
-                                        <td class="cart-product-price">${{ cart_item.product.price }}</td>
+                                        <td class="cart-product-price">${{ cart_item.calculate_subtotal }}</td>
                                         <td class="cart-product-quantity">
                                             <div class="cart-plus-minus">
                                                 <input type="text" value="{{ cart_item.quantity }}" name="qtybutton" class="cart-plus-minus-box">
@@ -62,33 +62,34 @@
                                     </tr>
                                     {% endfor %}
                                 </tbody>
-                                <button id="updateCartButton">Update Cart</button>
+                                
                             </table>
                         </div>
+                        <button class="theme-btn-1 btn btn-effect-1">Update Cart</button>
                         <div class="shoping-cart-total mt-50">
                             <h4>Cart Totals</h4>
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <td>Cart Subtotal</td>
-                                        <td>$618.00</td>
+                                        <td id="cart-subtotal">${{ cart_subtotal }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Shipping and Handing</td>
-                                        <td>$15.00</td>
+                                        <td>Shipping and Handling</td>
+                                        <td id="shipping-and-handling">${{ shipping_and_handling }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Vat</td>
-                                        <td>$00.00</td>
+                                        <td>VAT</td>
+                                        <td id="vat">${{ vat }}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Order Total</strong></td>
-                                        <td><strong>$633.00</strong></td>
+                                        <td id="order-total"><strong>${{ order_total }}</strong></td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="btn-wrapper text-right">
-                                <a href="checkout.html" class="theme-btn-1 btn btn-effect-1">Proceed to checkout</a>
+                                <a href="{% url 'checkout' %}" class="theme-btn-1 btn btn-effect-1">Proceed to checkout</a>
                             </div>
                         </div>
                     </div>
@@ -98,79 +99,55 @@
     </div>
     <!-- SHOPING CART AREA END -->
 
-    <!-- CALL TO ACTION START (call-to-action-6) -->
-    {% include "home/calltoaction.html" %}
-    <!-- CALL TO ACTION END -->
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const updateCartButton = document.getElementById('updateCartButton');
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-        updateCartButton.addEventListener('click', function () {
-            const cartItems = document.querySelectorAll('tbody tr');
-            const dataToSend = [];
+<script>
+    $(document).ready(function () {
+        // Get CSRF token
+        var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
 
-            cartItems.forEach(cartItem => {
-                const cartItemId = cartItem.getAttribute('data-cart-item-id');
-                const quantity = cartItem.querySelector('.cart-plus-minus-box').value;
-                const productPrice = cartItem.getAttribute('data-product-price');
+        $('.theme-btn-1').on('click', function () {
+            // Prepare data to send to the server
+            var cartItems = [];
 
-                dataToSend.push({
-                    cartItemId: cartItemId,
-                    quantity: quantity,
-                    productPrice: productPrice
+            $('tr[data-cart-item-id]').each(function () {
+                var itemId = $(this).data('cart-item-id');
+                var quantity = $(this).find('.cart-plus-minus-box').val();
+
+                cartItems.push({
+                    id: itemId,
+                    quantity: quantity
                 });
             });
 
-            // Send an AJAX request to the server to update quantities
-            updateCartQuantities(dataToSend);
-        });
-
-        function updateCartQuantities(data) {
-            // Implement AJAX logic to update quantities on the server
-            // You can use fetch or any other library to make the AJAX request
-            // Example using fetch:
-            fetch('/update_cart_quantities/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
+            // Send data to the server using AJAX
+            $.ajax({
+                type: 'POST',
+                url: '{% url "update_cart_item" %}',  // Update with your actual URL
+                data: {
+                    csrfmiddlewaretoken: csrfToken,
+                    cart_items: JSON.stringify(cartItems)
                 },
-                body: JSON.stringify({
-                    cartItems: data
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to update quantities');
+                success: function (data) {
+                    // Update the individual cart item rows
+                    $.each(data.updated_subtotals, function (itemId, subtotal) {
+                        $('td[data-cart-item-id="' + itemId + '"]').text('$' + subtotal);
+                    });
+
+                    // Update the total summary
+                    $('#cart-subtotal').text('$' + data.cart_subtotal);
+                    $('#shipping-and-handling').text('$' + data.shipping_and_handling);
+                    $('#vat').text('$' + data.vat);
+                    $('#order-total').html('<strong>$' + data.order_total + '</strong>');
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error updating cart:', errorThrown);
                 }
-                // Implement logic to handle successful update if needed
-            })
-            .catch(error => {
-                console.error(error);
             });
-        }
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Function to update subtotal for a given cart item
-        function updateSubtotal(cartItemId) {
-            const subtotalElement = document.querySelector(`[data-cart-item-id="${cartItemId}"]`);
-            const price = parseInt(document.querySelector(".cart-product-price").value);
-            const quantity = parseInt(document.querySelector(".cart-plus-minus-box").value);
-
-            const subtotal = price * quantity;
-            subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
-        }
-
-        // Example: Trigger the calculation for each cart item
-        const cartItemIds = [1, 2, 3];  // Replace with actual cart item IDs
-        cartItemIds.forEach(cartItemId => {
-            updateSubtotal(cartItemId);
         });
-
-        // You can call updateSubtotal() in response to user actions or events
     });
 </script>
+
+   
 {% endblock content %}
