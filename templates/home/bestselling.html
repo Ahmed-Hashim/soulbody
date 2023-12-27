@@ -24,10 +24,17 @@
                                                     <div class="product-hover-action">
                                                         <ul>
                                                             <li>
-                                                                <a title="Quick View"  hx-get="{% url 'show_product' product.id %}"  hx-target="#dialog">
+                                                                <a title="Quick View"  hx-get="{% url 'show_product' product.id %}" style="cursor:pointer;"  hx-target="#dialog">
                                                                     <i class="far fa-eye"></i>
                                                                 </a>
                                                             </li>
+                                                            {% if user.is_authenticated %}
+                                                                <li>
+                                                                    <a hx-get="{% url 'add_to_cart' product.id %}" style="cursor:pointer;" title="Add to Cart">
+                                                                        <i class="fas fa-shopping-cart"></i>
+                                                                    </a>
+                                                                </li>
+                                                            {% endif %}
                                                         </ul>
                                                     </div>
                                                 </div>

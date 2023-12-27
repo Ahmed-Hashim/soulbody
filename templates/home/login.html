@@ -38,10 +38,12 @@
                 <div class="col-lg-6">
                     <div class="account-login-inner">
                         {% if messages %}
-                            <div class="alert alert-danger">
+                            <div class="alert alert-success">
                                 {% for message in messages %}
                                 {{ message }}
                                 {% endfor %}
+                            </div>
+                            <div class="alert alert-danger">
                                 {% if form.errors %}
                                     <p class="error">There was an error with your submission. Please correct the errors below.</p>
                                 {% endif %}

@@ -72,11 +72,9 @@ class Product(models.Model):
 
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, through="CartItem")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     completed = models.BooleanField(default=False)
-    
 
 
 class CartItem(models.Model):

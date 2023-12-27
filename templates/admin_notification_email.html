@@ -1,8 +1,8 @@
 Subject: New Order Received
 
 Order Details:
-Order by : request.user.username
-email : request.user.email
+Order by : {{request.user.username}}
+email : {{request.user.email}}
 {% for item in cart_items %}
 - {{ item.product.en_name }}: {{ item.quantity }} units
 {% endfor %}

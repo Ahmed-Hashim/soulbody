@@ -4,7 +4,7 @@
 {% block content %}
 
         <!-- BREADCRUMB AREA START -->
-    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image "  data-bs-bg="img/bg/14.jpg">
+    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image " >
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -42,6 +42,7 @@
                             <img src="{{medical_systems.image.url}}" alt="Image">
                             {% if LANGUAGE_CODE == 'en' %}{{medical_systems.en_description|safe}}{% else %}{{medical_systems.ar_description|safe}} {% endif %}
                         </div>
+                        <hr>
                         <!-- FAQ AREA START (faq-2) (ID > accordion_2) -->
                         <div class="ltn__faq-area mb-100 padding__min_t_b_50">
                             <div class="container">
@@ -348,11 +349,6 @@
                 </div>
                 <div class="col-lg-4">
                     <aside class="sidebar-area blog-sidebar ltn__right-sidebar">
-                        <!-- Form Widget -->
-                        <div class="widget ltn__form-widget">
-                            <h4 class="ltn__widget-title ltn__widget-title-border-2">{% if LANGUAGE_CODE == 'en' %}Request Your Trial Now!{% else %} أحجز نسختك التجريبية الان !{% endif %}</h4>
-                                <a href="{% url 'contact_us' %}" class="btn theme-btn-1">{% if LANGUAGE_CODE == 'en' %}Send!{% else %} أرسل!{% endif %}</a>
-                        </div>
                         <!-- Top Rated Product Widget -->
                         {% with products|dictsortreversed:"best_selling"|slice:":3" as sorted_products %}
                                         {% if sorted_products %}
@@ -371,7 +367,12 @@
                                             <div class="top-rated-product-info">
                                                 <h6><a href="{% url 'product_details' product.id %}">{% if LANGUAGE_CODE == 'en' %}{{product.en_name}}{% else %}{{product.ar_name}}{% endif %}</a></h6>
                                                 <div class="product-price">
-                                                    <span>{{product.price}}</span>
+                                                    <span>{{product.price}}
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                                    EGP
+                                                            {% else %}
+                                                                    جنيه
+                                                        {% endif %}</span>
                                                     {% if product.old_price > 0 %}
                                                     <del>
                                                         {% if LANGUAGE_CODE == 'en' %}
@@ -392,11 +393,6 @@
                             </div>
                             {% endif %}
                             {% endwith %}
-                        
-                        
-                        
-
-                        
                     </aside>
                 </div>
             </div>

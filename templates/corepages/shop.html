@@ -44,17 +44,17 @@
                                     {% endif %}
                                     </div> 
                                 </li>
-                                <li>
+                                <li><!--
                                    <div class="short-by text-center">
                                         <select class="nice-select">
                                             {% if category_n %}
                                                 <option>Select Category</option>
                                                 {% for category in categories  %}
-                                                <option {% if category.en_name == category_n.en_name %}class="active" selected{% endif %}>{{ category.en_name }}</option>
+                                                <option {% if category.en_name == category_n.en_name %} class="active" selected {% endif %}>{{ category.en_name }}</option>
                                                 {% endfor %}
                                             {% endif %}
                                         </select>
-                                    </div> 
+                                    </div> -->
                                 </li>
                             </ul>
                         </div>
@@ -79,17 +79,24 @@
                                                         <div class="product-hover-action">
                                                             <ul>
                                                                 <li>
-                                                                    <a title="Quick View"  hx-get="{% url 'show_product' product.id %}"  hx-target="#dialog">
+                                                                    <a title="Quick View"  hx-get="{% url 'show_product' product.id %}" style="cursor:pointer;" hx-target="#dialog">
                                                                         <i class="far fa-eye"></i>
                                                                     </a>
                                                                 </li>
+                                                                {% if user.is_authenticated %}
+                                                                <li>
+                                                                    <a hx-get="{% url 'add_to_cart' product.id %}" style="cursor:pointer;" title="Add to Cart">
+                                                                        <i class="fas fa-shopping-cart"></i>
+                                                                    </a>
+                                                                </li>
+                                                                {% endif %}
                                                             </ul>
                                                         </div>
                                                     </div>
                                                     <div class="product-info">
                                                         <h2 class="product-title"><a href="{% url 'product_details' product.id %}">{{product.en_name}}</a></h2>
                                                         <div class="product-price">
-                                                            <span>{{product.price}} {{product.currency}}</span>
+                                                            <span>{{product.price}}</span>
                                                             {% if product.old_price > 0 %}
                                                                 <del>
                                                                     {% if LANGUAGE_CODE == 'en' %}
@@ -167,7 +174,13 @@
                                             <div class="top-rated-product-info">
                                                 <h6><a href="{% url 'product_details' product.id %}">{{product.en_name}}</a></h6>
                                                 <div class="product-price">
-                                                    <span>{{product.price}}</span>
+                                                    <span>{{product.price}}
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                                        EGP
+                                                                    {% else %}
+                                                                        جنيه
+                                                                {% endif %}
+                                                    </span>
                                                     {% if product.old_price > 0 %}
                                                     <del>
                                                         {% if LANGUAGE_CODE == 'en' %}
@@ -240,7 +253,7 @@
                                     {% endif %}
                                     </div> 
                                 </li>
-                                <li>
+                                <li><!--
                                    <div class="short-by text-center">
                                         <select class="nice-select">
                                             <option>اختر التصنيف</option>
@@ -249,7 +262,7 @@
                                             {% endfor %}
                                         </select>
                                     </div> 
-                                </li>
+                                </li>-->
                             </ul>
                         </div>
                         <div class="tab-content">
@@ -273,21 +286,30 @@
                                                         <div class="product-hover-action">
                                                             <ul>
                                                                 <li>
-                                                                    <a title="Quick View"  hx-get="{% url 'show_product' product.id %}"  hx-target="#dialog">
+                                                                    <a title="Quick View"  hx-get="{% url 'show_product' product.id %}" style="cursor:pointer;" hx-target="#dialog">
                                                                         <i class="far fa-eye"></i>
                                                                     </a>
                                                                 </li>
-                                                                <li>
-                                                                    <a href="#" title="Wishlist" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
-                                                                        <i class="far fa-heart"></i></a>
-                                                                </li>
+                                                                {% if user.is_authenticated %}
+                                                                    <li>
+                                                                        <a hx-get="{% url 'add_to_cart' product.id %}" style="cursor:pointer;" title="Add to Cart">
+                                                                            <i class="fas fa-shopping-cart"></i>
+                                                                        </a>
+                                                                    </li>
+                                                                {% endif %}
                                                             </ul>
                                                         </div>
                                                     </div>
                                                     <div class="product-info">
                                                         <h2 class="product-title"><a href="{% url 'product_details' product.id %}">{{product.ar_name}}</a></h2>
                                                         <div class="product-price">
-                                                            <span>{{product.price}} {{product.currency}}</span>
+                                                            <span>{{product.price}} 
+                                                                {% if LANGUAGE_CODE == 'en' %}
+                                                                        EGP
+                                                                    {% else %}
+                                                                        جنيه
+                                                                {% endif %}
+                                                            </span>
                                                             {% if product.old_price > 0 %}
                                                             <del>
                                                                 {% if LANGUAGE_CODE == 'en' %}
@@ -362,7 +384,11 @@
                                             <div class="top-rated-product-info">
                                                 <h6><a href="{% url 'product_details' product.id %}">{{product.ar_name}}</a></h6>
                                                 <div class="product-price">
-                                                    <span>{{product.price}}</span>
+                                                    <span>{{product.price}}{% if LANGUAGE_CODE == 'en' %}
+                                                                         EGP
+                                                                    {% else %}
+                                                                         جنيه
+                                                                {% endif %}</span>
                                                     {% if product.old_price > 0 %}
                                                     <del>
                                                         {% if LANGUAGE_CODE == 'en' %}

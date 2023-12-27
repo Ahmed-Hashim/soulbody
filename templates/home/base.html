@@ -146,7 +146,7 @@
                                         <i class="icon-call"></i>
                                     </div>
                                     <div class="header-feature-info">
-                                        <h6>Phone</h6>
+                                        <h6>{% if LANGUAGE_CODE == 'ar' %} أرقام الهاتف {% else %} Phone {% endif %}</h6>
                                         <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/eg.svg' %}">
                                                 {{sitedata.phone_number_1}}</a></p>
                                         <p><a href="tel:0123456789"><img class="fi" src="{% static 'img/flags/jo.svg' %}">
@@ -164,15 +164,14 @@
                                         <div class="ltn__drop-menu user-menu">
                                             <ul>
                                                 <li>
-                                                    <a href="#"><i class="icon-user"></i></a>
+                                                    <a href="{% url 'user_account' %}"><i class="icon-user"></i></a>
                                                     <ul>
                                                         {% if user.is_authenticated %}
-                                                            <li><a href="{% url 'logout_user' %}">Logout</a></li>
-                                                            <li><a href="account.html">My Account</a></li>
-                                                            <li><a href="wishlist.html">Wishlist</a></li>
+                                                            <li><a href="{% url 'user_account' %}">{% if LANGUAGE_CODE == 'ar' %} حسابي {% else %} My Account {% endif %}</a></li>
+                                                            <li><a href="{% url 'logout_user' %}">{% if LANGUAGE_CODE == 'ar' %} تسجيل خروج {% else %} Logout {% endif %}</a></li>
                                                         {% else %}
-                                                            <li><a href="{% url 'login_user' %}">Login</a></li>
-                                                            <li><a href="{% url 'register_user' %}">Register</a></li>
+                                                            <li><a href="{% url 'login_user' %}">{% if LANGUAGE_CODE == 'ar' %} تسجيل دخول {% else %} Login {% endif %}</a></li>
+                                                            <li><a href="{% url 'register_user' %}"> {% if LANGUAGE_CODE == 'ar' %}  حساب جديد {% else %} Register {% endif %}</a></li>
                                                         {% endif %}
                                                     </ul>
                                                 </li>
@@ -186,7 +185,6 @@
                                             <a href="{% url 'view_cart' %}" >
                                                 <span class="mini-cart-icon">
                                                     <i class="icon-shopping-cart"></i>
-                                                    <sup>qweqw</sup>
                                                 </span>
                                             </a>
                                         </div>
@@ -242,13 +240,6 @@
     <!-- MOBILE MENU END -->
     
     <div class="ltn__utilize-overlay"></div>
-    {% if messages %}
-    <ul class="messages">
-    {% for message in messages %}
-    <li {% if message.tags %} class="{{ message.tags|safe }}"{% endif %}>{{ message|safe }}</li>
-    {% endfor %}
-    </ul>
-    {% endif %}
     <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
         <div id="toast" class="toast align-items-center text-white border-0" role="alert"
             aria-live="assertive" aria-atomic="true">

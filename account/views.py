@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
-from .forms import ClientUserRegistrationForm
+from .forms import ClientUserRegistrationForm, PasswordChangingForm, ProfileForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from product.models import Product, MedicalSystem, Categories, Cart, CartItem
@@ -24,6 +24,8 @@ import json
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth import update_session_auth_hash
 
 
 @user_not_authenticated
@@ -77,6 +79,7 @@ def logout_user(request):
 
 @user_not_authenticated
 def activate(request, uidb64, token):
+    lang = get_language()
     User = get_user_model()
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -87,14 +90,22 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-
-        messages.success(
-            request,
-            "Thank you for your email confirmation. Now you can login your account.",
-        )
+        if lang == "en":
+            messages.success(
+                request,
+                "Thank you for your email confirmation. Now you can login your account.",
+            )
+        else:
+            messages.success(
+                request,
+                "شكرًا لتأكيدك عبر البريد الإلكتروني. يمكنك الآن تسجيل الدخول إلى حسابك.",
+            )
         return redirect("login_user")
     else:
-        messages.error(request, "Activation link is invalid!")
+        if lang == "en":
+            messages.error(request, "Activation link is invalid!")
+        else:
+            messages.error(request, "الرابط التفعيل غير صالح!")
 
     return redirect("home")
 
@@ -168,15 +179,26 @@ def product_list(request):
 
 def add_to_cart(request, product_id):
     lang = get_language()
-    product = Product.objects.get(pk=product_id)
-    cart, created = Cart.objects.get_or_create(user=request.user)
+    product = get_object_or_404(Product, pk=product_id)
 
+    # Get the last not completed cart for the user
+    last_not_completed_cart = Cart.objects.filter(
+        user=request.user, completed=False
+    ).first()
+
+    if not last_not_completed_cart:
+        # If there is no not completed cart, create a new one
+        last_not_completed_cart = Cart.objects.create(user=request.user)
+
+    # Check if the product is already in the cart
     cart_item, created = CartItem.objects.get_or_create(
-        cart=cart, product=product, defaults={"quantity": 1}
+        cart=last_not_completed_cart, product=product, defaults={"quantity": 1}
     )
-    if cart_item:
+
+    if not created:  # If the item already exists, increment the quantity
         cart_item.quantity += 1
         cart_item.save()
+
     if lang == "en":
         return HttpResponse(
             status=204,
@@ -190,7 +212,6 @@ def add_to_cart(request, product_id):
                 )
             },
         )
-
     else:
         return HttpResponse(
             status=204,
@@ -219,10 +240,10 @@ def update_cart_item(request):
             updated_subtotals[item["id"]] = cart_item.calculate_subtotal()
 
         # Calculate new totals
-        cart_subtotal = calculate_cart_subtotal(request.user)
-        shipping_and_handling = calculate_shipping_and_handling()
-        vat = calculate_vat(cart_subtotal)
-        order_total = cart_subtotal + shipping_and_handling + vat
+        cart_subtotal = round(calculate_cart_subtotal(request.user))
+        shipping_and_handling = round(calculate_shipping_and_handling())
+        vat = round(calculate_vat(cart_subtotal))
+        order_total = round(cart_subtotal + shipping_and_handling + vat)
 
         return JsonResponse(
             {
@@ -271,15 +292,26 @@ def remove_cart_item(request, cart_item_id):
 
 
 def calculate_cart_subtotal(user):
-    # Replace this with your actual logic to fetch the user's cart items and calculate the subtotal
-    cart_items = user.cart.cartitem_set.all()
-    subtotal = sum(item.product.price * item.quantity for item in cart_items)
-    return subtotal
+    # Get the last incomplete cart for the user
+    last_incomplete_cart = (
+        Cart.objects.filter(user=user, completed=False).order_by("-created_at").first()
+    )
+
+    if last_incomplete_cart:
+        # Retrieve cart items from the last incomplete cart
+        cart_items = last_incomplete_cart.cartitem_set.all()
+
+        # Calculate the subtotal
+        subtotal = sum(item.product.price * item.quantity for item in cart_items)
+        return subtotal
+    else:
+        # If no incomplete cart is found, return 0 as the subtotal
+        return 0
 
 
 def calculate_shipping_and_handling():
     # Replace this with your actual logic to calculate shipping and handling costs
-    return Decimal("150.00")
+    return Decimal("150")
 
 
 def calculate_vat(cart_subtotal):
@@ -292,11 +324,15 @@ def view_cart(request):
     categories = Categories.objects.all()
     systems = MedicalSystem.objects.all()
     products = Product.objects.all()
-    cart = Cart.objects.get(user=request.user)
-    cart_subtotal = calculate_cart_subtotal(request.user)
-    shipping_and_handling = calculate_shipping_and_handling()
-    vat = calculate_vat(cart_subtotal)
-    order_total = cart_subtotal + shipping_and_handling + vat
+    cart = (
+        Cart.objects.filter(user=request.user, completed=False)
+        .order_by("-created_at")
+        .first()
+    )
+    cart_subtotal = round(calculate_cart_subtotal(request.user))
+    shipping_and_handling = round(calculate_shipping_and_handling())
+    vat = round(calculate_vat(cart_subtotal))
+    order_total = round(cart_subtotal + shipping_and_handling + vat)
     form = CartItemForm
     context = {
         "cart_subtotal": cart_subtotal,
@@ -311,38 +347,56 @@ def view_cart(request):
         "systems": systems,
         "sitedata": site_data,
     }
-    cart = Cart.objects.get(user=request.user)
-    form = CartItemForm
-
     return render(request, "home/view_cart.html", context)
 
 
 @login_required
 def checkout(request):
-    user_email = request.user.email
+    # Get the user's active cart (not completed)
+    active_cart = Cart.objects.filter(user=request.user, completed=False).first()
 
-    cart_items = Cart.objects.get(user=request.user).cartitem_set.all()
-    cart_subtotal = calculate_cart_subtotal(request.user)
-    shipping_and_handling = calculate_shipping_and_handling()
-    vat = calculate_vat(cart_subtotal)
-    order_total = cart_subtotal + shipping_and_handling + vat
-    # Send admin notification email
-    admin_subject = "New Order Received"
-    admin_message = render_to_string(
-        "admin_notification_email.html",
-        {"cart_items": cart_items, "order_total": order_total},
-    )
-    send_mail(
-        admin_subject, admin_message, "info@soulnbody.net", ["info@soulnbody.net"]
-    )
+    if active_cart and not active_cart.completed:
+        # Retrieve cart items from the completed cart
+        cart_items = active_cart.cartitem_set.all()
 
-    # Send user confirmation email
-    user_subject = "Order Confirmation"
-    user_message = render_to_string(
-        "user_confirmation_email.html",
-        {"cart_items": cart_items, "order_total": order_total},
-    )
-    send_mail(user_subject, user_message, "info@soulnbody.net", [user_email])
+        # Perform your calculations for the new cart
+        cart_subtotal = calculate_cart_subtotal(request.user)
+        shipping_and_handling = calculate_shipping_and_handling()
+        vat = calculate_vat(cart_subtotal)
+        order_total = cart_subtotal + shipping_and_handling + vat
+
+        # Send admin notification email
+        admin_subject = "New Order Received"
+        admin_message = render_to_string(
+            "admin_notification_email.html",
+            {"cart_items": cart_items, "order_total": order_total},
+        )
+        send_mail(
+            admin_subject, admin_message, "info@soulnbody.net", ["info@soulnbody.net"]
+        )
+
+        # Send user confirmation email
+        user_email = request.user.email
+        user_subject = "Order Confirmation"
+        user_message = render_to_string(
+            "user_confirmation_email.html",
+            {"cart_items": cart_items, "order_total": order_total},
+        )
+        send_mail(user_subject, user_message, "info@soulnbody.net", [user_email])
+
+        # Mark the current active cart as completed
+        active_cart.completed = True
+        active_cart.save()
+    else:
+        print("No active or completed cart found for the user.")
+
+    # Create a new cart for the user only if no active or completed cart is found
+    try:
+        if not active_cart or active_cart.completed:
+            new_cart = Cart.objects.create(user=request.user, completed=False)
+            print("New cart created")
+    except Exception as e:
+        print(f"Error creating new cart: {e}")
 
     # Additional logic for order confirmation, payment processing, etc.
     lang = get_language()
@@ -363,3 +417,72 @@ def checkout(request):
             timer=5000,
         )
         return redirect("home")
+
+
+def save_profile(request):
+    profile_form = ProfileForm(request.POST, instance=request.user.profile)
+    if profile_form.is_valid():
+        profile_form.save()
+        lang = get_language()
+        if lang == "en":
+            sweetify.success(
+                request,
+                "Success request",
+                button="Ok",
+                timer=5000,
+            )
+            return redirect("user_account")
+        else:
+            sweetify.success(
+                request,
+                "طلب ناجح",
+                timer=5000,
+            )
+            return redirect("user_account")
+    return redirect("user_account")
+
+
+def password_change(request):
+    lang = get_language()
+    if request.method == "POST":
+        password_form = PasswordChangingForm(request.user, request.POST)
+        if password_form.is_valid():
+            user = password_form.save()
+            update_session_auth_hash(request, user)
+
+            if lang == "en":
+                sweetify.success(
+                    request,
+                    "Success request",
+                    button="Ok",
+                    timer=5000,
+                )
+                return redirect("user_account")
+            else:
+                sweetify.success(
+                    request,
+                    "طلب ناجح",
+                    timer=5000,
+                )
+                return redirect("user_account")
+        else:
+            if lang == "en":
+                sweetify.error(
+                    request,
+                    "Enter right data",
+                    button="Ok",
+                    timer=5000,
+                )
+                return redirect("user_account")
+            else:
+                sweetify.error(
+                    request,
+                    "ادخل معلومات صحيحة",
+                    timer=5000,
+                )
+                return redirect("user_account")
+
+    else:
+        password_form = PasswordChangingForm(request.user)
+
+    return redirect("user_account", {"password_form": password_form})

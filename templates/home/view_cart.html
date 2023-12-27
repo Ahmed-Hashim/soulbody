@@ -1,17 +1,19 @@
 {% extends "home/base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 {% block content %}
 
 <!-- BREADCRUMB AREA START -->
-    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image "  data-bs-bg="img/bg/14.jpg">
+    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image ">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ltn__breadcrumb-inner">
-                        <h1 class="page-title">Cart</h1>
+                        <h1 class="page-title">{% if LANGUAGE_CODE == "ar" %}العربة{% else %}Cart{% endif %}</h1>
                         <div class="ltn__breadcrumb-list">
                             <ul>
-                                <li><a href="index.html"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span> Home</a></li>
-                                <li>Cart</li>
+                                <li><a href="{% url 'home' %}"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span>{% if LANGUAGE_CODE == "ar" %}الرئيسية{% else %}Home{% endif %} </a></li>
+                                <li>{% if LANGUAGE_CODE == "ar" %}العربة{% else %}Cart{% endif %}</li>
                             </ul>
                         </div>
                     </div>
@@ -22,9 +24,10 @@
     <!-- BREADCRUMB AREA END -->
 
     <!-- SHOPING CART AREA START -->
+    {% if cart.cartitem_set.all.count >= 1 %}
     <div class="liton__shoping-cart-area mb-120">
         <div class="container">
-            <div class="row">
+            <div class="row" id="data-container">
                 <div class="col-lg-12">
                     <div class="shoping-cart-inner">
                         <div class="shoping-cart-table table-responsive">
@@ -41,22 +44,22 @@
                                     {% for cart_item in cart.cartitem_set.all %}
                                     <tr data-cart-item-id="{{ cart_item.id }}" data-product-price="{{ cart_item.product.price }}">
                                         <td class="cart-product-remove">
-                                            <a href="{% url 'remove_cart_item' cart_item.id %}">x</a>
+                                            <a href="{% url 'remove_cart_item' cart_item.id %}"><i class="fa-solid fa-trash-can"></i></a>
                                         </td>
                                         <td class="cart-product-image">
                                             <img src="{{cart_item.product.image.url}}" alt="#">
                                         </td>
                                         <td class="cart-product-info">
-                                            <h4><a href="product-details.html">{{cart_item.product.en_name}}</a></h4>
+                                            <h4><a href="{% url 'product_details' cart_item.product.id %}">{% if LANGUAGE_CODE == "ar" %}{{cart_item.product.ar_name}}{% else %}{{cart_item.product.en_name}}{% endif %}</a></h4>
                                         </td>
-                                        <td class="cart-product-price">${{ cart_item.calculate_subtotal }}</td>
+                                        <td class="cart-product-price">{{cart_item.product.price}} {% if LANGUAGE_CODE == "ar" %}جنيه{% else %}EGP{% endif %}</td>
                                         <td class="cart-product-quantity">
                                             <div class="cart-plus-minus">
                                                 <input type="text" value="{{ cart_item.quantity }}" name="qtybutton" class="cart-plus-minus-box">
                                             </div>
                                         </td>
                                         <td class="cart-product-subtotal" data-cart-item-id="{{ cart_item.id }}">
-                                            
+                                            {{ cart_item.calculate_subtotal }} {% if LANGUAGE_CODE == "ar" %}جنيه{% else %}EGP{% endif %}
                                         </td>
 
                                     </tr>
@@ -65,31 +68,31 @@
                                 
                             </table>
                         </div>
-                        <button class="theme-btn-1 btn btn-effect-1">Update Cart</button>
+                        <button class="theme-btn-1 btn btn-effect-1" id="update">{% if LANGUAGE_CODE == "ar" %}تحديث العربة{% else %}Update Cart{% endif %}</button>
                         <div class="shoping-cart-total mt-50">
-                            <h4>Cart Totals</h4>
+                            <h4>{% if LANGUAGE_CODE == "ar" %}إجمالي العربة{% else %}Cart Totals{% endif %}</h4>
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <td>Cart Subtotal</td>
-                                        <td id="cart-subtotal">${{ cart_subtotal }}</td>
+                                        <td>{% if LANGUAGE_CODE == "ar" %}إجمالي التكلفة{% else %}Cart Subtotal{% endif %}</td>
+                                        <td id="cart-subtotal">{% if LANGUAGE_CODE == "ar" %}جنيه{% else %}EGP{% endif %} {{ cart_subtotal }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Shipping and Handling</td>
-                                        <td id="shipping-and-handling">${{ shipping_and_handling }}</td>
+                                        <td>{% if LANGUAGE_CODE == "ar" %}الشحن والتوصيل{% else %}Shipping and Handling{% endif %}</td>
+                                        <td id="shipping-and-handling">{% if LANGUAGE_CODE == "ar" %}جنيه{% else %}EGP{% endif %} {{ shipping_and_handling }}</td>
                                     </tr>
                                     <tr>
-                                        <td>VAT</td>
-                                        <td id="vat">${{ vat }}</td>
+                                        <td>{% if LANGUAGE_CODE == "ar" %}الضريبة{% else %}VAT{% endif %}</td>
+                                        <td id="vat">{% if LANGUAGE_CODE == "ar" %}جنيه{% else %}EGP{% endif %} {{ vat }}</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Order Total</strong></td>
-                                        <td id="order-total"><strong>${{ order_total }}</strong></td>
+                                        <td><strong>{% if LANGUAGE_CODE == "ar" %}الإجمالي{% else %}Order Total{% endif %}</strong></td>
+                                        <td id="order-total"><strong>{% if LANGUAGE_CODE == "ar" %}جنيه{% else %}EGP{% endif %} {{ order_total }}</strong></td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="btn-wrapper text-right">
-                                <a href="{% url 'checkout' %}" class="theme-btn-1 btn btn-effect-1">Proceed to checkout</a>
+                                <a href="{% url 'checkout' %}" class="theme-btn-1 btn btn-effect-1">{% if LANGUAGE_CODE == "ar" %}إرسال الطلب{% else %}Send Request{% endif %}</a>
                             </div>
                         </div>
                     </div>
@@ -97,6 +100,15 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div class="liton__shoping-cart-area mb-120">
+        <div class="container">
+            <div class="row">
+                {% if LANGUAGE_CODE == "ar" %}قم بإضافة منتجات إلى عربة التسوق.{% else %}Add some items to your shopping cart.{% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <!-- SHOPING CART AREA END -->
 
 
@@ -110,6 +122,9 @@
         $('.theme-btn-1').on('click', function () {
             // Prepare data to send to the server
             var cartItems = [];
+           // Get the full URL
+        const fullURL = window.location.href;
+        const languageCode = fullURL.slice(fullURL.indexOf("ar"), fullURL.indexOf("/ar") + 3);
 
             $('tr[data-cart-item-id]').each(function () {
                 var itemId = $(this).data('cart-item-id');
@@ -121,10 +136,10 @@
                 });
             });
 
-            // Send data to the server using AJAX
+            
             $.ajax({
                 type: 'POST',
-                url: '{% url "update_cart_item" %}',  // Update with your actual URL
+                url: '{% url "update_cart_item" %}', 
                 data: {
                     csrfmiddlewaretoken: csrfToken,
                     cart_items: JSON.stringify(cartItems)
@@ -132,14 +147,35 @@
                 success: function (data) {
                     // Update the individual cart item rows
                     $.each(data.updated_subtotals, function (itemId, subtotal) {
-                        $('td[data-cart-item-id="' + itemId + '"]').text('$' + subtotal);
+                        const currencySymbol = (languageCode === "ar") ? "<strong>جنيه" : "<strong>EGP";
+                        $('td[data-cart-item-id="' + itemId + '"]').html(`${subtotal} ${currencySymbol}`);
                     });
 
                     // Update the total summary
-                    $('#cart-subtotal').text('$' + data.cart_subtotal);
-                    $('#shipping-and-handling').text('$' + data.shipping_and_handling);
-                    $('#vat').text('$' + data.vat);
-                    $('#order-total').html('<strong>$' + data.order_total + '</strong>');
+                    const currencySymbol = (languageCode === "ar") ? "<strong>جنيه" : "<strong>EGP";
+                    $('#cart-subtotal').html(`${currencySymbol} ${data.cart_subtotal}</strong>`);
+                    $('#shipping-and-handling').html(`${currencySymbol} ${data.shipping_and_handling}</strong>`);
+                    $('#vat').html(`${currencySymbol} ${data.vat}</strong>`);
+                    $('#order-total').html(`<strong>${currencySymbol} ${data.order_total}</strong>`);
+                    // Check if there are no visible td elements
+                    const hasVisibleTds = $('.shoping-cart-table tbody td:visible').length > 0;
+
+                    
+
+                    // Show/hide the shopping cart total div based on the presence of visible td elements
+                    if (hasVisibleTds) {
+                        $('.shoping-cart-total').show();
+                        $('#update').show();  // Hide the update button
+
+                    } else {
+                        $('.shoping-cart-total').hide();
+                        $('#update').hide();  // Hide the update button
+                        $('#data-container').html(`
+                            {% if LANGUAGE_CODE == "ar" %}قم بإضافة منتجات إلى عربة التسوق.{% else %}Add some items to your shopping cart.{% endif %}
+                        `)
+
+
+                    }
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     console.log('Error updating cart:', errorThrown);
@@ -147,7 +183,41 @@
             });
         });
     });
-</script>
+    
 
-   
+
+    $(document).ready(function () {
+        // Listen for click events on remove buttons
+        $('.cart-product-remove a').on('click', function (event) {
+            event.preventDefault();
+
+            // Get the parent row
+            const row = $(this).closest('tr');
+            const cartItemId = row.data('cart-item-id');
+            const csrftoken = $("[name=csrfmiddlewaretoken]").val();
+            const removeUrl = '{% url "remove_cart_item" 9999 %}'.replace('9999', cartItemId);
+            var update = document.getElementById("update");
+
+            // Send AJAX request to remove the item
+            $.ajax({
+                type: 'DELETE',  // Use 'POST' or '' based on your server-side implementation
+                url: removeUrl,
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                contentType: 'application/json',
+                success: function () {
+                    // If the request is successful, remove the row
+                    row.remove();
+                    update.click();
+                    
+                    
+                },
+                error: function () {
+                    console.error('Failed to remove item from the cart');
+                }
+            });
+        });
+    });
+</script>
 {% endblock content %}

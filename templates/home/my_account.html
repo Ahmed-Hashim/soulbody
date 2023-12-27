@@ -1,0 +1,200 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block content %}
+
+    <!-- BREADCRUMB AREA START -->
+    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ltn__breadcrumb-inner">
+                        <h1 class="page-title">{% if LANGUAGE_CODE == 'ar' %}حسابي {% else %}My Account {% endif %}</h1>
+                        <div class="ltn__breadcrumb-list">
+                            <ul>
+                                <li><a href="{% url 'home' %}"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span> {% if LANGUAGE_CODE == 'ar' %} الرئيسية{% else %} Home{% endif %}</a></li>
+                                <li>{% if LANGUAGE_CODE == 'ar' %} حسابي{% else %} My Account{% endif %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BREADCRUMB AREA END -->
+
+    <!-- WISHLIST AREA START -->
+    <div class="liton__wishlist-area pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- PRODUCT TAB AREA START -->
+                    <div class="ltn__product-tab-area">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="ltn__tab-menu-list mb-50">
+                                        <div class="nav">
+                                            <a class="active show" data-bs-toggle="tab" href="#liton_tab_1_1">{% if LANGUAGE_CODE == 'ar' %} معلومات الحساب{% else %}Account Data {% endif %} <i class="fas fa-home"></i></a>
+                                            <a data-bs-toggle="tab" href="#liton_tab_1_2">{% if LANGUAGE_CODE == 'ar' %} الطلبات السابقة{% else %}Last Orders {% endif %} <i class="fas fa-file-alt"></i></a>
+                                            <a data-bs-toggle="tab" href="#liton_tab_1_4">{% if LANGUAGE_CODE == 'ar' %} العناوين{% else %}Address {% endif %} <i class="fas fa-map-marker-alt"></i></a>
+                                            <a data-bs-toggle="tab" href="#liton_tab_1_5">{% if LANGUAGE_CODE == 'ar' %}بيانات الحساب {% else %}Account Details {% endif %} <i class="fas fa-user"></i></a>
+                                            <a href="{% url 'logout_user' %}">{% if LANGUAGE_CODE == 'ar' %}تسجيل الخروج{% else %}Logout {% endif %} <i class="fas fa-sign-out-alt"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade active show" id="liton_tab_1_1">
+                                            <div class="ltn__myaccount-tab-content-inner">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <h5>{% if LANGUAGE_CODE == 'ar' %} أسم الحساب {% else %} Username {% endif %} : {{user.username}}</h5>
+                                                        <h5>{% if LANGUAGE_CODE == 'ar' %} المسمى الوظيفي {% else %} Job Title {% endif %} : {{user.profile.fullname}}</h5>
+                                                        <h5>{% if LANGUAGE_CODE == 'ar' %} الإسم بالكامل {% else %} Full Name {% endif %} : {{user.profile.fullname}} </h5>
+                                                        <h5>{% if LANGUAGE_CODE == 'ar' %} رقم الهاتف {% else %} Phonenumber {% endif %} : {{user.profile.phone_number}}</h5>
+                                                        <h5>{% if LANGUAGE_CODE == 'ar' %} العنوان {% else %} Address {% endif %} : {{user.profile.address}}</h5>
+                                                        <h5>{% if LANGUAGE_CODE == 'ar' %} البريد الإلكتروني {% else %} Email {% endif %} : {{user.email}}</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="liton_tab_1_2">
+                                            <div class="ltn__myaccount-tab-content-inner">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>{% if LANGUAGE_CODE == 'ar' %} الطلب{% else %} Order{% endif %}</th>
+                                                                <th>{% if LANGUAGE_CODE == 'ar' %} التاريخ{% else %} Date{% endif %}</th>
+                                                                <th>{% if LANGUAGE_CODE == 'ar' %} المبلغ الكلي{% else %} Total{% endif %}</th>
+                                                                <th>{% if LANGUAGE_CODE == 'ar' %} العربة{% else %} Cart{% endif %}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for completed_cart in completed_carts %}
+                                                            <tr>
+                                                                <td>{{completed_cart.cart.id}}</td>
+                                                                <td>{{completed_cart.cart.created_at}}</td>
+                                                                <td>{{completed_cart.subtotal}}</td>
+                                                                <td><a href="{% url 'show_cart' completed_cart.cart.id %}" style="cursor:pointer;">{% if LANGUAGE_CODE == 'ar' %} عرض العربة{% else %} View Cart{% endif %}</a></td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="liton_tab_1_4">
+                                            <div class="ltn__myaccount-tab-content-inner">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-12 learts-mb-30">
+                                                        <h4>{% if LANGUAGE_CODE == 'ar' %} العنوان{% else %} Address {% endif %} <small></h4>
+                                                        <address>
+                                                            <p>{{user.profile.address}}</p>
+                                                        </address>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="liton_tab_1_5">
+                                            <div class="ltn__myaccount-tab-content-inner">
+                                                <p>{% if LANGUAGE_CODE == 'ar' %}
+                                                    سيتم استخدام العناوين التالية في صفحة الخروج بشكل افتراضي.
+                                                    {% else %} 
+                                                    The following addresses will be used on the checkout page by default.
+                                                    {% endif %}
+                                                    
+                                                </p>
+                                                <div class="ltn__form-box">
+                                                    <form method="post" name="profile" action="{% url 'save_profile' %}">
+                                                        {% csrf_token %}
+                                                        <div class="row mb-50">
+                                                            <div class="col-md-6">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %}المسمى الوظيفي {% else %}Job Title {% endif %}:</label>
+                                                                {{profile_form.fullname}}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %}الإسم الكامل {% else %}Full Name {% endif %}:</label>
+                                                                {{profile_form.fullname}}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %}رقم الهاتف {% else %}Phonenumber {% endif %}:</label>
+                                                                {{profile_form.phone_number}}
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %} الجنس{% else %}Gender {% endif %}:</label>
+                                                                <br>
+                                                                {{profile_form.gender}}
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %}البلد {% else %} Country{% endif %}:</label>
+                                                                <br>
+                                                                {{profile_form.country}}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %}العنوان {% else %} Address{% endif %}:</label>
+                                                                {{profile_form.address}}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %}فيسبوك {% else %} Facebook{% endif %}:</label>
+                                                                {{profile_form.facebook_url}}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %}إنستجرام {% else %}Instagram {% endif %}:</label>
+                                                                {{profile_form.instagram_url}}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %}تويتر {% else %}Twitter {% endif %}:</label>
+                                                                {{profile_form.twitter_url}}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %}لينكد ان{% else %}Linkedin {% endif %}:</label>
+                                                                {{profile_form.linkedin_url}}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>{% if LANGUAGE_CODE == 'ar' %} سكايب{% else %}Skype {% endif %}:</label>
+                                                                {{profile_form.skype_url}}
+                                                            </div>
+                                                        </div>
+                                                        <button class="theme-btn-1 btn btn-effect-1 text-uppercase" type="submit">{% if LANGUAGE_CODE == 'ar' %}حفظ {% else %}Save {% endif %}</button>
+                                                    </form>
+                                                    <hr>
+                                                    <form method="post" action="{% url 'password_change' %}">
+                                                        {% csrf_token %}
+                                                        <fieldset>
+                                                            <legend>{% if LANGUAGE_CODE == 'ar' %}تغيير كلمة السر {% else %} Password change{% endif %}</legend>
+                                                        <hr>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <label>{% if LANGUAGE_CODE == 'ar' %} كلمة السر الحالية{% else %}Current password (leave blank to leave unchanged) {% endif %}:</label>
+                                                                    {{password_form.old_password}}
+                                                                    <label>{% if LANGUAGE_CODE == 'ar' %} كلمة السر الجديدة {% else %}New password (leave blank to leave unchanged) {% endif %}:</label>
+                                                                    {{password_form.new_password1}}
+                                                                    <label>{% if LANGUAGE_CODE == 'ar' %} تكرار كلمة السر الجديدة {% else %}Confirm new password {% endif %}:</label>
+                                                                    {{password_form.new_password2}}
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                        <div class="btn-wrapper">
+                                                            <button type="submit" class="btn theme-btn-1 btn-effect-1 text-uppercase" >{% if LANGUAGE_CODE == 'ar' %}تغيير كلمة السر {% else %} Password change{% endif %}</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PRODUCT TAB AREA END -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- WISHLIST AREA START -->
+    
+{% endblock content %}

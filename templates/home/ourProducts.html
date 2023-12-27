@@ -47,7 +47,7 @@
                                 <div class="col-lg-12">
                                     <div class="ltn__product-item ltn__product-item-3 text-center">
                                         <div class="product-img">
-                                            <a href="{% url 'product_details' product.id %}"><img src="{{product.image.url}}" alt="#"></a>
+                                            <a href="{% url 'product_details' product.id %}" style="cursor:pointer;"><img src="{{product.image.url}}" alt="#"></a>
                                             <div class="product-badge">
                                                 {% if LANGUAGE_CODE == 'ar' %}
                                                 <ul>
@@ -59,13 +59,14 @@
                                                     <li>
                                                         <a title="Quick View"
                                                             hx-get="{% url 'show_product' product.id %}"
+                                                            style="cursor:pointer;"
                                                             hx-target="#dialog">
                                                             <i class="far fa-eye"></i>
                                                         </a>
                                                     </li>
                                                     {% if user.is_authenticated %}
                                                         <li>
-                                                            <a hx-get="{% url 'add_to_cart' product.id %}" title="Add to Cart" >
+                                                            <a hx-get="{% url 'add_to_cart' product.id %}" title="Add to Cart" style="cursor:pointer;">
                                                                 <i class="fas fa-shopping-cart"></i>
                                                             </a>
                                                         </li>
@@ -75,7 +76,7 @@
                                         </div>
                                         <div class="product-info">
                                             <h2 class="product-title"><a
-                                                    href="{% url 'product_details' product.id %}">{{product.ar_name}}</a></h2>
+                                                    href="{% url 'product_details' product.id %}" style="cursor:pointer;">{{product.ar_name}}</a></h2>
                                             <div class="product-price">
                                                 <span>{{product.price}} جنيه</span>
                                                 {% if product.old_price > 0 %}
@@ -97,14 +98,14 @@
                                     <div class="product-hover-action">
                                         <ul>
                                             <li>
-                                                <a title="Quick View" hx-get="{% url 'show_product' product.id %}"
+                                                <a title="Quick View" hx-get="{% url 'show_product' product.id %}" style="cursor:pointer;"
                                                     hx-target="#dialog">
                                                     <i class="far fa-eye"></i>
                                                 </a>
                                             </li>
                                             {% if user.is_authenticated %}
                                                 <li>
-                                                    <a hx-get="{% url 'add_to_cart' product.id %}" title="Add to Cart">
+                                                    <a hx-get="{% url 'add_to_cart' product.id %}" style="cursor:pointer;" title="Add to Cart">
                                                         <i class="fas fa-shopping-cart"></i>
                                                     </a>
                                                 </li>

@@ -1,7 +1,7 @@
 {% extends "home/base.html" %}
 {% block content %}
     <!-- BREADCRUMB AREA START -->
-    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image "  data-bs-bg="img/bg/14.jpg">
+    <div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image ">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -167,7 +167,11 @@
                                         <div class="top-rated-product-info">
                                             <h6><a href="product-details.html">{{product.en_name}}</a></h6>
                                             <div class="product-price">
-                                                <span>{{product.price}}</span>
+                                                <span>{{product.price}}{% if LANGUAGE_CODE == 'en' %}
+                                                                         EGP
+                                                                    {% else %}
+                                                                         جنيه
+                                                                {% endif %}</span></span>
                                                 <del>
                                                     {% if LANGUAGE_CODE == 'en' %}
                                                     {{product.old_price}} EGP
@@ -218,7 +222,11 @@
                                         <div class="top-rated-product-info">
                                             <h6><a href="product-details.html">{{product.ar_name}}</a></h6>
                                             <div class="product-price">
-                                                <span>{{product.price}}</span>
+                                                <span>{{product.price}}{% if LANGUAGE_CODE == 'en' %}
+                                                                         EGP
+                                                                    {% else %}
+                                                                         جنيه
+                                                                {% endif %}</span>
                                                 <del>
                                                     {% if LANGUAGE_CODE == 'en' %}
                                                     {{product.old_price}} EGP

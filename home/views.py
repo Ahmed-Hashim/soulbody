@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from account.forms import CartItemForm
+from account.forms import CartItemForm, ProfileForm, PasswordChangingForm
 from home.forms import Contact_form, Request_Clinic_form, Request_Hosbital_form
 from product.models import Product, MedicalSystem, Categories, Cart, CartItem
 from crmsb.models import Customer, Testimonials
@@ -18,6 +18,7 @@ def home(request):
     tests = Testimonials.objects.filter(active=True)
     coldown = Cooldown.objects.filter(active=True).last()
     site_data = sitedata.objects.all().last()
+
     context = {
         "products": products,
         "systems": systems,
@@ -27,18 +28,13 @@ def home(request):
         "tests": tests,
         "sitedata": site_data,
     }
+
     if request.user.is_authenticated:
-        cart = Cart.objects.get(user=request.user)
-        context.update(
-            {
-                "cart": cart,
-            }
-        )
+        # Try to get the user's active cart (not completed)
+        active_cart = Cart.objects.filter(user=request.user, completed=False).first()
+        context.update({"cart": active_cart})
 
     return render(request, "home/home.html", context)
-
-
-
 
 
 def base(request):
@@ -154,8 +150,9 @@ def medical_systems(request, id):
         lang = get_language()
         if request.method == "POST":
             form = Request_Clinic_form(request.POST)
-            name = form.cleaned_data["name"]
+
             if form.is_valid():
+                name = form.cleaned_data["name"]
                 form.save()
                 if lang == "en":
                     sweetify.success(
@@ -227,3 +224,39 @@ def request_clinic(request, id):
         "sitedata": site_data,
     }
     return render(request, "corepages/request_clinic.html", context)
+
+
+def user_account(request):
+    products = Product.objects.all()
+    categories = Categories.objects.all()
+    systems = MedicalSystem.objects.all()
+    site_data = sitedata.objects.all().last()
+    completed_carts = Cart.objects.filter(user=request.user, completed=True)
+    profile_form = ProfileForm(instance=request.user.profile)
+    password_form = PasswordChangingForm(user=request.user)
+    cart_subtotals = []
+    for completed_cart in completed_carts:
+        cart_items = completed_cart.cartitem_set.all()
+        subtotal = sum(item.calculate_subtotal() for item in cart_items)
+        cart_subtotals.append({"cart": completed_cart, "subtotal": subtotal})
+
+    context = {
+        "products": products,
+        "systems": systems,
+        "categories": categories,
+        "sitedata": site_data,
+        "carts": completed_carts,
+        "profile_form": profile_form,
+        "password_form": password_form,
+        "completed_carts": cart_subtotals,
+    }
+
+    if request.user.is_authenticated:
+        # Try to get the user's active cart (not completed)
+        active_cart = Cart.objects.filter(user=request.user, completed=False).first()
+        context.update({"cart": active_cart})
+
+    return render(request, "home/my_account.html", context)
+
+
+

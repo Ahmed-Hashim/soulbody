@@ -1,0 +1,81 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block content %}
+<!-- BREADCRUMB AREA START -->
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ltn__breadcrumb-inner">
+                    <h1 class="page-title">{% if LANGUAGE_CODE == 'ar' %}حسابي {% else %}My Account {% endif %}</h1>
+                    <div class="ltn__breadcrumb-list">
+                        <ul>
+                            <li>
+                                <a href="{% url 'home' %}">
+                                    <span class="ltn__secondary-color">
+                                        <i class="fas fa-home"></i>
+                                    </span> {% if LANGUAGE_CODE == 'ar' %} الرئيسية{%else %} Home{% endif %}
+                                </a>
+                            </li>
+                            <li>
+                                {% if LANGUAGE_CODE == 'ar' %} حسابي{% else %} My Account{% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BREADCRUMB AREA END -->
+<div class="liton__shoping-cart-area mb-120">
+    <div class="container">
+        <div class="row" id="data-container">
+            <div class="col-lg-12">
+                    <div class=" table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td>{% if LANGUAGE_CODE == 'ar' %}الصورة{% else %} Image {% endif %}</td>
+                                    <td>{% if LANGUAGE_CODE == 'ar' %}الإسم{% else %} Name {% endif %}</td>
+                                    <td>{% if LANGUAGE_CODE == 'ar' %}السعر{% else %} Price {% endif %}</td>
+                                    <td>{% if LANGUAGE_CODE == 'ar' %}العدد{% else %} Quantity {% endif %}</td>
+                                    <td>{% if LANGUAGE_CODE == 'ar' %}المبلغ الإجمالي{% else %} Subtotal {% endif %}</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cart_item in cart.cartitem_set.all %}
+                                <tr data-cart-item-id="{{ cart_item.id }}" data-product-price="{{ cart_item.product.price }}">
+                                    <td class="cart-product-image">
+                                        <img src="{{cart_item.product.image.url}}" alt="#">
+                                    </td>
+                                    <td class="cart-product-info">
+                                        <h4><a href="{% url 'product_details' cart_item.product.id %}">{% if LANGUAGE_CODE == "ar" %}{{cart_item.product.ar_name}}{% else %}{{cart_item.product.en_name}}{% endif %}</a></h4>
+                                    </td>
+                                    <td class="cart-product-price">{{cart_item.product.price}} {% if LANGUAGE_CODE == "ar" %}جنيه{% else %}EGP{% endif %}</td>
+                                    <td class="cart-product-quantity">
+                                        
+                                            {{ cart_item.quantity }}
+                                    </td>
+                                    <td class="cart-product-subtotal" data-cart-item-id="{{ cart_item.id }}">
+                                        {{ cart_item.calculate_subtotal }} {% if LANGUAGE_CODE == "ar" %}جنيه{% else %}EGP{% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <a class="theme-btn-1 btn btn-effect-1 text-uppercase" onClick="history_back()"> {% if LANGUAGE_CODE == "ar" %}الرجوع{% else %}Back{% endif %}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function history_back() {
+            window.history.back();
+        } 
+    </script>
+{% endblock content %}
