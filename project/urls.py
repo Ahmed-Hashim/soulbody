@@ -11,7 +11,6 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path("", views.home, name="home"),
     path("admin/", admin.site.urls),
-    path("posts/", include("posts.urls")),
     path("crm/", include("crmsb.urls")),
     path("products/", include("product.urls")),
     path("pages/", include("corepages.urls")),
