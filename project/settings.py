@@ -12,6 +12,7 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 from pathlib import Path
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -90,7 +91,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != "collectstatic":
     }
 
 WSGI_APPLICATION = "project.wsgi.application"
-
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
