@@ -34,6 +34,7 @@ COUNTIERS = (
 
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, unique=True)
+    jobtitle = models.CharField(max_length=20, null=True, blank=True)
     fullname = models.CharField(max_length=150, null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     profile_pic = ResizedImageField(

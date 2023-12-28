@@ -11,6 +11,7 @@ class ProfileForm(ModelForm):
     class Meta:
         model = Profile
         fields = (
+            "jobtitle",
             "fullname",
             "bio",
             "phone_number",
@@ -25,6 +26,7 @@ class ProfileForm(ModelForm):
         )
 
         widgets = {
+            "jobtitle": forms.TextInput(attrs={"class": "form-control"}),
             "fullname": forms.TextInput(attrs={"class": "form-control"}),
             "bio": forms.Textarea(attrs={"class": "form-control"}),
             "phone_number": forms.TextInput(attrs={"class": "form-control"}),

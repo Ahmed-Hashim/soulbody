@@ -1,10 +1,13 @@
-Subject: New Order Received
+Subject: استلام طلب جديد
 
-Order Details:
-Order by : {{request.user.username}}
-email : {{request.user.email}}
+تفاصيل الطلب:
+الطلب بواسطة: {{jobtitle}} {{fullname}}
+البريد الإلكتروني: {{email}}
+رقم الهاتف: {{phone_number}}
+العنوان: {{address}}
+
 {% for item in cart_items %}
-- {{ item.product.en_name }}: {{ item.quantity }} units
+- {{ item.product.en_name }}: {{ item.quantity }} وحدة
 {% endfor %}
 
-Total: ${{ order_total }}
+الإجمالي: جنيه{{ order_total }}

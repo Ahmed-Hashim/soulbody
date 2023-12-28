@@ -13,6 +13,8 @@ from .views import (
     remove_cart_item,
     checkout,
 )
+from .views import CustomPasswordResetView, CustomPasswordResetConfirmView
+
 
 urlpatterns = [
     path("login", login_user, name="login_user"),
@@ -33,6 +35,12 @@ urlpatterns = [
         remove_cart_item,
         name="remove_cart_item",
     ),
-    path("checkout", checkout, name="checkout")
+    path("checkout", checkout, name="checkout"),
+    path("password_reset/", CustomPasswordResetView.as_view(), name="password_reset"),
+    path(
+        "reset/<uidb64>/<token>/",
+        CustomPasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
     # Add other URLs as needed
 ]

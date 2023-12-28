@@ -52,7 +52,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-body">
                                                         <h5>{% if LANGUAGE_CODE == 'ar' %} أسم الحساب {% else %} Username {% endif %} : {{user.username}}</h5>
-                                                        <h5>{% if LANGUAGE_CODE == 'ar' %} المسمى الوظيفي {% else %} Job Title {% endif %} : {{user.profile.fullname}}</h5>
+                                                        <h5>{% if LANGUAGE_CODE == 'ar' %} المسمى الوظيفي {% else %} Job Title {% endif %} : {{user.profile.jobtitle}}</h5>
                                                         <h5>{% if LANGUAGE_CODE == 'ar' %} الإسم بالكامل {% else %} Full Name {% endif %} : {{user.profile.fullname}} </h5>
                                                         <h5>{% if LANGUAGE_CODE == 'ar' %} رقم الهاتف {% else %} Phonenumber {% endif %} : {{user.profile.phone_number}}</h5>
                                                         <h5>{% if LANGUAGE_CODE == 'ar' %} العنوان {% else %} Address {% endif %} : {{user.profile.address}}</h5>
@@ -114,7 +114,7 @@
                                                         <div class="row mb-50">
                                                             <div class="col-md-6">
                                                                 <label>{% if LANGUAGE_CODE == 'ar' %}المسمى الوظيفي {% else %}Job Title {% endif %}:</label>
-                                                                {{profile_form.fullname}}
+                                                                {{profile_form.jobtitle}}
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <label>{% if LANGUAGE_CODE == 'ar' %}الإسم الكامل {% else %}Full Name {% endif %}:</label>

@@ -26,6 +26,9 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import update_session_auth_hash
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 @user_not_authenticated
@@ -352,71 +355,126 @@ def view_cart(request):
 
 @login_required
 def checkout(request):
-    # Get the user's active cart (not completed)
-    active_cart = Cart.objects.filter(user=request.user, completed=False).first()
+    if (
+        request.user.profile.fullname
+        and request.user.profile.jobtitle
+        and request.user.profile.address
+        and request.user.profile.phone_number
+    ):
+        # Get the user's active cart (not completed)
+        active_cart = Cart.objects.filter(user=request.user, completed=False).first()
+        lang = get_language()
 
-    if active_cart and not active_cart.completed:
-        # Retrieve cart items from the completed cart
-        cart_items = active_cart.cartitem_set.all()
+        if active_cart and not active_cart.completed:
+            # Retrieve cart items from the completed cart
+            cart_items = active_cart.cartitem_set.all()
 
-        # Perform your calculations for the new cart
-        cart_subtotal = calculate_cart_subtotal(request.user)
-        shipping_and_handling = calculate_shipping_and_handling()
-        vat = calculate_vat(cart_subtotal)
-        order_total = cart_subtotal + shipping_and_handling + vat
+            # Perform your calculations for the new cart
+            cart_subtotal = calculate_cart_subtotal(request.user)
+            shipping_and_handling = calculate_shipping_and_handling()
+            vat = calculate_vat(cart_subtotal)
+            order_total = cart_subtotal + shipping_and_handling + vat
 
-        # Send admin notification email
-        admin_subject = "New Order Received"
-        admin_message = render_to_string(
-            "admin_notification_email.html",
-            {"cart_items": cart_items, "order_total": order_total},
-        )
-        send_mail(
-            admin_subject, admin_message, "info@soulnbody.net", ["info@soulnbody.net"]
-        )
+            # Send admin notification email
+            admin_subject = "New Order Received"
+            jobtitle = request.user.profile.jobtitle
+            fullname = request.user.profile.fullname
+            email = request.user.email
+            phone_number = request.user.profile.phone_number
+            address = request.user.profile.address
 
-        # Send user confirmation email
-        user_email = request.user.email
-        user_subject = "Order Confirmation"
-        user_message = render_to_string(
-            "user_confirmation_email.html",
-            {"cart_items": cart_items, "order_total": order_total},
-        )
-        send_mail(user_subject, user_message, "info@soulnbody.net", [user_email])
+            admin_message = render_to_string(
+                "admin_notification_email.html",
+                {
+                    "cart_items": cart_items,
+                    "order_total": round(order_total),
+                    "jobtitle": jobtitle,
+                    "fullname": fullname,
+                    "email": email,
+                    "phone_number": phone_number,
+                    "address": address,
+                },
+            )
+            send_mail(
+                admin_subject,
+                admin_message,
+                "info@soulnbody.net",
+                ["info@soulnbody.net"],
+            )
 
-        # Mark the current active cart as completed
-        active_cart.completed = True
-        active_cart.save()
+            # Send user confirmation email
+            user_email = request.user.email
+            user_subject = "Order Confirmation"
+            user_subject_ar = "تأكيد الطلب"
+            user_message = render_to_string(
+                "user_confirmation_email.html",
+                {"cart_items": cart_items, "order_total": order_total},
+            )
+            user_message_ar = render_to_string(
+                "user_confirmation_email_ar.html",
+                {"cart_items": cart_items, "order_total": order_total},
+            )
+            if lang == "en":
+                send_mail(
+                    user_subject, user_message, "info@soulnbody.net", [user_email]
+                )
+            else:
+                send_mail(
+                    user_subject_ar, user_message_ar, "info@soulnbody.net", [user_email]
+                )
+            # Mark the current active cart as completed
+            active_cart.completed = True
+            active_cart.save()
+        else:
+            print("No active or completed cart found for the user.")
+
+        # Create a new cart for the user only if no active or completed cart is found
+        try:
+            if not active_cart or active_cart.completed:
+                new_cart = Cart.objects.create(user=request.user, completed=False)
+                print("New cart created")
+        except Exception as e:
+            print(f"Error creating new cart: {e}")
+
+        # Additional logic for order confirmation, payment processing, etc.
+        lang = get_language()
+        if lang == "en":
+            sweetify.success(
+                request,
+                "We received your request Successfully ",
+                text=f"Thank you {request.user.username} for choosing us!",
+                button="Ok",
+                timer=5000,
+            )
+            return redirect("home")
+        else:
+            sweetify.success(
+                request,
+                "طلب ناجح",
+                text=f"شكراً {request.user.username} لإختيارك لنا!",
+                timer=5000,
+            )
+            return redirect("home")
     else:
-        print("No active or completed cart found for the user.")
-
-    # Create a new cart for the user only if no active or completed cart is found
-    try:
-        if not active_cart or active_cart.completed:
-            new_cart = Cart.objects.create(user=request.user, completed=False)
-            print("New cart created")
-    except Exception as e:
-        print(f"Error creating new cart: {e}")
-
-    # Additional logic for order confirmation, payment processing, etc.
-    lang = get_language()
-    if lang == "en":
-        sweetify.success(
-            request,
-            "We received your request Successfully ",
-            text=f"Thank you {request.user.username} for choosing us!",
-            button="Ok",
-            timer=5000,
-        )
-        return redirect("home")
-    else:
-        sweetify.success(
-            request,
-            "طلب ناجح",
-            text=f"شكراً {request.user.username} لإختيارك لنا!",
-            timer=5000,
-        )
-        return redirect("home")
+        lang = get_language()
+        if lang == "en":
+            sweetify.error(
+                request,
+                "Error!! No data fill your profile",
+                text=f"Please set your Account data before you send request!",
+                button="Ok",
+                timer=5000,
+            )
+            return redirect("user_account")
+        else:
+            sweetify.error(
+                request,
+                "خطأ!! الرجاء إدخال بيانات الملف الشخصي.",
+                text=f"يرجى ضبط بيانات حسابك قبل إرسال الطلب!",
+                button="Ok",
+                timer=5000,
+            )
+            return redirect("user_account")
 
 
 def save_profile(request):
@@ -486,3 +544,74 @@ def password_change(request):
         password_form = PasswordChangingForm(request.user)
 
     return redirect("user_account", {"password_form": password_form})
+
+
+class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
+    lang = get_language()
+    if lang == "en":
+        email_template_name = "custom_password_reset_email.txt"
+    else:
+        email_template_name = "custom_password_reset_email.txt"
+    from_email = "info@soulnbody.net"
+    template_name = "password_reset_form.html"
+    success_url = reverse_lazy("home")
+    success_message = "Password reset email sent successfully. Please check your inbox."
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        site_data = sitedata.objects.all().last()
+        categories = Categories.objects.all()
+        systems = MedicalSystem.objects.all()
+        products = Product.objects.all()
+
+        # Add custom context data
+        context["sitedata"] = site_data
+        context["categories"] = categories
+        context["systems"] = systems
+        context["products"] = products
+
+        return context
+
+    def form_valid(self, form):
+        # Your custom logic here
+        response = super().form_valid(form)
+        # Additional logic if needed
+        return response
+
+    def form_invalid(self, form):
+        # Your custom logic here
+        response = super().form_invalid(form)
+        # Additional logic if needed
+        return response
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = "custom_password_reset_confirm.html"
+    success_url = reverse_lazy("login_user")
+
+    def form_valid(self, form):
+        # Your custom logic here, if needed
+        response = super().form_valid(form)
+        # Additional logic if needed
+        return response
+
+    def form_invalid(self, form):
+        # Your custom logic here, if needed
+        response = super().form_invalid(form)
+        # Additional logic if needed
+        return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        site_data = sitedata.objects.all().last()
+        categories = Categories.objects.all()
+        systems = MedicalSystem.objects.all()
+        products = Product.objects.all()
+
+        # Add custom context data
+        context["sitedata"] = site_data
+        context["categories"] = categories
+        context["systems"] = systems
+        context["products"] = products
+        # Add custom context data if needed
+        return context

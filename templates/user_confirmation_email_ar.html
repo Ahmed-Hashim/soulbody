@@ -1,0 +1,12 @@
+Subject: تأكيد الطلب
+
+شكرًا لطلبك!
+
+تفاصيل الطلب:
+{% for item in cart_items %}
+- {{ item.product.ar_name }}: {{ item.quantity }} وحدة
+{% endfor %}
+
+الإجمالي: ${{ order_total }}
+
+سنتواصل معك قريبًا لتأكيد الطلب.
