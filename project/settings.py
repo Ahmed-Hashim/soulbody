@@ -24,7 +24,8 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "DJANGO_ALLOWED_HOSTS",
-    "127.0.0.1,localhost,king-prawn-app-6aja9.ondigitalocean.app").split(",")
+    "127.0.0.1,localhost,king-prawn-app-6aja9.ondigitalocean.app,www.soulnbody.net,soulnbody.net",
+).split(",")
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
@@ -92,7 +93,6 @@ elif len(sys.argv) > 0 and sys.argv[1] != "collectstatic":
     }
 
 WSGI_APPLICATION = "project.wsgi.application"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -160,6 +160,8 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, "locale")]
 STATIC_URL = "static/"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",
     "django.contrib.auth.hashers.Argon2PasswordHasher",
