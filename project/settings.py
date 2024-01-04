@@ -25,6 +25,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
+    "167.99.241.58",
     "king-prawn-app-6aja9.ondigitalocean.app",
     "www.soulnbody.net",
     "soulnbody.net",
