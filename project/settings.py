@@ -22,16 +22,26 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "167.99.241.58",
-    "www.soulnbody.net",
-    "soulnbody.net",
-]
+
+
 
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
+if DEVELOPMENT_MODE == "True":
+    ALLOWED_HOSTS = [
+        "localhost",
+        "167.99.241.58",
+        "www.soulnbody.net",
+        "soulnbody.net",
+    ]
+else:
+    ALLOWED_HOSTS = [
+        "localhost",
+        os.getenv("SERVER_IP"),
+        os.getenv("DOMAIN_1"),
+        os.getenv("DOMAIN_2"),
+    ]
 # Application definition
 
 INSTALLED_APPS = [
@@ -81,19 +91,6 @@ TEMPLATES = [
         },
     },
 ]
-if DEVELOPMENT_MODE is True:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
-    }
-"""elif len(sys.argv) > 0 and sys.argv[1] != "collectstatic":
-    if os.getenv("DATABASE_URL", None) is None:
-        raise Exception("DATABASE_URL environment variable not defined")
-    DATABASES = {
-        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
-    }"""
 
 WSGI_APPLICATION = "project.wsgi.application"
 
@@ -117,7 +114,7 @@ else:
             "USER": env("PGUSER"),
             "PASSWORD": env("PGPASSWORD"),
             "HOST": env("PGHOST"),
-            "PORT": env("PGPORT"),
+            "PORT": "",
         }
     }
 
