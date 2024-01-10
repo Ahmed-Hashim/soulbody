@@ -39,12 +39,12 @@ else:
         os.getenv("DOMAIN_2"),
     ]
 CORS_ALLOWED_ORIGINS = [
-    "167.99.241.58",
+    "https://167.99.241.58",
     "https://www.soulnbody.net",
     "https://soulnbody.net",
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "167.99.241.58",
+    "https://167.99.241.58",
     "https://www.soulnbody.net",
     "https://soulnbody.net",
 ]
