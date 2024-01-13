@@ -27,18 +27,18 @@ DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 ALLOWED_HOSTS = [
     "*",
     "localhost",
-    "167.99.241.58",
+    "165.227.135.135",
     "www.soulnbody.net",
     "soulnbody.net",
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://167.99.241.58",
+    "https://165.227.135.135",
     "https://www.soulnbody.net",
     "https://soulnbody.net",
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "https://167.99.241.58",
+    "https://165.227.135.135",
     "https://www.soulnbody.net",
     "https://soulnbody.net",
 ]
