@@ -24,20 +24,14 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
-if DEVELOPMENT_MODE == "True":
-    ALLOWED_HOSTS = [
-        "localhost",
-        "167.99.241.58",
-        "www.soulnbody.net",
-        "soulnbody.net",
-    ]
-else:
-    ALLOWED_HOSTS = [
-        "localhost",
-        os.getenv("SERVER_IP"),
-        os.getenv("DOMAIN_1"),
-        os.getenv("DOMAIN_2"),
-    ]
+ALLOWED_HOSTS = [
+    "*",
+    "localhost",
+    "167.99.241.58",
+    "www.soulnbody.net",
+    "soulnbody.net",
+]
+
 CORS_ALLOWED_ORIGINS = [
     "https://167.99.241.58",
     "https://www.soulnbody.net",
@@ -49,8 +43,33 @@ CSRF_TRUSTED_ORIGINS = [
     "https://soulnbody.net",
 ]
 # Application definition
-
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "Soul Body Admin",
+    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "Soul Body",
+    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_brand": "Soul Body",
+    # Logo to use for your site, must be present in static files, used for brand on top left
+    "site_logo": None,
+    # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
+    "login_logo": None,
+    # Logo to use for login form in dark themes (defaults to login_logo)
+    "login_logo_dark": None,
+    # CSS classes that are applied to the logo above
+    "site_logo_classes": "img-circle",
+    # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 px)
+    "site_icon": None,
+    # Welcome text on the login screen
+    "welcome_sign": "Welcome to Soul Body",
+    # Copyright on the footer
+    "copyright": "Soul Body 2023",
+    # The model admin to search from the search bar, search bar omitted if excluded
+    "search_model": "auth.User",
+    # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
+}
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
