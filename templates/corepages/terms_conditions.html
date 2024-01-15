@@ -1,5 +1,280 @@
 {% extends "home/base.html" %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 {% block content %}
-    
-    
+<!-- BREADCRUMB AREA START -->
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image ">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ltn__breadcrumb-inner">
+                    <h1 class="page-title">{% if LANGUAGE_CODE == 'en' %}Terms and Conditions {% else %} الأحكام والشروط{% endif %}</h1>
+                    <div class="ltn__breadcrumb-list">
+                        <ul>
+                            <li><a href="{% url 'home' %}"><span class="ltn__secondary-color"><i
+                                            class="fas fa-home"></i></span> {% if LANGUAGE_CODE == 'en' %}Home {% else %} الرئيسية{% endif %}</a></li>
+                            <li>{% if LANGUAGE_CODE == 'en' %}Terms and Conditions {% else %} الأحكام والشروط {% endif %}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BREADCRUMB AREA END -->
+
+<!-- ABOUT US AREA START -->
+<div class="ltn__about-us-area pt-25--- pb-120 ">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <h1>
+                    {% if LANGUAGE_CODE == 'ar' %} 
+                    الشروط والأحكام
+                    {% else %}
+                    Terms and Conditions 
+                    {% endif %}
+                    
+                </h1>
+
+                <h4>
+                    {% if LANGUAGE_CODE == 'ar' %} 
+                    مرحبًا بك في متجر "روح وجسد البرامج الإلكترونية" للمعدات الطبية. تحدد هذه الشروط والأحكام قواعد ولوائح استخدام موقعنا وشراء معدات طبية.
+
+من خلال الوصول إلى هذا الموقع و/أو شراء منتجات منا، فإنك توافق على قبول هذه الشروط والالتزام بها. لا تستمر في استخدام هذا الموقع إذا لم تكن موافقًا على جميع الشروط والأحكام الواردة في هذه الصفحة.
+
+
+                    {% else %} 
+                    Welcome to "The Soul and Body of Electronic Programs" Medical Equipment E-Shop. These terms and
+                    conditions outline
+                    the rules and regulations for the use of our website and the purchase of medical equipment.
+
+                    By accessing this website and/or purchasing products from us, you agree to accept and abide by these
+                    terms and
+                    conditions. Do not continue to use this website if you do not agree to all of the terms and
+                    conditions stated on
+                    this page.
+                    {% endif %}<h4>
+
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            1. التعاريف
+                            {% else %}  
+                            1. Definitions
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            "نحن"، "نحن"، أو "لنا" يشير إلى "روح وجسد البرامج الإلكترونية".
+                            "أنت" يشير إلى المستخدم أو العميل لموقعنا.
+                            "المنتجات" تشير إلى المعدات الطبية المتاحة للشراء في متجرنا الإلكتروني.
+                            {% else %}
+                            
+                            "We," "us," or "our" refers to "The Soul and Body of Electronic Programs."
+                            "You" refers to the user or customer of our website.
+                            "Products" refers to the medical equipment available for purchase on our e-shop.
+                            {% endif %}
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            2. التسجيل والحساب
+                            {% else %}  
+                            2. Registration and Account
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            استخدام بعض ميزات موقعنا أو إجراء مشتريات، قد تكون مطالبًا بالتسجيل للحصول على حساب. أنت مسؤول عن الحفاظ على سرية معلومات حسابك، بما في ذلك كلمة المرور. توافق على قبول المسؤولية عن جميع الأنشطة التي تحدث تحت حسابك.
+                            {% else %}  
+                            To use certain features of our website or make purchases, you may be required to register
+                            for an account.
+                            You are responsible for maintaining the confidentiality of your account information,
+                            including your
+                            password. You agree to accept responsibility for all activities that occur under your
+                            account.
+                            {% endif %}
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            3. المنتجات والتسعير
+                            {% else %}  
+                            3. Products and Pricing
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            جميع المنتجات المعروضة على موقعنا تخضع للتوافر. الأسعار مدرجة بالـجنيه المصري وتشمل أي ضرائب قابلة للتطبيق. نحن نحتفظ بالحق في تغيير أسعار المنتج والمواصفات دون إشعار.
+
+
+                            {% else %}  
+                            All products displayed on our website are subject to availability. Prices are listed in EGP
+                            and are
+                            inclusive of any applicable taxes. We reserve the right to change product prices and
+                            specifications without
+                            notice.
+                            {% endif %}
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            4. الطلب والدفع
+                            {% else %}  
+                            4. Ordering and Payment
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            من خلال تقديم طلب على موقعنا، توافق على تقديم معلومات دقيقة وكاملة. جميع الطلبات تخضع للقبول والتوافر. يمكن إجراء الدفع من خلال [وسائل الدفع]، وسيتم معالجة الطلبات عند تأكيد الدفع.
+                            {% else %}  
+                            By placing an order on our website, you agree to provide accurate and complete information.
+                            All orders are
+                            subject to acceptance and availability. Payment can be made through Cash on delivery, and
+                            orders will be
+                            processed once payment is confirmed.
+                            {% endif %}
+                            
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            5. الشحن والتوصيل
+                            {% else %}  
+                            5. Shipping and Delivery
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            تُظهر تكاليف الشحن وأوقات التوصيل أثناء عملية الشراء. نحن نهدف إلى إرسال الطلبات بسرعة، وقد تختلف أوقات التوصيل بناءً على موقعك.
+                            {% else %}  
+                            Shipping costs and delivery times are outlined during the checkout process. We aim to
+                            dispatch orders
+                            promptly, and delivery times may vary based on your location.
+                            {% endif %}
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            6. الإرجاع والاسترداد
+
+                            {% else %}  
+                           
+                            6. Returns and Refunds
+                            {% endif %}
+                            </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            يرجى الرجوع إلى سياسة الإرجاع للحصول على معلومات حول الإرجاع والاسترداد.
+                            {% else %}  
+                            Please refer to our Return Policy for information on returns and refunds.
+                            {% endif %}
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            7. الخصوصية والأمان
+                            {% else %}  
+                            7. Privacy and Security
+                            {% endif %}
+                            </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %}
+                            خصوصيتك مهمة بالنسبة لنا. يرجى مراجعة سياسة الخصوصية لفهم كيفية جمعنا واستخدامنا وحمايتنا لمعلوماتك الشخصية.
+                            {% else %}  
+                            Your privacy is important to us. Please review our Privacy Policy to understand how we
+                            collect, use, and
+                            protect your personal information.
+                            {% endif %}
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            8. الملكية الفكرية
+                            {% else %}  
+                            8. Intellectual Property
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            محتوى هذا الموقع، بما في ذلك الصور والنصوص والشعارات، هو ملكية "روح وجسد البرامج الإلكترونية" ومحمي بموجب حقوق التأليف والنشر وقوانين الملكية الفكرية الأخرى.
+                            {% else %}  
+                            The content on this website, including images, text, and logos, is the property of "The Soul
+                            and Body of
+                            Electronic Programs" and is protected by copyright and other intellectual property laws.
+                            {% endif %}
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            9. الحد من المسؤولية
+                            {% else %}  
+                            9. Limitation of Liability
+                            {% endif %}
+                            
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            "روح وجسد البرامج الإلكترونية" لن تكون مسؤولة عن أي أضرار مباشرة أو غير مباشرة أو عرضية أو نتيجة أو عقوبية تنشأ عن وصولك إلى الموقع أو استخدامك له أو شرائك للمنتجات.
+                            {% else %}  
+                            "The Soul and Body of Electronic Programs" shall not be liable for any direct, indirect,
+                            incidental,
+                            consequential, or punitive damages arising out of your access to, or use of, the website or
+                            the purchase of
+                            products.
+                            {% endif %}
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            10. القانون السائد
+                            {% else %}  
+                            10. Governing Law
+                            {% endif %}
+                            
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            تخضع هذه الشروط والأحكام لقوانين القانون المصري ويتم تفسيرها وفقًا لها.
+                            {% else %}  
+                            These terms and conditions are governed by and construed in accordance with the laws of
+                            Egyptian law.
+                            {% endif %}
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            11. التغييرات على الشروط
+                            {% else %}  
+                            11. Changes to Terms
+                            {% endif %}
+                            
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            نحتفظ بحق تعديل هذه الشروط والأحكام في أي وقت. تكون التغييرات فعالة فور نشرها على الموقع.
+                            {% else %}  
+                            We reserve the right to modify these terms and conditions at any time. Changes will be
+                            effective immediately
+                            upon posting on the website.
+                            {% endif %}
+                            
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            معلومات الاتصال
+                            {% else %}  
+                            Contact Information
+                            {% endif %}
+                            
+                        </h5>
+                        <p>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            إذا كانت لديك أي أسئلة أو مخاوف بشأن هذه الشروط والأحكام، يرجى الاتصال بنا على <a href="mailto:info@soulnbody.net">info@soulnbody.net</a>.
+                            شكرًا لاختيارك "روح وجسد البرامج الإلكترونية" لاحتياجاتك من معدات الطبية.
+                            {% else %}  
+                                If you have any questions or concerns regarding these terms and conditions, please contact
+                                us at <a href="mailto:info@soulnbody.net">info@soulnbody.net</a>.
+
+                                Thank you for choosing "The Soul and Body of Electronic Programs" for your medical equipment
+                                needs.
+                            {% endif %}
+                            
+                        </p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

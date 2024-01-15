@@ -37,6 +37,69 @@ def home(request):
     return render(request, "home/home.html", context)
 
 
+def terms_conditions(request):
+    products = Product.objects.all()
+    categories = Categories.objects.all()
+    systems = MedicalSystem.objects.all()
+    site_data = sitedata.objects.all().last()
+
+    context = {
+        "products": products,
+        "systems": systems,
+        "categories": categories,
+        "sitedata": site_data,
+    }
+
+    if request.user.is_authenticated:
+        # Try to get the user's active cart (not completed)
+        active_cart = Cart.objects.filter(user=request.user, completed=False).first()
+        context.update({"cart": active_cart})
+
+    return render(request, "corepages/terms_conditions.html", context)
+
+
+def claim(request):
+    products = Product.objects.all()
+    categories = Categories.objects.all()
+    systems = MedicalSystem.objects.all()
+    site_data = sitedata.objects.all().last()
+
+    context = {
+        "products": products,
+        "systems": systems,
+        "categories": categories,
+        "sitedata": site_data,
+    }
+
+    if request.user.is_authenticated:
+        # Try to get the user's active cart (not completed)
+        active_cart = Cart.objects.filter(user=request.user, completed=False).first()
+        context.update({"cart": active_cart})
+
+    return render(request, "corepages/claim.html", context)
+
+
+def privacy_policy(request):
+    products = Product.objects.all()
+    categories = Categories.objects.all()
+    systems = MedicalSystem.objects.all()
+    site_data = sitedata.objects.all().last()
+
+    context = {
+        "products": products,
+        "systems": systems,
+        "categories": categories,
+        "sitedata": site_data,
+    }
+
+    if request.user.is_authenticated:
+        # Try to get the user's active cart (not completed)
+        active_cart = Cart.objects.filter(user=request.user, completed=False).first()
+        context.update({"cart": active_cart})
+
+    return render(request, "corepages/privacy_policy.html", context)
+
+
 def base(request):
     context = {}
     return render(request, "home/base.html", context)
@@ -257,6 +320,3 @@ def user_account(request):
         context.update({"cart": active_cart})
 
     return render(request, "home/my_account.html", context)
-
-
-

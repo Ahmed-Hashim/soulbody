@@ -1,5 +1,166 @@
 {% extends "home/base.html" %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 {% block content %}
-    
-    
+<!-- BREADCRUMB AREA START -->
+<div class="ltn__breadcrumb-area text-left bg-overlay-white-30 bg-image ">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ltn__breadcrumb-inner">
+                    <h1 class="page-title">{% if LANGUAGE_CODE == 'en' %}Claims {% else %} المطالبات{% endif %}</h1>
+                    <div class="ltn__breadcrumb-list">
+                        <ul>
+                            <li><a href="{% url 'home' %}"><span class="ltn__secondary-color"><i
+                                            class="fas fa-home"></i></span> {% if LANGUAGE_CODE == 'en' %}Home {% else %} الرئيسية{% endif %}</a></li>
+                            <li>{% if LANGUAGE_CODE == 'en' %}Claims {% else %} المطالبات {% endif %}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BREADCRUMB AREA END -->
+
+<!-- ABOUT US AREA START -->
+<div class="ltn__about-us-area pt-25--- pb-120 ">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <h1>
+                    {% if LANGUAGE_CODE == 'ar' %} 
+                    المطالبات
+                    {% else %}
+                    Claims
+                    {% endif %}
+                    
+                </h1>
+
+                <h4>
+                    {% if LANGUAGE_CODE == 'ar' %} 
+مرحبًا بك في صفحة المطالبات في متجر "روح وجسد البرامج الإلكترونية" للمعدات الطبية. نحن نسعى جاهدين لتوفير منتجات عالية الجودة وخدمة عملاء استثنائية. إذا كانت لديك أي مشكلة مع المعدات الطبية التي اشتريتها، يرجى قراءة المعلومات التالية حول كيفية تقديم مطالبة.
+                    {% else %} 
+Welcome to the Claims page of "The Soul and Body of Electronic Programs" Medical Equipment E-Shop. We strive to provide high-quality products and exceptional customer service. If you have any issues with your purchased medical equipment, please read the following information on how to file a claim.
+                    {% endif %}<h4>
+
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            1. الأهلية لتقديم المطالبات
+                            {% else %}  
+                            1. Eligibility for Claims
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            يمكن تقديم المطالبات وفقًا للشروط التالية:
+
+                            يتم تقديم المطالبة في غضون 7 أيام من استلام المنتج.
+                            تم شراء المنتج مباشرةً من "روح وجسد البرامج الإلكترونية".
+                            يكون الخلل ناتجًا عن عيب في المنتج أو أضرار الشحن أو خطأ من جانبنا.
+                            {% else %}
+                            
+                            Claims can be submitted under the following conditions:
+                            The claim is made within 7 days of receiving the product.
+                            The product was purchased directly from "The Soul and Body of Electronic Programs."
+                            The issue is due to a defect in the product, shipping damage, or an error on our part.
+                            {% endif %}
+                        </h6>
+                        <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            2. كيفية تقديم مطالبة
+                            {% else %}  
+                            2. How to Submit a Claim
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            لتقديم مطالبة، يرجى اتباع الخطوات التالية:
+
+                            الاتصال بخدمة العملاء: تواصل مع فريق خدمة العملاء عبر البريد الإلكتروني <a href="mailto:info@soulnbody.net">info@soulnbody.net</a> أو الاتصال بالرقم {{sitedata.phone_number_1}}. قدم رقم طلب الشراء ووصفاً مفصلاً للمشكلة.
+
+                            تقديم الأدلة: في المطالبة الخاصة بك، قدم صورًا أو فيديوهات واضحة تظهر المشكلة مع المنتج. سيساعد هذا في تسريع عملية المطالبات.
+
+                            انتظر الرد: سيقوم فريق خدمة العملاء بمراجعة مطالبتك والرد في غضون 3 أيام عمل مع توجيهات إضافية أو حلاً للمشكلة.
+                            {% else %}
+                            
+                            Contact Customer Support: Reach out to our customer support team by emailing <a href="mailto:info@soulnbody.net">info@soulnbody.net</a> or calling {{sitedata.phone_number_1}}. Provide your order number and a detailed description of the issue.
+
+                            Provide Evidence: In your claim, include clear photos or videos that demonstrate the issue with the product. This will help expedite the claims process.
+
+                            Wait for Response: Our customer support team will review your claim and respond within 3 business days with further instructions or resolution.
+                            {% endif %}
+                        </h6>
+                         <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            3. خيارات الحل
+                            {% else %}  
+                            3. Resolution Options
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            بناءً على طبيعة المطالبة، قد يتضمن الحل واحدًا أو أكثر من الحلول التالية:
+
+                            استبدال المنتج.
+                            إصلاح المنتج.
+                            استرداد قيمة الشراء.
+                            {% else %}
+                            
+                           Based on the nature of the claim, the resolution may include one or more of the following:
+
+                            Replacement of the product.
+                            Repair of the product.
+                            Refund for the purchase.
+                            {% endif %}
+                        </h6>
+                         <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            4. استثناءات من المطالبات
+                            {% else %}  
+                            4. Exclusions from Claims
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            قد لا تتم قبول المطالبات في الحالات التالية:
+
+                            الضرر الناتج عن السوء الاستخدام أو الإهمال أو التعديلات غير المصرح بها.
+                            التآكل العادي.
+                            {% else %}
+                            
+                            Claims may not be accepted under the following circumstances:
+
+                            Damage caused by misuse, neglect, or unauthorized modifications.
+                            Normal wear and tear.
+                            Failure to follow product care instructions.
+                            {% endif %}
+                        </h6>
+                         <h5>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            5. معلومات الاتصال
+                            
+                            {% else %}  
+                            5. Contact Information
+                            {% endif %}
+                        </h5>
+                        <h6>
+                            {% if LANGUAGE_CODE == 'ar' %} 
+                            ذا كانت لديك أي أسئلة أو تحتاج إلى مساعدة في عملية المطالبات، يرجى الاتصال بفريق خدمة العملاء على البريد الإلكتروني <a href="mailto:info@soulnbody.net">info@soulnbody.net</a> أو الاتصال بالرقم {{sitedata.phone_number_1}}.
+                            نقدر رضاك ونقدر ثقتك في "روح وجسد البرامج الإلكترونية". نحن ملتزمون بحل أي مشكلة بشكل سريع وفعّال.
+                            شكرًا لاختيارك لنا لاحتياجاتك من معدات الطبية.
+                            {% else %}
+                            
+                            If you have any questions or need assistance with the claims process, please contact our customer support team at <a href="mailto:info@soulnbody.net">info@soulnbody.net</a> or calling {{sitedata.phone_number_1}}.
+                            We value your satisfaction and appreciate your trust in "The Soul and Body of Electronic Programs." We are committed to resolving any issues promptly and efficiently.
+                            Thank you for choosing us for your medical equipment needs.
+                            {% endif %}
+                        </h6>
+                        
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
