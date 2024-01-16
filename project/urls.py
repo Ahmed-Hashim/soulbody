@@ -23,5 +23,5 @@ urlpatterns += i18n_patterns(
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler500 = "errorpages.views.error_500"
-handler404 = "errorpages.views.error_404"
+handler500 = "home.views.custom_500"
+handler404 = "home.views.custom_404"

@@ -105,6 +105,47 @@ def base(request):
     return render(request, "home/base.html", context)
 
 
+def custom_404(request, exception):
+    products = Product.objects.all()
+    categories = Categories.objects.all()
+    systems = MedicalSystem.objects.all()
+    site_data = sitedata.objects.all().last()
+
+    context = {
+        "products": products,
+        "systems": systems,
+        "categories": categories,
+        "sitedata": site_data,
+    }
+
+    return render(
+        request,
+        "errorpages/error_404.html",
+        context,
+        status=404,
+    )
+
+
+def custom_500(request):
+    products = Product.objects.all()
+    categories = Categories.objects.all()
+    systems = MedicalSystem.objects.all()
+    site_data = sitedata.objects.all().last()
+
+    context = {
+        "products": products,
+        "systems": systems,
+        "categories": categories,
+        "sitedata": site_data,
+    }
+    return render(
+        request,
+        "errorpages/error_500.html",
+        context,
+        status=500,
+    )
+
+
 def shop(request):
     products = Product.objects.all()
     systems = MedicalSystem.objects.all()
