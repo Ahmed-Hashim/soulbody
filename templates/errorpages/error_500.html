@@ -1,7 +1,7 @@
 {% extends "home/base.html" %}
 {% load static %}
 {% load i18n %}
-{% get_current_language as LC %}
+{% get_current_language as LANGUAGE_CODE %}
 {% block content %}
     
 <!-- BREADCRUMB AREA START -->
@@ -10,10 +10,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ltn__breadcrumb-inner">
-                        <h1 class="page-title">{% if LC == 'en' %}500 Page {% else %} 500 صفحة{% endif %}</h1>
+                        <h1 class="page-title">{% if LANGUAGE_CODE == 'en' %}500 Page {% else %} 500 صفحة{% endif %}</h1>
                         <div class="ltn__breadcrumb-list">
                             <ul>
-                                <li><a href="index.html"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span>{% if LC == 'en' %}Home {% else %} الرئيسية{% endif %} Home</a></li>
+                                <li><a href="index.html"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span>{% if LANGUAGE_CODE == 'en' %}Home {% else %} الرئيسية{% endif %} Home</a></li>
                                 <li>500</li>
                             </ul>
                         </div>
@@ -34,11 +34,11 @@
                             <img src="img/others/error-1.png" alt="#">
                         </div>
                         <h1 class="error-404-title d-none">500</h1>
-                        <h2>{% if LC == 'en' %}Page Not Found! {% else %} صفحة غير موجودة!{% endif %}</h2>
+                        <h2>{% if LANGUAGE_CODE == 'en' %}Page Not Found! {% else %} صفحة غير موجودة!{% endif %}</h2>
                         <!-- <h3>Oops! Looks like something going rong</h3> -->
-                        <p>{% if LC == 'en' %}Oops! The page you are looking for does not exist. It might have been moved or deleted. {% else %} أُووبس! الصفحة التي تبحث عنها غير موجودة. ربما تم نقله أو حذفه.{% endif %}</p>
+                        <p>{% if LANGUAGE_CODE == 'en' %}Oops! The page you are looking for does not exist. It might have been moved or deleted. {% else %} أُووبس! الصفحة التي تبحث عنها غير موجودة. ربما تم نقله أو حذفه.{% endif %}</p>
                         <div class="btn-wrapper">
-                            <a href="{% url 'home' %}" class="btn btn-transparent"><i class="fas fa-long-arrow-alt-left"></i>{% if LC == 'en' %}BACK TO HOME {% else %} العودة إلى الصفحة الرئيسية{% endif %} </a>
+                            <a href="{% url 'home' %}" class="btn btn-transparent"><i class="fas fa-long-arrow-alt-left"></i>{% if LANGUAGE_CODE == 'en' %}BACK TO HOME {% else %} العودة إلى الصفحة الرئيسية{% endif %} </a>
                         </div>
                     </div>
                 </div>
