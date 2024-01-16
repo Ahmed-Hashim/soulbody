@@ -13,7 +13,7 @@
                         <h1 class="page-title">{% if LANGUAGE_CODE == 'en' %}404 Page {% else %} 404 صفحة{% endif %}</h1>
                         <div class="ltn__breadcrumb-list">
                             <ul>
-                                <li><a href="index.html"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span>{% if LANGUAGE_CODE == 'en' %}Home {% else %} الرئيسية{% endif %} Home</a></li>
+                                <li><a href="{% url 'home' %}"><span class="ltn__secondary-color"><i class="fas fa-home"></i></span>{% if LANGUAGE_CODE == 'en' %}Home {% else %} الرئيسية{% endif %} Home</a></li>
                                 <li>404</li>
                             </ul>
                         </div>
@@ -31,7 +31,7 @@
                 <div class="col-lg-12">
                     <div class="error-404-inner text-center">
                         <div class="error-img mb-30">
-                            <img src="img/others/error-1.png" alt="#">
+                            <img src="{% static 'img/others/error-1.png' %}" alt="#">
                         </div>
                         <h1 class="error-404-title d-none">404</h1>
                         <h2>{% if LANGUAGE_CODE == 'en' %}Page Not Found! {% else %} صفحة غير موجودة!{% endif %}</h2>
