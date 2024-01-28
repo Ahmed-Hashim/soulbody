@@ -5,7 +5,15 @@ from product.models import Product, MedicalSystem
 
 # Create your models here.
 class MainSlider(models.Model):
-    image = ResizedImageField(
+    image_en = ResizedImageField(
+        force_format="WEBP",
+        quality=80,
+        null=True,
+        blank=True,
+        upload_to="images/slider/",
+        default="images/slider/defaults_products.WEBP",
+    )
+    image_ar = ResizedImageField(
         force_format="WEBP",
         quality=80,
         null=True,
