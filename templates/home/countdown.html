@@ -7,7 +7,7 @@
 </style>
 {% if coldown %}
     {% load static %}
-    <div class="ltn__call-to-action-area section-bg-1 bg-image pt-120 pb-120" data-bs-bg="{{coldown.image.url}}">
+    <div class="ltn__call-to-action-area section-bg-1 bg-image pt-120 pb-120" data-bs-bg='{% if LANGUAGE_CODE == "en" %}{{coldown.image_en.url}}{% else %}{{coldown.image_ar.url}}{% endif %}'>
         <div class="container">
             <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-4">
