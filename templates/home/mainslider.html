@@ -8,7 +8,7 @@
         {% for item in sliders %}
         <!-- ltn__slide-item -->
         <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---"
-            data-bs-bg="{{item_en.image.url}}">
+            data-bs-bg="{{item.image_en.url}}">
             <div class="ltn__slide-item-inner  text-left">
                 <div class="container">
                     <div class="row">
@@ -22,7 +22,7 @@
                                                             <p>Predictive analytics is drastically changing the real estate industry. In the past, providing data for quick</p>
                                                         </div> -->
                                     <div class="btn-wrapper  animated">
-                                        <a href="#" class="theme-btn-1 btn btn-effect-1 text-uppercase">Shop now</a>
+                                        <a href="{% if item.system %}{% url 'medical_systems' item.system.id %}{% else %}{% url 'product_details' item.product.id %}{% endif %}" class="theme-btn-1 btn btn-effect-1 text-uppercase">See More!</a>
                                     </div>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
         {% for item in sliders %}
         <!-- ltn__slide-item -->
         <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---"
-            data-bs-bg="{{item_ar.image.url}}">
+            data-bs-bg="{{item.image_ar.url}}">
             <div class="ltn__slide-item-inner  text-left">
                 <div class="container">
                     <div class="row">
@@ -57,13 +57,13 @@
                             <div class="slide-item-info">
                                 <div class="slide-item-info-inner ltn__slide-animation">
                                     <h5 class="slide-sub-title ltn__secondary-color animated">{{item.en_title}}</h5>
-                                    {% if item.product %}<h5 class="color-orange  animated">Starting at
+                                    {% if item.product %}<h5 class="color-orange  animated">ابتداءاً من
                                         EGP{{item.product.price}}</h5>{% endif %}
                                     <!-- <div class="slide-brief animated d-none">
                                         <p>Predictive analytics is drastically changing the real estate industry. In the past, providing data for quick</p>
                                     </div> -->
                                     <div class="btn-wrapper  animated">
-                                        <a href="#" class="theme-btn-1 btn btn-effect-1 text-uppercase">Shop now</a>
+                                        <a href="{% if itme.system %}{% url 'medical_systems' itme.system.id %}{% else %}{% url 'product_details' itme.product.id %}{% endif %}" class="theme-btn-1 btn btn-effect-1 text-uppercase">أعرف المزيد</a>
                                     </div>
                                 </div>
                             </div>
