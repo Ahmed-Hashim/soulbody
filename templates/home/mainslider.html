@@ -21,9 +21,11 @@
                                     <!-- <div class="slide-brief animated d-none">
                                                             <p>Predictive analytics is drastically changing the real estate industry. In the past, providing data for quick</p>
                                                         </div> -->
+                                    {% if item.system or item.product %}
                                     <div class="btn-wrapper  animated">
-                                        <a href="{% if item.system %}{% url 'medical_systems' item.system.id %}{% else %}{% url 'product_details' item.product.id %}{% endif %}" class="theme-btn-1 btn btn-effect-1 text-uppercase">See More!</a>
+                                        <a href="{% if item.system %}{% url 'medical_systems' item.system.id %}{% elif item.product %}{% url 'product_details' item.product.id %}{% else %}#{% endif %}" class="theme-btn-1 btn btn-effect-1 text-uppercase">See More!</a>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -62,9 +64,11 @@
                                     <!-- <div class="slide-brief animated d-none">
                                         <p>Predictive analytics is drastically changing the real estate industry. In the past, providing data for quick</p>
                                     </div> -->
+                                    {% if item.system or item.product %}
                                     <div class="btn-wrapper  animated">
-                                        <a href="{% if itme.system %}{% url 'medical_systems' itme.system.id %}{% else %}{% url 'product_details' itme.product.id %}{% endif %}" class="theme-btn-1 btn btn-effect-1 text-uppercase">أعرف المزيد</a>
+                                        <a href="{% if item.system %}{% url 'medical_systems' item.system.id %}{% elif item.product %}{% url 'product_details' item.product.id %}{% else %}#{% endif %}" class="theme-btn-1 btn btn-effect-1 text-uppercase">أعرف المزيد</a>
                                     </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
