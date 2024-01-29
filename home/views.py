@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+import requests
 from account.forms import CartItemForm, ProfileForm, PasswordChangingForm
 from home.forms import Contact_form, Request_Clinic_form, Request_Hosbital_form
 from product.models import Product, MedicalSystem, Categories, Cart, CartItem
@@ -243,6 +244,44 @@ def about_us(request):
     return render(request, "corepages/about.html", context)
 
 
+def send_api_data_clinic(data):
+    url = "https://soulnbody.net/en/crm/api/addclinicr/"
+    headers = {"Content-Type": "application/json"}
+
+    try:
+        json_data = data
+
+        response = requests.post(url, json=json_data, headers=headers)
+
+        if response.status_code == 200:
+            print("Request was successful!")
+            print("Response:", response.text)
+        else:
+            print("Request failed with status code:", response.status_code)
+            print("Response:", response.content.decode())
+    except Exception as e:
+        print("An error occurred:", str(e))
+
+
+def send_api_data_hospital(data):
+    url = "https://soulnbody.net/en/crm/api/addhosbitalr/"
+    headers = {"Content-Type": "application/json"}
+
+    try:
+        json_data = data
+
+        response = requests.post(url, json=json_data, headers=headers)
+
+        if response.status_code == 200:
+            print("Request was successful!")
+            print("Response:", response.text)
+        else:
+            print("Request failed with status code:", response.status_code)
+            print("Response:", response.content.decode())
+    except Exception as e:
+        print("An error occurred:", str(e))
+
+
 def medical_systems(request, id):
     site_data = sitedata.objects.all().last()
     categories = Categories.objects.all()
@@ -254,7 +293,6 @@ def medical_systems(request, id):
         lang = get_language()
         if request.method == "POST":
             form = Request_Clinic_form(request.POST)
-
             if form.is_valid():
                 name = form.cleaned_data["name"]
                 form.save()
@@ -266,7 +304,7 @@ def medical_systems(request, id):
                         button="Ok",
                         timer=5000,
                     )
-                    return redirect("home")
+
                 else:
                     sweetify.success(
                         request,
@@ -274,7 +312,19 @@ def medical_systems(request, id):
                         text=f"شكراً {name} لإختيارك لنا!",
                         timer=5000,
                     )
-                    return redirect("home")
+
+                data = {
+                    "name": form.cleaned_data["name"],
+                    "phone_number": form.cleaned_data["phone_number"],
+                    "email": form.cleaned_data["email"],
+                    "departement_count": form.cleaned_data["departement_count"],
+                    "doctors_count": form.cleaned_data["doctors_count"],
+                    "clinic_count": form.cleaned_data["clinic_count"],
+                    "users_count": form.cleaned_data["users_count"],
+                    "details": form.cleaned_data["details"],
+                }
+                send_api_data_clinic(data)
+                return redirect("home")
     elif "Hospital" in medical_systems.en_name:
         form = Request_Hosbital_form()
         lang = get_language()
@@ -282,6 +332,7 @@ def medical_systems(request, id):
             form = Request_Hosbital_form(request.POST)
             if form.is_valid():
                 form.save()
+                name = form.cleaned_data["name"]
                 if lang == "en":
                     sweetify.success(
                         request,
@@ -290,7 +341,6 @@ def medical_systems(request, id):
                         button="Ok",
                         timer=5000,
                     )
-                    return redirect("home")
                 else:
                     sweetify.success(
                         request,
@@ -298,7 +348,20 @@ def medical_systems(request, id):
                         text=f"شكراً {name} لإختيارك لنا!",
                         timer=5000,
                     )
-                    return redirect("home")
+                data = {
+                    "name": form.cleaned_data["name"],
+                    "title": form.cleaned_data["title"],
+                    "hosbital": form.cleaned_data["hosbital"],
+                    "phone_number": form.cleaned_data["phone_number"],
+                    "email": form.cleaned_data["email"],
+                    "hospital_beds_count": form.cleaned_data["hospital_beds_count"],
+                    "departement_count": form.cleaned_data["departement_count"],
+                    "doctors_count": form.cleaned_data["doctors_count"],
+                    "users_count": form.cleaned_data["users_count"],
+                    "details": form.cleaned_data["details"],
+                }
+                send_api_data_hospital(data)
+                return redirect("home")
 
     context = {
         "categories": categories,
