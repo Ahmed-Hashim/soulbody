@@ -71,6 +71,8 @@
                                             <div class="top-rated-product-info">
                                                 <h6><a href="{% url 'product_details' product.id %}">{% if LANGUAGE_CODE == 'en' %}{{product.en_name}}{% else %}{{product.ar_name}}{% endif %}</a></h6>
                                                 <div class="product-price">
+                                                    
+                                                    {% if product.price %}
                                                     <span>{{product.price}}</span>
                                                     {% if product.old_price > 0 %}
                                                     <del>
@@ -80,6 +82,7 @@
                                                                 {{product.old_price}} جنيه
                                                         {% endif %}
                                                     </del>
+                                                    {% endif %}
                                                     {% endif %}
                                                 </div>
                                             </div>

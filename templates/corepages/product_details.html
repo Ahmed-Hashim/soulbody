@@ -162,11 +162,12 @@
                                 <li>
                                     <div class="top-rated-product-item clearfix">
                                         <div class="top-rated-product-img">
-                                            <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
+                                            <a href="{% url 'product_details' product.id %}"><img src="{{product.image.url}}" alt="#"></a>
                                         </div>
                                         <div class="top-rated-product-info">
-                                            <h6><a href="product-details.html">{{product.en_name}}</a></h6>
+                                            <h6><a href="{% url 'product_details' product.id %}">{{product.en_name}}</a></h6>
                                             <div class="product-price">
+                                                {% if product.price %}
                                                 <span>{{product.price}}{% if LANGUAGE_CODE == 'en' %}
                                                                          EGP
                                                                     {% else %}
@@ -179,6 +180,7 @@
                                                     {{product.old_price}} جنيه
                                                     {% endif %}
                                                 </del>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>
@@ -217,23 +219,25 @@
                                 <li>
                                     <div class="top-rated-product-item clearfix">
                                         <div class="top-rated-product-img">
-                                            <a href="product-details.html"><img src="{{product.image.url}}" alt="#"></a>
+                                            <a href="{% url 'product_details' product.id %}"><img src="{{product.image.url}}" alt="#"></a>
                                         </div>
                                         <div class="top-rated-product-info">
-                                            <h6><a href="product-details.html">{{product.ar_name}}</a></h6>
+                                            <h6><a href="{% url 'product_details' product.id %}">{{product.ar_name}}</a></h6>
                                             <div class="product-price">
-                                                <span>{{product.price}}{% if LANGUAGE_CODE == 'en' %}
-                                                                         EGP
-                                                                    {% else %}
-                                                                         جنيه
-                                                                {% endif %}</span>
-                                                <del>
-                                                    {% if LANGUAGE_CODE == 'en' %}
-                                                    {{product.old_price}} EGP
-                                                    {% else %}
-                                                    {{product.old_price}} جنيه
-                                                    {% endif %}
-                                                </del>
+                                                {% if product.price %}
+                                                    <span>{{product.price}}{% if LANGUAGE_CODE == 'en' %}
+                                                                            EGP
+                                                                        {% else %}
+                                                                            جنيه
+                                                                    {% endif %}</span>
+                                                    <del>
+                                                        {% if LANGUAGE_CODE == 'en' %}
+                                                        {{product.old_price}} EGP
+                                                        {% else %}
+                                                        {{product.old_price}} جنيه
+                                                        {% endif %}
+                                                    </del>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>

@@ -96,7 +96,9 @@
                                                     <div class="product-info">
                                                         <h2 class="product-title"><a href="{% url 'product_details' product.id %}">{{product.en_name}}</a></h2>
                                                         <div class="product-price">
-                                                            <span>{{product.price}}</span>
+                                                            {% if product.price %}
+                                                                    <span>{{product.price}} </span>
+                                                            {% endif %}
                                                             {% if product.old_price > 0 %}
                                                                 <del>
                                                                     {% if LANGUAGE_CODE == 'en' %}
@@ -174,13 +176,9 @@
                                             <div class="top-rated-product-info">
                                                 <h6><a href="{% url 'product_details' product.id %}">{{product.en_name}}</a></h6>
                                                 <div class="product-price">
-                                                    <span>{{product.price}}
-                                                        {% if LANGUAGE_CODE == 'en' %}
-                                                                        EGP
-                                                                    {% else %}
-                                                                        جنيه
-                                                                {% endif %}
-                                                    </span>
+                                                    {% if product.price %}
+                                                        <span>{{product.price}} </span>
+                                                {% endif %}
                                                     {% if product.old_price > 0 %}
                                                     <del>
                                                         {% if LANGUAGE_CODE == 'en' %}
@@ -384,6 +382,7 @@
                                             <div class="top-rated-product-info">
                                                 <h6><a href="{% url 'product_details' product.id %}">{{product.ar_name}}</a></h6>
                                                 <div class="product-price">
+                                                    {% if product.price %}
                                                     <span>{{product.price}}{% if LANGUAGE_CODE == 'en' %}
                                                                          EGP
                                                                     {% else %}
@@ -397,6 +396,7 @@
                                                                 {{product.old_price}} جنيه
                                                         {% endif %}
                                                     </del>
+                                                    {% endif %}
                                                     {% endif %}
                                                 </div>
                                             </div>
