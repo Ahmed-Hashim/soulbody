@@ -324,6 +324,7 @@ def medical_systems(request, id):
                     "details": form.cleaned_data["details"],
                 }
                 send_api_data_clinic(data)
+                print("request sent")
                 return redirect("home")
     elif "Hospital" in medical_systems.en_name:
         form = Request_Hosbital_form()
@@ -361,6 +362,7 @@ def medical_systems(request, id):
                     "details": form.cleaned_data["details"],
                 }
                 send_api_data_hospital(data)
+                print("request sent")
                 return redirect("home")
 
     context = {
