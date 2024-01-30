@@ -245,7 +245,7 @@ def about_us(request):
 
 
 def send_api_data_clinic(data):
-    url = "https://soulnbody.net/en/crm/api/addclinicr/"
+    url = "https://team.soulnbody.net/en/crm/api/addclinicr/"
     headers = {"Content-Type": "application/json"}
 
     try:
@@ -264,7 +264,7 @@ def send_api_data_clinic(data):
 
 
 def send_api_data_hospital(data):
-    url = "https://soulnbody.net/en/crm/api/addhosbitalr/"
+    url = "https://team.soulnbody.net/en/crm/api/addhosbitalr/"
     headers = {"Content-Type": "application/json"}
 
     try:
