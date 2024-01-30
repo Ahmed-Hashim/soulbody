@@ -58,14 +58,15 @@
                                         {% endif %}
                                     </h3>
                                     <div class="product-price">
-
-                                        <span>
-                                            {% if LANGUAGE_CODE == 'en' %}
-                                            {{product.price}} EGP
-                                            {% else %}
-                                            {{product.price}} جنيه
-                                            {% endif %}
-                                        </span>
+                                        {% if product.price %}
+                                            <span>
+                                                {% if LANGUAGE_CODE == 'en' %}
+                                                {{product.price}} EGP
+                                                {% else %}
+                                                {{product.price}} جنيه
+                                                {% endif %}
+                                            </span>
+                                        {% endif %}
                                         {% if product.old_price %}
                                         <del>
                                             {% if LANGUAGE_CODE == 'en' %}
