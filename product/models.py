@@ -88,7 +88,7 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def calculate_subtotal(self):
-        return float(self.quantity) * float(self.product.price)
+        return float(self.quantity) * float(self.product.price) if self.product.price else 0
 
 
 class Invoice(models.Model):
