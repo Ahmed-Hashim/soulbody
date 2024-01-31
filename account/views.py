@@ -295,21 +295,24 @@ def remove_cart_item(request, cart_item_id):
 
 
 def calculate_cart_subtotal(user):
-    # Get the last incomplete cart for the user
-    last_incomplete_cart = (
-        Cart.objects.filter(user=user, completed=False).order_by("-created_at").first()
-    )
+    try:
+        # Get the last incomplete cart for the user
+        last_incomplete_cart = (
+            Cart.objects.filter(user=user, completed=False).order_by("-created_at").first()
+        )
 
-    if last_incomplete_cart:
-        # Retrieve cart items from the last incomplete cart
-        cart_items = last_incomplete_cart.cartitem_set.all()
+        if last_incomplete_cart:
+            # Retrieve cart items from the last incomplete cart
+            cart_items = last_incomplete_cart.cartitem_set.all()
 
-        # Calculate the subtotal
-        subtotal = sum(item.product.price * item.quantity for item in cart_items)
-        return subtotal
-    else:
-        # If no incomplete cart is found, return 0 as the subtotal
-        return 0
+            # Calculate the subtotal
+            subtotal = sum(item.product.price * item.quantity if item.product.price else 0 for item in cart_items)
+            return subtotal
+        else:
+            # If no incomplete cart is found, return 0 as the subtotal
+            return 0
+    except:
+        subtotal=0
 
 
 def calculate_shipping_and_handling():
