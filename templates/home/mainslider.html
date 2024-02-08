@@ -8,7 +8,32 @@
         {% for item in sliders %}
         <!-- ltn__slide-item -->
         <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---"
-            data-bs-bg="{{item.image_en.url}}">
+            data-bs-bg="{{item.image_en.url}}" id='dynamic-bg-{{item.id}}'>
+            <script>
+                // Function to update the data-bs-bg attribute based on screen size
+                function updateBackgroundImage() {
+                    var slideItem = document.getElementById('dynamic-bg-{{item.id}}');
+                    if (!slideItem) return; // Check if the element exists
+
+                    var mobileQuery = window.matchMedia('(max-width: 767px)');
+                    var tabletQuery = window.matchMedia('(min-width: 768px) and (max-width: 1023px)');
+                    var desktopQuery = window.matchMedia('(min-width: 1024px)');
+
+                    if (mobileQuery.matches) {
+                        slideItem.setAttribute('data-bs-bg', '{{item.image_en_mb.url}}');
+                    } else if (tabletQuery.matches) {
+                        slideItem.setAttribute('data-bs-bg', '{{item.image_en_tab.url}}');
+                    } else if (desktopQuery.matches) {
+                        slideItem.setAttribute('data-bs-bg', '{{item.image_en.url}}');
+                    }
+                }
+
+                // Initial call to update the background image
+                updateBackgroundImage();
+
+                // Attach listener for window resize event
+                window.addEventListener('resize', updateBackgroundImage);
+            </script>
             <div class="ltn__slide-item-inner  text-left">
                 <div class="container">
                     <div class="row">
@@ -51,7 +76,32 @@
         {% for item in sliders %}
         <!-- ltn__slide-item -->
         <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---"
-            data-bs-bg="{{item.image_ar.url}}">
+            data-bs-bg="{{item.image_ar.url}}" id="dynamic-bg-{{item.id}}">
+            <script>
+                // Function to update the data-bs-bg attribute based on screen size
+                function updateBackgroundImage() {
+                    var slideItem = document.getElementById('dynamic-bg-{{item.id}}');
+                    if (!slideItem) return; // Check if the element exists
+
+                    var mobileQuery = window.matchMedia('(max-width: 767px)');
+                    var tabletQuery = window.matchMedia('(min-width: 768px) and (max-width: 1023px)');
+                    var desktopQuery = window.matchMedia('(min-width: 1024px)');
+
+                    if (mobileQuery.matches) {
+                        slideItem.setAttribute('data-bs-bg', '{{item.image_ar_mb.url}}');
+                    } else if (tabletQuery.matches) {
+                        slideItem.setAttribute('data-bs-bg', '{{item.image_ar_tab.url}}');
+                    } else if (desktopQuery.matches) {
+                        slideItem.setAttribute('data-bs-bg', '{{item.image_ar.url}}');
+                    }
+                }
+
+                // Initial call to update the background image
+                updateBackgroundImage();
+
+                // Attach listener for window resize event
+                window.addEventListener('resize', updateBackgroundImage);
+            </script>
             <div class="ltn__slide-item-inner  text-left">
                 <div class="container">
                     <div class="row">
@@ -81,6 +131,7 @@
                 </div>
             </div>
         </div>
+
         {% endfor %}
         
 

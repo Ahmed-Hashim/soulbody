@@ -13,7 +13,39 @@ class MainSlider(models.Model):
         upload_to="images/slider/",
         default="images/slider/defaults_products.WEBP",
     )
+    image_en_tab = ResizedImageField(
+        force_format="WEBP",
+        quality=80,
+        null=True,
+        blank=True,
+        upload_to="images/slider/",
+        default="images/slider/defaults_products.WEBP",
+    )
+    image_en_mb = ResizedImageField(
+        force_format="WEBP",
+        quality=80,
+        null=True,
+        blank=True,
+        upload_to="images/slider/",
+        default="images/slider/defaults_products.WEBP",
+    )
     image_ar = ResizedImageField(
+        force_format="WEBP",
+        quality=80,
+        null=True,
+        blank=True,
+        upload_to="images/slider/",
+        default="images/slider/defaults_products.WEBP",
+    )
+    image_ar_tab = ResizedImageField(
+        force_format="WEBP",
+        quality=80,
+        null=True,
+        blank=True,
+        upload_to="images/slider/",
+        default="images/slider/defaults_products.WEBP",
+    )
+    image_ar_mb = ResizedImageField(
         force_format="WEBP",
         quality=80,
         null=True,

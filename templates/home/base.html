@@ -43,6 +43,9 @@
     
     {% endif %}
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    {% block css %}
+    
+    {% endblock css %}
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -321,7 +324,9 @@ src="https://www.facebook.com/tr?id=7741420612552648&ev=PageView&noscript=1"
             }
         })
     </script>
+{% block js %}
 
+{% endblock js %}
 </body>
 
 </html>
